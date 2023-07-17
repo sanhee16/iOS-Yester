@@ -16,7 +16,7 @@ final class AppCoordinator {
     }
     
     func start() {
-        self.navigationController.pushViewController(MainViewController(vm: MainViewModel()), animated: false)
+        let weatherDIContainer = WeatherDIContainer()
+        weatherDIContainer.makeCoordinator(navigationController: self.navigationController)
     }
-    
 }
