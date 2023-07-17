@@ -17,12 +17,15 @@ class MainViewController: BaseViewController {
     private let vm: VM
     private var locations: [Location]
     
-    private let btnAdd: UIButton = UIButton()
-    private let locationList: UILabel = UILabel()
+    var pageVC: UIPageViewController
+    var pages: [WeatherCardViewController]
+    var currentIdx: Int = 0
     
     init(vm: VM) {
         self.vm = vm
         self.locations = []
+        self.pages = []
+        self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         super.init()
         self.bind(to: vm)
     }
@@ -35,11 +38,13 @@ class MainViewController: BaseViewController {
         vm.locations.observe(on: self) { [weak self] locations in
             guard let self = self else { return }
             self.locations = locations
-            self.locationList.text = ""
             print("observe: \(locations)")
+            self.pages.removeAll()
+            
             self.locations.forEach { location in
-                self.locationList.text! += "lat: \(String(format: "%0.3f", location.lat)) // lon: \(String(format: "%0.3f", location.lon)) // isStar: \(location.isStar)\n"
+                self.pages.append(WeatherCardViewController(location: location))
             }
+            self.pages.append(WeatherCardViewController(location: nil))
         }
     }
     
@@ -48,24 +53,15 @@ class MainViewController: BaseViewController {
         super.viewDidLoad()
         self.addSubViews()
         
-        self.btnAdd.setTitle("추가하기", for: .normal)
-        self.btnAdd.setTitleColor(.black, for: .normal)
-        self.btnAdd.backgroundColor = .green
+        self.pageVC.dataSource = self
+        self.pageVC.delegate = self
         
+        let startVC = pages[self.currentIdx]
+        let viewControllers = NSArray(object: startVC)
         
-        btnAdd.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        btnAdd.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        btnAdd.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        btnAdd.isEnabled = true
-        self.btnAdd.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
-        
-        self.locationList.text = ""
-        locationList.backgroundColor = .orange
-        self.locationList.textColor = .black
-        locationList.topAnchor.constraint(equalTo: btnAdd.bottomAnchor).isActive = true
-        locationList.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        locationList.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        locationList.numberOfLines = 0
+        self.pageVC.setViewControllers(viewControllers as? [UIViewController] , direction: .forward, animated: true, completion: nil)
+        self.pageVC.view.frame = CGRect(x: 0, y: 60, width: self.view.frame.width, height: self.view.frame.height - (2.0 * 60.0))
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,15 +69,39 @@ class MainViewController: BaseViewController {
     }
     
     private func addSubViews() {
-        self.view.addSubview(self.btnAdd)
-        self.view.addSubview(self.locationList)
+        self.addChild(self.pageVC)
+        self.view.addSubview(self.pageVC.view)
         
-        btnAdd.translatesAutoresizingMaskIntoConstraints = false
-        locationList.translatesAutoresizingMaskIntoConstraints = false
+        self.pageVC.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     @objc private func onClickAddLocation() {
         print("onClickAddLocation")
         vm.onClickAdd()
+    }
+}
+
+extension MainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    // 현재 페이지 로드가 끝났을 때
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            self.currentIdx = self.pageVC.viewControllers?.first?.view.tag ?? 0
+        }
+    }
+
+    // 현재 페이지 뷰의 이전 뷰를 미리 로드
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        if self.currentIdx <= 0 {
+            return nil
+        }
+        return pages[self.currentIdx - 1]
+    }
+    
+    // 현재 페이지 뷰의 다음 뷰를 미리 로드
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        if self.currentIdx >= self.locations.count - 1 {
+            return nil
+        }
+        return pages[self.currentIdx + 1]
     }
 }
