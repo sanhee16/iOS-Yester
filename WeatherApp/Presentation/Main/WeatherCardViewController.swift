@@ -10,13 +10,17 @@ import UIKit
 
 
 class WeatherCardViewController: UIViewController {
+    typealias VM = MainViewModel
+    private let vm: VM
+    
     let location: Location?
     
     let addButton: UIButton = UIButton()
     let info: UILabel = UILabel()
     
-    init(location: Location?) {
+    init(vm: VM, location: Location?) {
         self.location = location
+        self.vm = vm
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,5 +56,6 @@ class WeatherCardViewController: UIViewController {
     
     @objc func onClickAdd() {
         print("onClickAdd!")
+        vm.onClickAdd()
     }
 }

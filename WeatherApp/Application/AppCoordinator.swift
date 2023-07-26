@@ -9,14 +9,22 @@ import Foundation
 import UIKit
 
 final class AppCoordinator {
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    let weatherDIContainer = WeatherDIContainer.shared
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        let weatherDIContainer = WeatherDIContainer()
-        weatherDIContainer.makeCoordinator(navigationController: self.navigationController)
+        self.navigationController.pushViewController(
+            MainViewController(vm: DefaultMainViewModel(self, locationRespository: weatherDIContainer.locationRespository)),
+            animated: false
+        )
+    }
+    
+    func presentSelectLocation() {
+        let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(self, locationRespository: weatherDIContainer.locationRespository, weatherService: weatherDIContainer.weatherService))
+        self.navigationController.pushViewController(vc, animated: false)
     }
 }

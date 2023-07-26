@@ -22,18 +22,19 @@ protocol MainViewModelOutput {
     var locations: Observable<[Location]> { get }
 }
 
-class DefaultMainViewModel: MainViewModel {
+class DefaultMainViewModel: BaseViewModel, MainViewModel {
     let locationRespository: AnyRepository<Location>
     var locations: Observable<[Location]> = Observable([])
 
-    init(locationRespository: AnyRepository<Location>) {
+    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>) {
         self.locationRespository = locationRespository
+        super.init(coordinator)
     }
     
     func getLocations() {
         locations.value = locationRespository.getAll()
     }
-    
+
 }
 
 // MARK: Input
@@ -48,9 +49,10 @@ extension DefaultMainViewModel {
     }
     
     func onClickAdd() {
-        let item = Location(lat: Double.random(in: 0.0...125.0), lon: Double.random(in: 0.0...125.0), isStar: false)
-        try? self.locationRespository.insert(item: item)
-        self.getLocations()
+//        let item = Location(lat: Double.random(in: 0.0...125.0), lon: Double.random(in: 0.0...125.0), isStar: false)
+//        try? self.locationRespository.insert(item: item)
+//        self.getLocations()
+        coordinator.presentSelectLocation()
     }
     
     func onClickStar(item: Location) {

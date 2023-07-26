@@ -8,19 +8,18 @@
 import Foundation
 import UIKit
 
-
 final class WeatherDIContainer {
+    static let shared: WeatherDIContainer = WeatherDIContainer()
     let locationRespository: AnyRepository<Location>
+    let weatherService: WeatherService
     
-    init() {
+    private init() {
         self.locationRespository = AnyRepository()
-    }
-    
-    func makeCoordinator(navigationController: UINavigationController) {
-        navigationController.pushViewController(
-            MainViewController(vm: DefaultMainViewModel(locationRespository: self.locationRespository)),
-            animated: false
+        print("base url: \(AppConfiguration().WeatherApiBaseURL)")
+        print("apiKey: \(AppConfiguration().WeatherApiKey)")
+        self.weatherService = WeatherService(
+            baseUrl: AppConfiguration().WeatherApiBaseURL,
+            apiKey: AppConfiguration().WeatherApiKey
         )
     }
-    
 }

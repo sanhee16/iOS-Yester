@@ -42,9 +42,9 @@ class MainViewController: BaseViewController {
             self.pages.removeAll()
             
             self.locations.forEach { location in
-                self.pages.append(WeatherCardViewController(location: location))
+                self.pages.append(WeatherCardViewController(vm: vm, location: location))
             }
-            self.pages.append(WeatherCardViewController(location: nil))
+            self.pages.append(WeatherCardViewController(vm: vm, location: nil))
         }
     }
     
@@ -73,11 +73,6 @@ class MainViewController: BaseViewController {
         self.view.addSubview(self.pageVC.view)
         
         self.pageVC.view.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    @objc private func onClickAddLocation() {
-        print("onClickAddLocation")
-        vm.onClickAdd()
     }
 }
 

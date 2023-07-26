@@ -12,3 +12,18 @@ import Combine
  
  https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 */
+
+class BaseViewModel {
+    var subscription: Set<AnyCancellable> = []
+    let coordinator: AppCoordinator
+    
+    init(_ coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+    }
+    
+    deinit {
+        subscription.forEach {
+            $0.cancel()
+        }
+    }
+}
