@@ -26,4 +26,10 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white // 배경색
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
+
 }

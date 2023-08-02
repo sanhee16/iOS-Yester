@@ -9,14 +9,46 @@
 import UIKit
 import SwiftUI
 import Combine
+import SnapKit
 
 class SelectLocationViewController: BaseViewController {
     typealias VM = SelectLocationViewModel
     
     private let vm: VM
-    private let searchField: UITextField = UITextField()
-    private let search: UIButton = UIButton()
+    
+    private let searchField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "지역 검색하기"
+        textField.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+        textField.clearButtonMode = .whileEditing
+        
+        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        textField.leftViewMode = .always
+
+        return textField
+    }()
     private let listArea: UILabel = UILabel()
+    
+    private let searchButton: UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("찾기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+
+        return button
+    }()
+    
+    private let searchView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.spacing = 8
+        return stackView
+    }()
     
     init(vm: VM) {
         self.vm = vm
@@ -43,42 +75,32 @@ class SelectLocationViewController: BaseViewController {
         super.viewDidLoad()
         self.addSubViews()
         
-        searchField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        searchField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        searchView.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(12)
+        }
+        
+        searchField.setContentCompressionResistancePriority(.init(1), for: .horizontal)
+        searchButton.setContentCompressionResistancePriority(.init(2), for: .horizontal)
+        
         searchField.addTarget(self, action: #selector(self.textFieldDidChange), for: .editingChanged)
-        searchField.placeholder = "지역 검색하기"
-        searchField.backgroundColor = UIColor.red.withAlphaComponent(0.3)
-        
-        
-        search.setTitle("찾기", for: .normal)
-        search.setTitleColor(.systemPink, for: .normal)
-        
-        search.topAnchor.constraint(equalTo: searchField.topAnchor, constant: 0).isActive = true
-        search.bottomAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 0).isActive = true
-        search.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        search.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
-
-        
-        listArea.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 40).isActive = true
-        listArea.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        listArea.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-        listArea.backgroundColor = .yellow
+        searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
         
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         vm.viewWillAppear()
     }
     
     private func addSubViews() {
-        self.view.addSubview(self.searchField)
-        self.view.addSubview(self.search)
-        self.view.addSubview(self.listArea)
-        
-        searchField.translatesAutoresizingMaskIntoConstraints = false
-        search.translatesAutoresizingMaskIntoConstraints = false
-        listArea.translatesAutoresizingMaskIntoConstraints = false
+        [listArea, searchView].forEach {
+            self.view.addSubview($0)
+        }
+        [searchField, searchButton].forEach {
+            self.searchView.addArrangedSubview($0)
+        }
     }
     
     @objc private func onClickSearchLocation() {

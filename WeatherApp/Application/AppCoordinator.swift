@@ -25,6 +25,6 @@ final class AppCoordinator {
     
     func presentSelectLocation() {
         let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(self, locationRespository: weatherDIContainer.locationRespository, weatherService: weatherDIContainer.weatherService))
-        self.navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(vc, animated: true)
     }
 }

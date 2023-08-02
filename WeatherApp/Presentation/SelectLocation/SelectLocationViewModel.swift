@@ -22,13 +22,13 @@ protocol SelectLocationViewModelOutput {
 }
 
 class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
-    var results: Observable<[Geocoding]> = Observable([])
-    let weatherService: WeatherService
-    var name: Observable<String> = Observable("")
-    
     func viewWillAppear() {
         
     }
+    
+    var results: Observable<[Geocoding]> = Observable([])
+    let weatherService: WeatherService
+    var name: Observable<String> = Observable("")
     
     func onClickSearch() {
         self.weatherService.getGeocoding(name.value)

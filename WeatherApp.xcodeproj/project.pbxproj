@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2617AF442A74A4100089118A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2617AF432A74A4100089118A /* NavigationController.swift */; };
 		265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840702A628B72009F2CC4 /* BaseViewController.swift */; };
 		265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840732A629B55009F2CC4 /* SampleViewModel.swift */; };
 		265840762A629B5C009F2CC4 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840752A629B5C009F2CC4 /* SampleViewController.swift */; };
 		265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 265C2DBB2A71ED9300028A01 /* SnapKit */; };
-		265C2DBE2A71ED9300028A01 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 265C2DBD2A71ED9300028A01 /* SnapKit-Dynamic */; };
+		265C2DC02A71F96F00028A01 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C2DBF2A71F96F00028A01 /* Utils.swift */; };
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
@@ -59,9 +60,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2617AF432A74A4100089118A /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		265840702A628B72009F2CC4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		265840732A629B55009F2CC4 /* SampleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewModel.swift; sourceTree = "<group>"; };
 		265840752A629B5C009F2CC4 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
+		265C2DBF2A71F96F00028A01 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +103,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				265C2DBE2A71ED9300028A01 /* SnapKit-Dynamic in Frameworks */,
 				2680B62A2A6BCC8A009031AE /* Alamofire in Frameworks */,
 				265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */,
 				267391C82A65094900F1DC2D /* RealmSwift in Frameworks */,
@@ -231,6 +233,7 @@
 				26703D372A6161DD007E5717 /* ViewControllerRepresentable.swift */,
 				267391D52A6521EC00F1DC2D /* Observable.swift */,
 				26F982792A6CC5BB009FAB48 /* Extensions.swift */,
+				265C2DBF2A71F96F00028A01 /* Utils.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				26703D3C2A6161DD007E5717 /* AppCoordinator.swift */,
 				267391D32A65117600F1DC2D /* WeatherDIContainer.swift */,
 				2680B6332A6BD6EA009031AE /* AppConfiguration.swift */,
+				2617AF432A74A4100089118A /* NavigationController.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -346,7 +350,6 @@
 				267391C72A65094900F1DC2D /* RealmSwift */,
 				2680B6292A6BCC8A009031AE /* Alamofire */,
 				265C2DBB2A71ED9300028A01 /* SnapKit */,
-				265C2DBD2A71ED9300028A01 /* SnapKit-Dynamic */,
 			);
 			productName = WeatherApp;
 			productReference = 26703CFD2A6160E4007E5717 /* WeatherApp.app */;
@@ -470,6 +473,7 @@
 				265840762A629B5C009F2CC4 /* SampleViewController.swift in Sources */,
 				2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */,
 				26703D452A6161DE007E5717 /* ViewControllerRepresentable.swift in Sources */,
+				265C2DC02A71F96F00028A01 /* Utils.swift in Sources */,
 				269216672A67A38E0018D586 /* Geocoding.swift in Sources */,
 				2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */,
 				26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */,
@@ -485,6 +489,7 @@
 				26703D492A6161DE007E5717 /* BaseViewModel.swift in Sources */,
 				265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */,
 				26703D472A6161DE007E5717 /* MainViewModel.swift in Sources */,
+				2617AF442A74A4100089118A /* NavigationController.swift in Sources */,
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,
 				267391CE2A650B3400F1DC2D /* Repository.swift in Sources */,
@@ -865,11 +870,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		265C2DBD2A71ED9300028A01 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 		267391C52A65094900F1DC2D /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
