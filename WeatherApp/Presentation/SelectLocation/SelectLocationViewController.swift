@@ -107,6 +107,7 @@ class SelectLocationViewController: BaseViewController {
     override func viewDidLoad() {
         print("viewDidLoad")
         super.viewDidLoad()
+        vm.viewDidLoad()
         self.addSubViews()
         
         self.tableView.delegate = self

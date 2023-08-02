@@ -8,10 +8,11 @@
 import Foundation
 import UIKit
 
-final class WeatherDIContainer {
-    static let shared: WeatherDIContainer = WeatherDIContainer()
+final class AppDIContainer {
+    static let shared: AppDIContainer = AppDIContainer()
     let locationRespository: AnyRepository<Location>
     let weatherService: WeatherService
+    let locationService: LocationService
     
     private init() {
         self.locationRespository = AnyRepository()
@@ -21,5 +22,6 @@ final class WeatherDIContainer {
             baseUrl: AppConfiguration().WeatherApiBaseURL,
             apiKey: AppConfiguration().WeatherApiKey
         )
+        self.locationService = LocationService()
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import Combine
+import CoreLocation
 
 protocol WeatherServiceProtocol {
     func getGeocoding(_ name: String) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never>
@@ -48,6 +49,15 @@ extension WeatherService: WeatherServiceProtocol {
             "limit": 10
         ] as Parameters
         return self.getData("geo/1.0/direct", paramters: params)
+    }
+    
+    func getReverseGeocoding(_ coordinate: CLLocationCoordinate2D) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
+        let params: [String: Any] = [
+            "lat": coordinate.latitude,
+            "lon": coordinate.longitude,
+            "limit": 10
+        ] as Parameters
+        return self.getData("geo/1.0/reverse", paramters: params)
     }
     
 }

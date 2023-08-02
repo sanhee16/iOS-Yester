@@ -27,6 +27,7 @@
 		26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3E2A6161DD007E5717 /* AppDelegate.swift */; };
 		26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3F2A6161DD007E5717 /* SceneDelegate.swift */; };
 		26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */; };
+		26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE32A7A4DB60056DED2 /* LocationService.swift */; };
 		267391C62A65094900F1DC2D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 267391C52A65094900F1DC2D /* Realm */; };
 		267391C82A65094900F1DC2D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 267391C72A65094900F1DC2D /* RealmSwift */; };
 		267391CC2A650AFD00F1DC2D /* AnyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267391CB2A650AFD00F1DC2D /* AnyRepository.swift */; };
@@ -86,6 +87,7 @@
 		26703D3F2A6161DD007E5717 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26703D502A6162D0007E5717 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
+		26727CE32A7A4DB60056DED2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		267391CB2A650AFD00F1DC2D /* AnyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRepository.swift; sourceTree = "<group>"; };
 		267391CD2A650B3400F1DC2D /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		267391CF2A650E3E00F1DC2D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -282,6 +284,14 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
+		26727CE22A7A4DAC0056DED2 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				26727CE32A7A4DB60056DED2 /* LocationService.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		267391C92A650AD800F1DC2D /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +321,7 @@
 		2680B62C2A6BCCC4009031AE /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				26727CE22A7A4DAC0056DED2 /* Location */,
 				2680B62D2A6BCCCD009031AE /* Network */,
 			);
 			path = Infrastructure;
@@ -485,6 +496,7 @@
 				2680B6342A6BD6EA009031AE /* AppConfiguration.swift in Sources */,
 				267391CC2A650AFD00F1DC2D /* AnyRepository.swift in Sources */,
 				265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */,
+				26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */,
 				2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */,
 				267391D02A650E3E00F1DC2D /* Location.swift in Sources */,
 				2680B62F2A6BCD46009031AE /* WeatherService.swift in Sources */,
