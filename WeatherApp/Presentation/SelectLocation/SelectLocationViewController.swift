@@ -50,6 +50,14 @@ class SelectLocationViewController: BaseViewController {
         return stackView
     }()
     
+    private let searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        
+        searchController.searchBar.placeholder = "지역 이름"
+
+        return searchController
+    }()
+    
     init(vm: VM) {
         self.vm = vm
         super.init()
@@ -87,6 +95,9 @@ class SelectLocationViewController: BaseViewController {
         searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
         
         
+        self.navigationItem.searchController = searchController
+        
+        searchController.searchResultsUpdater = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +109,7 @@ class SelectLocationViewController: BaseViewController {
         [listArea, searchView].forEach {
             self.view.addSubview($0)
         }
-        [searchField, searchButton].forEach {
+        [searchButton].forEach {
             self.searchView.addArrangedSubview($0)
         }
     }
@@ -115,5 +126,26 @@ class SelectLocationViewController: BaseViewController {
             print("value: \(vm.name.value)")
         default: break
         }
+    }
+}
+
+//extension SelectLocationViewController: UITableViewDelegate, UITableViewDataSource {
+//
+//    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return self.arr.count
+//    }
+//
+//    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = UITableViewCell()
+//        cell.textLabel?.text = self.arr[indexPath.row]
+//        return cell
+//    }
+//}
+
+extension SelectLocationViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        vm.name.value = searchController.searchBar.text ?? ""
+        print(vm.name.value)
     }
 }
