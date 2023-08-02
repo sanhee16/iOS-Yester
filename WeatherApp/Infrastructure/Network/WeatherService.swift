@@ -44,7 +44,8 @@ extension WeatherService: WeatherServiceProtocol {
 
     func getGeocoding(_ name: String) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
         let params: [String: Any] = [
-            "q": name
+            "q": name,
+            "limit": 10
         ] as Parameters
         return self.getData("geo/1.0/direct", paramters: params)
     }

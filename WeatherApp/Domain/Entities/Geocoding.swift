@@ -42,6 +42,7 @@ struct Geocoding: Codable {
     var country: String
     var localNames: [String: String]
     var state: String?
+    var localName: String
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -58,8 +59,9 @@ struct Geocoding: Codable {
         lat = try values.decode(Double.self, forKey: .lat)
         lon = try values.decode(Double.self, forKey: .lon)
         country = try values.decode(String.self, forKey: .country).localizedCountryName()
-        localNames = try values.decode([String: String].self, forKey: .localNames)
+        localNames = try values.decodeIfPresent([String: String].self, forKey: .localNames) ?? [:]
         state = try values.decodeIfPresent(String.self, forKey: .state)
+        localName = localNames[Utils.languageCode()] ?? name
     }
 }
 

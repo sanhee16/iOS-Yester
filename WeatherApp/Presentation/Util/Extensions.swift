@@ -12,21 +12,13 @@ import UIKit
 
 extension String {
     func localizedCountryName() -> String {
-        if let name = (NSLocale(localeIdentifier: Bundle.main.preferredLocalizations.first ?? "en")).displayName(forKey: .countryCode, value: self) {
+        if let name = (NSLocale(localeIdentifier: Utils.languageCode())).displayName(forKey: .countryCode, value: self) {
             // Country name was found
             return name
         } else {
             // Country name cannot be found
             return self
         }
-    }
-    
-    func languageCode() -> String {
-        return Bundle.main.preferredLocalizations.first ?? "en"
-    }
-    
-    func regionCode() -> String {
-        return Locale.current.regionCode ?? "US"
     }
 }
 

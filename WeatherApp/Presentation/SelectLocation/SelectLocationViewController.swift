@@ -16,19 +16,6 @@ class SelectLocationViewController: BaseViewController {
     
     private let vm: VM
     
-    private let searchField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "지역 검색하기"
-        textField.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-        textField.clearButtonMode = .whileEditing
-        
-        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
-        textField.leftViewMode = .always
-
-        return textField
-    }()
-    private let listArea: UILabel = UILabel()
-    
     private let searchButton: UIButton = {
         let button = UIButton()
         
@@ -37,26 +24,57 @@ class SelectLocationViewController: BaseViewController {
         button.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
         button.layer.cornerRadius = 10
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-
+        
+        return button
+    }()
+    
+    private let myLocationButton: UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("내 위치로 찾기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        
         return button
     }()
     
     private let searchView: UIStackView = {
         let stackView = UIStackView()
         
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 8
         return stackView
     }()
     
+    private let searchingLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = .black
+        return label
+    }()
+    
     private let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
-        
         searchController.searchBar.placeholder = "지역 이름"
-
         return searchController
     }()
+    
+    
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(SelectLocationCell.self, forCellReuseIdentifier: SelectLocationCell.identifier)
+        tableView.separatorStyle = .none
+        
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
+
+        return tableView
+    }()
+    
+    
     
     init(vm: VM) {
         self.vm = vm
@@ -69,11 +87,19 @@ class SelectLocationViewController: BaseViewController {
     }
     
     private func bind(to vm: VM) {
-        vm.results.observe(on: self) { [weak self] list in
+        vm.results.observe(on: self) {[weak self] list in
             guard let self = self else { return }
-            self.listArea.text?.removeAll()
-            list.forEach { item in
-                self.listArea.text?.append("\(item.localNames): \(item.lat)-\(item.lon)")
+            self.tableView.reloadData()
+        }
+        
+        vm.isSearching.observe(on: self) {[weak self] isSearching in
+            guard let self = self else { return }
+            if isSearching {
+                self.searchingLabel.text = ""
+            } else {
+                if !vm.name.value.isEmpty {
+                    self.searchingLabel.text = vm.results.value.isEmpty ? "\'\(vm.name.value)\'에 대한 결과가 없습니다." : "\'\(vm.name.value)\'에 대한 검색 결과 입니다."
+                }
             }
         }
     }
@@ -83,20 +109,18 @@ class SelectLocationViewController: BaseViewController {
         super.viewDidLoad()
         self.addSubViews()
         
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
         searchView.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview().inset(12)
+            make.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         
-        searchField.setContentCompressionResistancePriority(.init(1), for: .horizontal)
-        searchButton.setContentCompressionResistancePriority(.init(2), for: .horizontal)
-        
-        searchField.addTarget(self, action: #selector(self.textFieldDidChange), for: .editingChanged)
         searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
-        
+        myLocationButton.addTarget(self, action: #selector(self.onClickSearchMyLocation), for: .touchUpInside)
         
         self.navigationItem.searchController = searchController
-        
         searchController.searchResultsUpdater = self
     }
     
@@ -106,10 +130,10 @@ class SelectLocationViewController: BaseViewController {
     }
     
     private func addSubViews() {
-        [listArea, searchView].forEach {
+        [searchView].forEach {
             self.view.addSubview($0)
         }
-        [searchButton].forEach {
+        [searchButton, myLocationButton, searchingLabel, tableView].forEach {
             self.searchView.addArrangedSubview($0)
         }
     }
@@ -118,34 +142,37 @@ class SelectLocationViewController: BaseViewController {
         print("onClickSearchLocation")
         vm.onClickSearch()
     }
-
-    @objc private func textFieldDidChange(sender: UITextField) {
-        switch sender {
-        case searchField:
-            vm.name.value = sender.text!
-            print("value: \(vm.name.value)")
-        default: break
-        }
+    
+    @objc private func onClickSearchMyLocation() {
+        print("onClickSearchMyLocation")
+        vm.onClickSearchMyLocation()
     }
 }
 
-//extension SelectLocationViewController: UITableViewDelegate, UITableViewDataSource {
-//
-//    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return self.arr.count
-//    }
-//
-//    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell()
-//        cell.textLabel?.text = self.arr[indexPath.row]
-//        return cell
-//    }
-//}
+extension SelectLocationViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return vm.results.value.count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectLocationCell.identifier, for: indexPath) as! SelectLocationCell
+        cell.name.text = "\(self.vm.results.value[indexPath.row].localName)"
+        cell.country.text = "\(self.vm.results.value[indexPath.row].country)"
+        
+        return cell
+    }
+}
+
+extension SelectLocationViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("select \(indexPath.row)")
+        print("language code: \(Utils.languageCode())")
+    }
+}
 
 extension SelectLocationViewController: UISearchResultsUpdating {
-    
     func updateSearchResults(for searchController: UISearchController) {
         vm.name.value = searchController.searchBar.text ?? ""
-        print(vm.name.value)
+        //        print("updateSearchResults: \(vm.name.value)")
     }
 }
