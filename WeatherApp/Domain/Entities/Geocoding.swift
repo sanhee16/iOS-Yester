@@ -35,7 +35,10 @@ import Foundation
  */
 
 // https://openweathermap.org/api/geocoding-api
-struct Geocoding: Codable {
+struct Geocoding: Codable, Equatable {
+    static func == (lhs: Geocoding, rhs: Geocoding) -> Bool {
+        return lhs.lat == rhs.lat && lhs.lon == rhs.lon
+    }
     var name: String
     var lat: Double
     var lon: Double

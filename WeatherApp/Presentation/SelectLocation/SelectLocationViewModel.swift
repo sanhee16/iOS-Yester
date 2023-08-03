@@ -10,14 +10,19 @@ import Combine
 import Alamofire
 import CoreLocation
 
+
+typealias GeocodingItem = (Int, Geocoding)
+
 protocol SelectLocationViewModel: SelectLocationViewModelInput, SelectLocationViewModelOutput { }
 
 protocol SelectLocationViewModelInput {
     var name: Observable<String> { get }
+    var selectedItem: Observable<GeocodingItem?> { get }
     func viewWillAppear()
     func viewDidLoad()
     func onClickSearch()
     func onClickSearchMyLocation()
+    func onClickAddLocation()
 }
 
 protocol SelectLocationViewModelOutput {
@@ -26,6 +31,23 @@ protocol SelectLocationViewModelOutput {
 }
 
 class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
+    let weatherService: WeatherService
+    let locationService: LocationService
+    let locationRespository: AnyRepository<Location>
+    
+    var results: Observable<[Geocoding]> = Observable([])
+    var name: Observable<String> = Observable("")
+    var isSearching: Observable<Bool> = Observable(false)
+    var selectedItem: Observable<GeocodingItem?> = Observable(nil)
+    
+    
+    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
+        self.locationRespository = locationRespository
+        self.weatherService = weatherService
+        self.locationService = locationService
+        super.init(coordinator)
+    }
+    
     func viewWillAppear() {
         
     }
@@ -33,15 +55,10 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     func viewDidLoad() {
         
     }
-        
-    var results: Observable<[Geocoding]> = Observable([])
-    let weatherService: WeatherService
-    let locationService: LocationService
-    var name: Observable<String> = Observable("")
-    var isSearching: Observable<Bool> = Observable(false)
     
     func onClickSearch() {
         self.isSearching.value = true
+        self.selectedItem.value = nil
         self.weatherService.getGeocoding(name.value)
             .run(in: &self.subscription) {[weak self] response in
                 guard let self = self else { return }
@@ -56,10 +73,14 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func onClickSearchMyLocation() {
+        self.isSearching.value = true
+        self.selectedItem.value = nil
+        self.results.value.removeAll()
+        self.name.value.removeAll()
+        
         self.locationService.requestLocation {[weak self] coordinate in
             guard let self = self else { return }
-            self.isSearching.value = true
-            //좌표 값을 수신한 경우 fetchWeatherData를 통해서 api 호출
+            
             self.weatherService.getReverseGeocoding(coordinate)
                 .run(in: &self.subscription) { [weak self] response in
                     guard let self = self else { return }
@@ -71,12 +92,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
         }
     }
     
-    let locationRespository: AnyRepository<Location>
-
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
-        self.locationRespository = locationRespository
-        self.weatherService = weatherService
-        self.locationService = locationService
-        super.init(coordinator)
+    func onClickAddLocation() {
+        
     }
 }

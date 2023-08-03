@@ -45,8 +45,8 @@ class WeatherCardViewController: UIViewController {
             self.view.addSubview(addButton)
             self.addButton.translatesAutoresizingMaskIntoConstraints = false
             self.addButton.isEnabled = true
-            let addImage = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
-            let addImageBold = UIImage(systemName: "plus", withConfiguration: addImage)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+            let addImageBold = UIImage(systemName: "plus", withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
             self.addButton.setImage(addImageBold, for: .normal)
             self.addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             self.addButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true

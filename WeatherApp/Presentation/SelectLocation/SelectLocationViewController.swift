@@ -33,7 +33,7 @@ class SelectLocationViewController: BaseViewController {
         
         button.setTitle("내 위치로 찾기", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+        button.backgroundColor = UIColor.orange.withAlphaComponent(0.3)
         button.layer.cornerRadius = 10
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
         
@@ -62,18 +62,28 @@ class SelectLocationViewController: BaseViewController {
         return searchController
     }()
     
-    
-    
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(SelectLocationCell.self, forCellReuseIdentifier: SelectLocationCell.identifier)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
         
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
-
+        
         return tableView
     }()
     
+    private let selectButton: UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("추가하기", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = UIColor.red
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        
+        return button
+    }()
     
     
     init(vm: VM) {
@@ -98,9 +108,18 @@ class SelectLocationViewController: BaseViewController {
                 self.searchingLabel.text = ""
             } else {
                 if !vm.name.value.isEmpty {
-                    self.searchingLabel.text = vm.results.value.isEmpty ? "\'\(vm.name.value)\'에 대한 결과가 없습니다." : "\'\(vm.name.value)\'에 대한 검색 결과 입니다."
+                    if vm.results.value.isEmpty {
+                        self.searchingLabel.text = "\'\(vm.name.value)\'에 대한 결과가 없습니다."
+                    } else {
+                        self.searchingLabel.text = "\'\(vm.name.value)\'에 대한 검색 결과 입니다."
+                    }
                 }
             }
+        }
+        
+        vm.selectedItem.observe(on: self) { [weak self] selectedItem in
+            guard let self = self else { return }
+            self.selectButton.isHidden = selectedItem == nil
         }
     }
     
@@ -116,6 +135,10 @@ class SelectLocationViewController: BaseViewController {
         searchView.snp.makeConstraints { make in
             make.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(12)
+        }
+        
+        selectButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         
         searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
@@ -134,7 +157,7 @@ class SelectLocationViewController: BaseViewController {
         [searchView].forEach {
             self.view.addSubview($0)
         }
-        [searchButton, myLocationButton, searchingLabel, tableView].forEach {
+        [searchButton, myLocationButton, searchingLabel, tableView, selectButton].forEach {
             self.searchView.addArrangedSubview($0)
         }
     }
@@ -159,15 +182,24 @@ extension SelectLocationViewController: UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectLocationCell.identifier, for: indexPath) as! SelectLocationCell
         cell.name.text = "\(self.vm.results.value[indexPath.row].localName)"
         cell.country.text = "\(self.vm.results.value[indexPath.row].country)"
-        
+        cell.value = (indexPath.row, vm.results.value[indexPath.row])
+        cell.bind(vm: vm)
+        let background = UIView()
+        background.backgroundColor = .clear
+        cell.selectedBackgroundView = background
         return cell
     }
 }
 
 extension SelectLocationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("select \(indexPath.row)")
-        print("language code: \(Utils.languageCode())")
+        if let item = vm.selectedItem.value, item.1 == vm.results.value[indexPath.row] {
+            print("DeSelect \(indexPath.row)")
+            vm.selectedItem.value = nil
+        } else {
+            print("Select \(indexPath.row)")
+            vm.selectedItem.value = (indexPath.row, vm.results.value[indexPath.row])
+        }
     }
 }
 
