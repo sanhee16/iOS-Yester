@@ -11,7 +11,7 @@ import Alamofire
 import CoreLocation
 
 
-typealias GeocodingItem = (Int, Geocoding)
+typealias GeocodingItem = (idx: Int, item: Geocoding)
 
 protocol SelectLocationViewModel: SelectLocationViewModelInput, SelectLocationViewModelOutput { }
 
@@ -39,7 +39,6 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     var name: Observable<String> = Observable("")
     var isSearching: Observable<Bool> = Observable(false)
     var selectedItem: Observable<GeocodingItem?> = Observable(nil)
-    
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
@@ -93,6 +92,8 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func onClickAddLocation() {
-        
+        guard let item = self.selectedItem.value?.item else { return }
+        try? self.locationRespository.insert(item: Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false))
+        self.coordinator.pop()
     }
 }

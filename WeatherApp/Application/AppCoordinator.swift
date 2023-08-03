@@ -16,6 +16,10 @@ final class AppCoordinator {
         self.navigationController = navigationController
     }
     
+    func pop(_ animated: Bool = true) {
+        self.navigationController.popViewController(animated: animated)
+    }
+    
     func start() {
         self.navigationController.pushViewController(
             MainViewController(vm: DefaultMainViewModel(self, locationRespository: appDIContainer.locationRespository)),

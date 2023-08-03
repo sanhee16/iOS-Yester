@@ -56,7 +56,7 @@ extension DefaultMainViewModel {
     }
     
     func onClickStar(item: Location) {
-        let updateItem = Location(lat: item.lat, lon: item.lon, isStar: !item.isStar)
+        let updateItem = Location(lat: item.lat, lon: item.lon, isStar: !item.isStar, isCurrent: item.isCurrent)
         try? self.locationRespository.update(item: updateItem)
         self.getLocations()
     }

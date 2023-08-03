@@ -28,10 +28,11 @@ class LocationStorage: Object, Storable {
     @objc dynamic var lat: Double = 0.0 // 위도
     @objc dynamic var lon: Double = 0.0 // 경도
     @objc dynamic var isStar: Bool = false // 즐겨찾기
+    @objc dynamic var isCurrent: Bool = false // 즐겨찾기
     
     var model: Location {
         get {
-            return Location(lat: lat, lon: lon, isStar: isStar)
+            return Location(lat: lat, lon: lon, isStar: isStar, isCurrent: isCurrent)
         }
     }
 }

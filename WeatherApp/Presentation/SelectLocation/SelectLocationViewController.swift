@@ -143,6 +143,7 @@ class SelectLocationViewController: BaseViewController {
         
         searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
         myLocationButton.addTarget(self, action: #selector(self.onClickSearchMyLocation), for: .touchUpInside)
+        selectButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
         
         self.navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
@@ -170,6 +171,10 @@ class SelectLocationViewController: BaseViewController {
     @objc private func onClickSearchMyLocation() {
         print("onClickSearchMyLocation")
         vm.onClickSearchMyLocation()
+    }
+    @objc private func onClickAddLocation() {
+        print("onClickAddLocation")
+        vm.onClickAddLocation()
     }
 }
 
