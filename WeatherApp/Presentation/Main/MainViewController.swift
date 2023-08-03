@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
-
+import SnapKit
 
 
 class MainViewController: BaseViewController {
@@ -19,13 +19,23 @@ class MainViewController: BaseViewController {
     
     var pageVC: UIPageViewController
     var pages: [WeatherCardViewController]
-    var currentIdx: Int = 0
+    var currentIdx: Int {
+        guard let vc = pageVC.viewControllers?.first else { return 0 }
+        return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
+    }
+
     
     init(vm: VM) {
         self.vm = vm
         self.locations = []
         self.pages = []
-        self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        let options: [UIPageViewController.OptionsKey : Any] = [
+            .interPageSpacing: 20,
+            .spineLocation: UIPageViewController.SpineLocation.mid
+        ]
+
+        self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
+        
         super.init()
         self.bind(to: vm)
     }
@@ -37,14 +47,18 @@ class MainViewController: BaseViewController {
     private func bind(to vm: VM) {
         vm.locations.observe(on: self) { [weak self] locations in
             guard let self = self else { return }
-            self.locations = locations
-            print("observe: \(locations)")
-            self.pages.removeAll()
+            if self.locations == locations {
+                return
+            }
             
+            self.locations = locations
+            self.pages.removeAll()
             self.locations.forEach { location in
                 self.pages.append(WeatherCardViewController(vm: vm, location: location))
             }
             self.pages.append(WeatherCardViewController(vm: vm, location: nil))
+            
+            self.reloadPages()
         }
     }
     
@@ -53,15 +67,22 @@ class MainViewController: BaseViewController {
         super.viewDidLoad()
         self.addSubViews()
         
+        self.view.backgroundColor = .primeColor2
+    }
+    
+    private func reloadPages() {
+        print("reloadPages")
+        self.pageVC.setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
+        
+        self.pageVC.view.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(40)
+        }
+        
+        self.pageVC.dataSource = nil
         self.pageVC.dataSource = self
         self.pageVC.delegate = self
-        
-        let startVC = pages[self.currentIdx]
-        let viewControllers = NSArray(object: startVC)
-        
-        self.pageVC.setViewControllers(viewControllers as? [UIViewController] , direction: .forward, animated: true, completion: nil)
-        self.pageVC.view.frame = CGRect(x: 0, y: 60, width: self.view.frame.width, height: self.view.frame.height - (2.0 * 60.0))
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,19 +92,10 @@ class MainViewController: BaseViewController {
     private func addSubViews() {
         self.addChild(self.pageVC)
         self.view.addSubview(self.pageVC.view)
-        
-        self.pageVC.view.translatesAutoresizingMaskIntoConstraints = false
     }
 }
 
-extension MainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    // 현재 페이지 로드가 끝났을 때
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            self.currentIdx = self.pageVC.viewControllers?.first?.view.tag ?? 0
-        }
-    }
-
+extension MainViewController: UIPageViewControllerDataSource {
     // 현재 페이지 뷰의 이전 뷰를 미리 로드
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if self.currentIdx <= 0 {
@@ -94,9 +106,18 @@ extension MainViewController: UIPageViewControllerDataSource, UIPageViewControll
     
     // 현재 페이지 뷰의 다음 뷰를 미리 로드
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if self.currentIdx >= self.locations.count - 1 {
+        if self.currentIdx >= self.pages.count - 1 {
             return nil
         }
         return pages[self.currentIdx + 1]
+    }
+}
+
+extension MainViewController: UIPageViewControllerDelegate {
+    // 현재 페이지 로드가 끝났을 때
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            print("complete: \(self.currentIdx)")
+        }
     }
 }

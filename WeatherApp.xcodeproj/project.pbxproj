@@ -149,6 +149,14 @@
 			path = Sample;
 			sourceTree = "<group>";
 		};
+		265DB82A2A7B8334007671B7 /* WeatherCard */ = {
+			isa = PBXGroup;
+			children = (
+				2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */,
+			);
+			path = WeatherCard;
+			sourceTree = "<group>";
+		};
 		2660C4DD2A66AAEB00D830E6 /* SelectLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,7 +256,7 @@
 			children = (
 				26703D392A6161DD007E5717 /* MainViewController.swift */,
 				26703D3A2A6161DD007E5717 /* MainViewModel.swift */,
-				2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */,
+				265DB82A2A7B8334007671B7 /* WeatherCard */,
 			);
 			path = Main;
 			sourceTree = "<group>";
