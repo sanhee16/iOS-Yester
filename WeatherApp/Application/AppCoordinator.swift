@@ -22,13 +22,22 @@ final class AppCoordinator {
     
     func start() {
         self.navigationController.pushViewController(
-            MainViewController(vm: DefaultMainViewModel(self, locationRespository: appDIContainer.locationRespository)),
+            MainViewController(vm: DefaultMainViewModel(
+                self,
+                locationRespository: appDIContainer.locationRespository,
+                weatherService: appDIContainer.weatherService)
+            ),
             animated: false
         )
     }
     
     func presentSelectLocation() {
-        let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(self, locationRespository: appDIContainer.locationRespository, weatherService: appDIContainer.weatherService, locationService: appDIContainer.locationService))
+        let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(
+            self,
+            locationRespository: appDIContainer.locationRespository,
+            weatherService: appDIContainer.weatherService,
+            locationService: appDIContainer.locationService)
+        )
         self.navigationController.pushViewController(vc, animated: true)
     }
 }

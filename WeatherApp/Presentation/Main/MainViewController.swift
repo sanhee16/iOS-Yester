@@ -15,7 +15,7 @@ class MainViewController: BaseViewController {
     typealias VM = MainViewModel
     
     private let vm: VM
-    private var locations: [Location]
+    private var items: [WeatherItem]
     
     var pageVC: UIPageViewController
     var pages: [WeatherCardViewController]
@@ -27,7 +27,7 @@ class MainViewController: BaseViewController {
     
     init(vm: VM) {
         self.vm = vm
-        self.locations = []
+        self.items = []
         self.pages = []
         let options: [UIPageViewController.OptionsKey : Any] = [
             .interPageSpacing: 20,
@@ -45,18 +45,18 @@ class MainViewController: BaseViewController {
     }
     
     private func bind(to vm: VM) {
-        vm.locations.observe(on: self) { [weak self] locations in
+        vm.items.observe(on: self) { [weak self] items in
             guard let self = self else { return }
-            if self.locations == locations {
+            if self.items == items {
                 return
             }
             
-            self.locations = locations
+            self.items = items
             self.pages.removeAll()
-            self.locations.forEach { location in
-                self.pages.append(WeatherCardViewController(vm: vm, location: location))
+            self.items.forEach { item in
+                self.pages.append(WeatherCardViewController(vm: vm, item: item))
             }
-            self.pages.append(WeatherCardViewController(vm: vm, location: nil))
+            self.pages.append(WeatherCardViewController(vm: vm, item: nil))
             
             self.reloadPages()
         }

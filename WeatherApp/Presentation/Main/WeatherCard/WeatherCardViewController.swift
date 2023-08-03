@@ -14,7 +14,7 @@ class WeatherCardViewController: UIViewController {
     typealias VM = MainViewModel
     private let vm: VM
     
-    let location: Location?
+    let item: WeatherItem?
     
     let addButton: UIButton = {
         let button = UIButton()
@@ -43,8 +43,8 @@ class WeatherCardViewController: UIViewController {
         return stackView
     }()
     
-    init(vm: VM, location: Location?) {
-        self.location = location
+    init(vm: VM, item: WeatherItem?) {
+        self.item = item
         self.vm = vm
         super.init(nibName: nil, bundle: nil)
     }
@@ -62,11 +62,12 @@ class WeatherCardViewController: UIViewController {
             make.top.bottom.equalToSuperview()
         }
         
-        if let location = self.location {
+        if let item = self.item {
             [info].forEach {
                 self.cardView.addArrangedSubview($0)
             }
-            self.info.text = "lat: \(String(format: "%0.3f", location.lat)) // lon: \(String(format: "%0.3f", location.lon)) // isStar: \(location.isStar)"
+//            self.info.text = "lat: \(String(format: "%0.3f", item.location.lat)) // lon: \(String(format: "%0.3f", item.location.lon)) // isStar: \(item.location.isStar)"
+            self.info.text = "lat: \(String(format: "%0.3f", item.currentWeather?.temp ?? 10.0)) // lon: \(String(format: "%0.3f", item.currentWeather?.windSpeed ?? 20.0)) // isStar: \(item.location.isStar)"
             
             self.info.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
@@ -88,12 +89,12 @@ class WeatherCardViewController: UIViewController {
     }
     
     @objc func onClickDelete() {
-        guard let location = self.location else { return }
-        vm.onClickDelete(item: location)
+        guard let item = self.item else { return }
+        vm.onClickDelete(location: item.location)
     }
     
     @objc func onClickStar() {
-        guard let location = self.location else { return }
-        vm.onClickStar(item: location)
+        guard let item = self.item else { return }
+        vm.onClickStar(location: item.location)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Location: Equatable {
+struct Location: Equatable, Hashable {
     static func == (lhs: Location, rhs: Location) -> Bool {
         return lhs.lat == rhs.lat && lhs.lon == rhs.lon
     }

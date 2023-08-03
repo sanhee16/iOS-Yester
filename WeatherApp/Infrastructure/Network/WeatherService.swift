@@ -60,4 +60,24 @@ extension WeatherService: WeatherServiceProtocol {
         return self.getData("geo/1.0/reverse", paramters: params)
     }
     
+    func getOneCallWeather(_ location: Location) -> AnyPublisher<DataResponse<WeatherResponse, NetworkError>, Never>{
+        let params: [String: Any] = [
+            "lat": location.lat,
+            "lon": location.lon,
+            "exclude": "minutely, hourly", // current, minutely, hourly, daily, alerts
+            "units": "metric", // standard, metric(섭씨), imperial(화씨)
+            "lang": "en"
+        ]as Parameters
+        return self.getData("data/3.0/onecall", paramters: params)
+    }
+    
+    func get3HourlyWeather(_ location: Location) -> AnyPublisher<DataResponse<ThreeHourlyResponse, NetworkError>, Never>{
+        let params: [String: Any] = [
+            "lat": location.lat,
+            "lon": location.lon,
+            "units": "metric", // standard, metric(섭씨), imperial(화씨)
+            "lang": "en"
+        ]as Parameters
+        return self.getData("data/2.5/forecast", paramters: params)
+    }
 }
