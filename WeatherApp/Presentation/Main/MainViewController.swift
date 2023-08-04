@@ -23,7 +23,12 @@ class MainViewController: BaseViewController {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
     }
-
+    
+    var progressVC: ProgressingViewController = {
+        let progressVC = ProgressingViewController()
+        return progressVC
+    }()
+    
     
     init(vm: VM) {
         self.vm = vm
@@ -33,9 +38,8 @@ class MainViewController: BaseViewController {
             .interPageSpacing: 20,
             .spineLocation: UIPageViewController.SpineLocation.mid
         ]
-
-        self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
         
+        self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
         super.init()
         self.bind(to: vm)
     }
@@ -48,6 +52,11 @@ class MainViewController: BaseViewController {
         vm.items.observe(on: self) { [weak self] items in
             guard let self = self else { return }
             if self.items == items {
+                if items.isEmpty {
+                    self.pages.removeAll()
+                    self.pages.append(WeatherCardViewController(vm: vm, item: nil))
+                    self.reloadPages()
+                }
                 return
             }
             
@@ -60,6 +69,11 @@ class MainViewController: BaseViewController {
             
             self.reloadPages()
         }
+        
+        vm.isLoading.observe(on: self) { [weak self] isLoading in
+            guard let self = self else { return }
+            self.progressVC.view.isHidden = !isLoading
+        }
     }
     
     override func viewDidLoad() {
@@ -68,12 +82,15 @@ class MainViewController: BaseViewController {
         self.addSubViews()
         
         self.view.backgroundColor = .primeColor2
+        
+        self.progressVC.view.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
     }
     
     private func reloadPages() {
-        print("reloadPages")
         self.pageVC.setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
-        
+        print("pages count: \(self.pages.count)")
         self.pageVC.view.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
@@ -91,7 +108,10 @@ class MainViewController: BaseViewController {
     
     private func addSubViews() {
         self.addChild(self.pageVC)
+        self.addChild(self.progressVC)
+        
         self.view.addSubview(self.pageVC.view)
+        self.view.addSubview(self.progressVC.view)
     }
 }
 
@@ -101,6 +121,9 @@ extension MainViewController: UIPageViewControllerDataSource {
         if self.currentIdx <= 0 {
             return nil
         }
+        if self.pages[self.currentIdx - 1].item != nil {
+            vm.updateWeather(vm.items.value[self.currentIdx - 1])
+        }
         return pages[self.currentIdx - 1]
     }
     
@@ -108,6 +131,9 @@ extension MainViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         if self.currentIdx >= self.pages.count - 1 {
             return nil
+        }
+        if self.pages[self.currentIdx + 1].item != nil {
+            vm.updateWeather(vm.items.value[self.currentIdx + 1])
         }
         return pages[self.currentIdx + 1]
     }
@@ -117,6 +143,8 @@ extension MainViewController: UIPageViewControllerDelegate {
     // 현재 페이지 로드가 끝났을 때
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
+            if self.pages[self.currentIdx].item == nil { return }
+            vm.updateWeather(vm.items.value[self.currentIdx])
             print("complete: \(self.currentIdx)")
         }
     }

@@ -15,4 +15,5 @@ struct Location: Equatable, Hashable {
     var lon: Double // 경도
     var isStar: Bool // 즐겨찾기
     var isCurrent: Bool // 현재 위치
+    var name: String
 }

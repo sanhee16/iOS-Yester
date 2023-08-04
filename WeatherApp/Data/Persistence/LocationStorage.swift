@@ -14,6 +14,8 @@ extension Location: Entity {
         realmLocation.lat = lat
         realmLocation.lon = lon
         realmLocation.isStar = isStar
+        realmLocation.name = name
+        realmLocation.isCurrent = isCurrent
         realmLocation.uuid = UUID().uuidString
         return realmLocation
     }
@@ -29,10 +31,11 @@ class LocationStorage: Object, Storable {
     @objc dynamic var lon: Double = 0.0 // 경도
     @objc dynamic var isStar: Bool = false // 즐겨찾기
     @objc dynamic var isCurrent: Bool = false // 즐겨찾기
+    @objc dynamic var name: String = "" // local 이름
     
     var model: Location {
         get {
-            return Location(lat: lat, lon: lon, isStar: isStar, isCurrent: isCurrent)
+            return Location(lat: lat, lon: lon, isStar: isStar, isCurrent: isCurrent, name: name)
         }
     }
 }

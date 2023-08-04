@@ -93,7 +93,8 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     
     func onClickAddLocation() {
         guard let item = self.selectedItem.value?.item else { return }
-        try? self.locationRespository.insert(item: Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false))
+        print(item)
+        try? self.locationRespository.insert(item: Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false, name: item.localName))
         self.coordinator.pop()
     }
 }

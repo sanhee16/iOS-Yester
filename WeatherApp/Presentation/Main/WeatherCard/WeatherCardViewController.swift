@@ -28,6 +28,7 @@ class WeatherCardViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
+        
         return label
     }()
     
@@ -67,7 +68,7 @@ class WeatherCardViewController: UIViewController {
                 self.cardView.addArrangedSubview($0)
             }
 //            self.info.text = "lat: \(String(format: "%0.3f", item.location.lat)) // lon: \(String(format: "%0.3f", item.location.lon)) // isStar: \(item.location.isStar)"
-            self.info.text = "lat: \(String(format: "%0.3f", item.currentWeather?.temp ?? 10.0)) // lon: \(String(format: "%0.3f", item.currentWeather?.windSpeed ?? 20.0)) // isStar: \(item.location.isStar)"
+            self.info.text = "NAME: \(item.location.name)"
             
             self.info.snp.makeConstraints { make in
                 make.edges.equalToSuperview()

@@ -29,6 +29,9 @@
 		26703D492A6161DE007E5717 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3D2A6161DD007E5717 /* BaseViewModel.swift */; };
 		26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3E2A6161DD007E5717 /* AppDelegate.swift */; };
 		26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3F2A6161DD007E5717 /* SceneDelegate.swift */; };
+		2671F8DE2A7CA12400171F52 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2671F8DD2A7CA12400171F52 /* Lottie */; };
+		2671F8E02A7CA1A800171F52 /* progressing.json in Resources */ = {isa = PBXBuildFile; fileRef = 2671F8DF2A7CA1A800171F52 /* progressing.json */; };
+		2671F8E22A7CA1FF00171F52 /* ProgressingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */; };
 		26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */; };
 		26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE32A7A4DB60056DED2 /* LocationService.swift */; };
 		267391C62A65094900F1DC2D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 267391C52A65094900F1DC2D /* Realm */; };
@@ -92,6 +95,8 @@
 		26703D3E2A6161DD007E5717 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26703D3F2A6161DD007E5717 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26703D502A6162D0007E5717 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2671F8DF2A7CA1A800171F52 /* progressing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = progressing.json; sourceTree = "<group>"; };
+		2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressingViewController.swift; sourceTree = "<group>"; };
 		26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		26727CE32A7A4DB60056DED2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		267391CB2A650AFD00F1DC2D /* AnyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRepository.swift; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2671F8DE2A7CA12400171F52 /* Lottie in Frameworks */,
 				2680B62A2A6BCC8A009031AE /* Alamofire in Frameworks */,
 				265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */,
 				267391C82A65094900F1DC2D /* RealmSwift in Frameworks */,
@@ -227,6 +233,7 @@
 		26703D302A6161DD007E5717 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2671F8DF2A7CA1A800171F52 /* progressing.json */,
 				26703D312A6161DD007E5717 /* Assets.xcassets */,
 				26703D322A6161DD007E5717 /* LaunchScreen.storyboard */,
 				26703D502A6162D0007E5717 /* Info.plist */,
@@ -242,6 +249,7 @@
 				265840722A629B48009F2CC4 /* Sample */,
 				26703D362A6161DD007E5717 /* Util */,
 				26703D382A6161DD007E5717 /* Main */,
+				2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -381,6 +389,7 @@
 				267391C72A65094900F1DC2D /* RealmSwift */,
 				2680B6292A6BCC8A009031AE /* Alamofire */,
 				265C2DBB2A71ED9300028A01 /* SnapKit */,
+				2671F8DD2A7CA12400171F52 /* Lottie */,
 			);
 			productName = WeatherApp;
 			productReference = 26703CFD2A6160E4007E5717 /* WeatherApp.app */;
@@ -458,6 +467,7 @@
 				267391C42A65094900F1DC2D /* XCRemoteSwiftPackageReference "realm-swift" */,
 				2680B6282A6BCC8A009031AE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				2671F8DC2A7CA12300171F52 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 26703CFE2A6160E4007E5717 /* Products */;
 			projectDirPath = "";
@@ -475,6 +485,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2671F8E02A7CA1A800171F52 /* progressing.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +540,7 @@
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,
 				267391CE2A650B3400F1DC2D /* Repository.swift in Sources */,
+				2671F8E22A7CA1FF00171F52 /* ProgressingViewController.swift in Sources */,
 				267391D42A65117600F1DC2D /* WeatherDIContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -883,6 +895,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		2671F8DC2A7CA12300171F52 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		267391C42A65094900F1DC2D /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -906,6 +926,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		2671F8DD2A7CA12400171F52 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2671F8DC2A7CA12300171F52 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		267391C52A65094900F1DC2D /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;

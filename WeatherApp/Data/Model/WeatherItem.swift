@@ -15,4 +15,5 @@ struct WeatherItem: Equatable {
     var currentWeather: Current?
     var dailyWeather: [Daily]
     var ThreeHourly: [ThreeHourly]
+    var isLoaded: Bool
 }
