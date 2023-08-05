@@ -79,6 +79,7 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubViews()
+        vm.viewDidLoad()
         
         self.view.backgroundColor = .primeColor2
         
@@ -143,7 +144,7 @@ extension MainViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
             if self.pages[self.currentIdx].item == nil { return }
-            vm.updateWeather(vm.items.value[self.currentIdx])
+//            vm.updateWeather(vm.items.value[self.currentIdx])
             print("complete: \(self.currentIdx)")
         }
     }

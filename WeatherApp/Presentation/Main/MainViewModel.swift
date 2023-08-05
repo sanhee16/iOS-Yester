@@ -13,6 +13,7 @@ protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
 
 protocol MainViewModelInput {
     func viewWillAppear()
+    func viewDidLoad()
     func onClickAddLocation()
     func onClickDelete(location: Location)
     func onClickStar(location: Location)
@@ -41,8 +42,13 @@ class DefaultMainViewModel: BaseViewModel {
 }
 
 extension DefaultMainViewModel: MainViewModel {
-    func viewWillAppear() {
+    func viewDidLoad() {
         self.getLocations()
+        self.updateWeather(self.items.value[0])
+    }
+    
+    func viewWillAppear() {
+
     }
     
     func onClickAddLocation() {
