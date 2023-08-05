@@ -24,9 +24,9 @@ class MainViewController: BaseViewController {
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
     }
     
-    var progressVC: ProgressingViewController = {
-        let progressVC = ProgressingViewController()
-        return progressVC
+    var lottieVC: LottieVC = {
+        let lottieVC = LottieVC(type: .progressing)
+        return lottieVC
     }()
     
     
@@ -72,7 +72,7 @@ class MainViewController: BaseViewController {
         
         vm.isLoading.observe(on: self) { [weak self] isLoading in
             guard let self = self else { return }
-            self.progressVC.view.isHidden = !isLoading
+            self.lottieVC.view.isHidden = !isLoading
         }
     }
     
@@ -83,7 +83,7 @@ class MainViewController: BaseViewController {
         
         self.view.backgroundColor = .primeColor2
         
-        self.progressVC.view.snp.makeConstraints { make in
+        self.lottieVC.view.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
@@ -104,14 +104,15 @@ class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         vm.viewWillAppear()
+        self.navigationItem.hidesBackButton = true
     }
     
     private func addSubViews() {
         self.addChild(self.pageVC)
-        self.addChild(self.progressVC)
+        self.addChild(self.lottieVC)
         
         self.view.addSubview(self.pageVC.view)
-        self.view.addSubview(self.progressVC.view)
+        self.view.addSubview(self.lottieVC.view)
     }
 }
 

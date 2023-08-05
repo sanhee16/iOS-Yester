@@ -14,6 +14,22 @@ class SelectLocationCell : UITableViewCell {
     static let identifier = "SelectLocationCell"
     
     var value: GeocodingItem?
+    private var _isExist: Bool = false
+    var isExist: Bool {
+        get {
+            return _isExist
+        }
+        set(newValue) {
+            _isExist = newValue
+            if newValue {
+                self.stackView.layer.borderColor = UIColor.gray.cgColor
+                self.stackView.backgroundColor = UIColor.lightGray
+            } else {
+                self.stackView.layer.borderColor = UIColor.primeColor1.withAlphaComponent(0.4).cgColor
+                self.stackView.backgroundColor = .clear
+            }
+        }
+    }
     
     let name: UILabel = {
         let label = UILabel()
@@ -64,6 +80,14 @@ class SelectLocationCell : UITableViewCell {
             } else {
                 self.isSelected = false
                 self.stackView.backgroundColor = .clear
+            }
+        }
+        vm.isSearching.observe(on: self) {[weak self] isSearching in
+            guard let self = self, let item = value?.item else { return }
+            if !isSearching {
+                self.isExist = vm.existItems.contains(where: { loc in
+                    loc.lat == item.lat && loc.lon == item.lon
+                })
             }
         }
     }

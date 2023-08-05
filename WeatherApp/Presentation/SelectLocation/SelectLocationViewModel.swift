@@ -28,6 +28,7 @@ protocol SelectLocationViewModelInput {
 protocol SelectLocationViewModelOutput {
     var results: Observable<[Geocoding]> { get }
     var isSearching: Observable<Bool> { get }
+    var existItems: [Location] { get }
 }
 
 class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
@@ -39,6 +40,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     var name: Observable<String> = Observable("")
     var isSearching: Observable<Bool> = Observable(false)
     var selectedItem: Observable<GeocodingItem?> = Observable(nil)
+    var existItems: [Location] = []
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
@@ -52,7 +54,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func viewDidLoad() {
-        
+        self.existItems = self.locationRespository.getAll()
     }
     
     func onClickSearch() {

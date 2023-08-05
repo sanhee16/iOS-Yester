@@ -24,7 +24,8 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     //위치 정보 요청 - 정보 요청이 성공하면 실행될 completionHandler를 등록
     func requestLocation(completion: @escaping ((CLLocationCoordinate2D) -> (Void))) {
         completionHandler = completion
-        manager.requestLocation()
+//        manager.requestLocation()
+        manager.startUpdatingLocation()
     }
     
     //위치 정보는 주기적으로 업데이트 되므로 이를 중단하기 위한 함수

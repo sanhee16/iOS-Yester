@@ -11,6 +11,7 @@ struct Location: Equatable, Hashable {
     static func == (lhs: Location, rhs: Location) -> Bool {
         return lhs.lat == rhs.lat && lhs.lon == rhs.lon
     }
+    var uuid: String = UUID().uuidString
     var lat: Double // 위도
     var lon: Double // 경도
     var isStar: Bool // 즐겨찾기

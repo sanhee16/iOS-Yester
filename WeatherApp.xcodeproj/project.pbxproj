@@ -11,6 +11,12 @@
 		265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840702A628B72009F2CC4 /* BaseViewController.swift */; };
 		265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840732A629B55009F2CC4 /* SampleViewModel.swift */; };
 		265840762A629B5C009F2CC4 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840752A629B5C009F2CC4 /* SampleViewController.swift */; };
+		265BF3092A7D37C80087ADDA /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF3082A7D37C80087ADDA /* SplashViewController.swift */; };
+		265BF30B2A7D37D00087ADDA /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF30A2A7D37D00087ADDA /* SplashViewModel.swift */; };
+		265BF30E2A7D37E10087ADDA /* BlueprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF30D2A7D37E10087ADDA /* BlueprintViewController.swift */; };
+		265BF3102A7D37EA0087ADDA /* BlueprintViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF30F2A7D37EA0087ADDA /* BlueprintViewModel.swift */; };
+		265BF3122A7D38CD0087ADDA /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF3112A7D38CD0087ADDA /* Defaults.swift */; };
+		265BF3142A7D3BB60087ADDA /* splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 265BF3132A7D3BB60087ADDA /* splash.json */; };
 		265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 265C2DBB2A71ED9300028A01 /* SnapKit */; };
 		265C2DC02A71F96F00028A01 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C2DBF2A71F96F00028A01 /* Utils.swift */; };
 		265DB82E2A7BA12E007671B7 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DB82D2A7BA12E007671B7 /* Weather.swift */; };
@@ -31,7 +37,7 @@
 		26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3F2A6161DD007E5717 /* SceneDelegate.swift */; };
 		2671F8DE2A7CA12400171F52 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2671F8DD2A7CA12400171F52 /* Lottie */; };
 		2671F8E02A7CA1A800171F52 /* progressing.json in Resources */ = {isa = PBXBuildFile; fileRef = 2671F8DF2A7CA1A800171F52 /* progressing.json */; };
-		2671F8E22A7CA1FF00171F52 /* ProgressingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */; };
+		2671F8E22A7CA1FF00171F52 /* LottieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */; };
 		26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */; };
 		26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE32A7A4DB60056DED2 /* LocationService.swift */; };
 		267391C62A65094900F1DC2D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 267391C52A65094900F1DC2D /* Realm */; };
@@ -72,6 +78,12 @@
 		265840702A628B72009F2CC4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		265840732A629B55009F2CC4 /* SampleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewModel.swift; sourceTree = "<group>"; };
 		265840752A629B5C009F2CC4 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
+		265BF3082A7D37C80087ADDA /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		265BF30A2A7D37D00087ADDA /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		265BF30D2A7D37E10087ADDA /* BlueprintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintViewController.swift; sourceTree = "<group>"; };
+		265BF30F2A7D37EA0087ADDA /* BlueprintViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintViewModel.swift; sourceTree = "<group>"; };
+		265BF3112A7D38CD0087ADDA /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		265BF3132A7D3BB60087ADDA /* splash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash.json; sourceTree = "<group>"; };
 		265C2DBF2A71F96F00028A01 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		265DB82D2A7BA12E007671B7 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		265DB82F2A7BA332007671B7 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
@@ -96,7 +108,7 @@
 		26703D3F2A6161DD007E5717 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26703D502A6162D0007E5717 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2671F8DF2A7CA1A800171F52 /* progressing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = progressing.json; sourceTree = "<group>"; };
-		2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressingViewController.swift; sourceTree = "<group>"; };
+		2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieViewController.swift; sourceTree = "<group>"; };
 		26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		26727CE32A7A4DB60056DED2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		267391CB2A650AFD00F1DC2D /* AnyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRepository.swift; sourceTree = "<group>"; };
@@ -159,6 +171,24 @@
 				265840752A629B5C009F2CC4 /* SampleViewController.swift */,
 			);
 			path = Sample;
+			sourceTree = "<group>";
+		};
+		265BF3072A7D37BB0087ADDA /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				265BF3082A7D37C80087ADDA /* SplashViewController.swift */,
+				265BF30A2A7D37D00087ADDA /* SplashViewModel.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		265BF30C2A7D37D30087ADDA /* Blueprint */ = {
+			isa = PBXGroup;
+			children = (
+				265BF30D2A7D37E10087ADDA /* BlueprintViewController.swift */,
+				265BF30F2A7D37EA0087ADDA /* BlueprintViewModel.swift */,
+			);
+			path = Blueprint;
 			sourceTree = "<group>";
 		};
 		265DB82A2A7B8334007671B7 /* WeatherCard */ = {
@@ -233,11 +263,13 @@
 		26703D302A6161DD007E5717 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				265BF3132A7D3BB60087ADDA /* splash.json */,
 				2671F8DF2A7CA1A800171F52 /* progressing.json */,
 				26703D312A6161DD007E5717 /* Assets.xcassets */,
 				26703D322A6161DD007E5717 /* LaunchScreen.storyboard */,
 				26703D502A6162D0007E5717 /* Info.plist */,
 				2680B6322A6BD5E1009031AE /* ApiConfig.xcconfig */,
+				265BF3112A7D38CD0087ADDA /* Defaults.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -245,11 +277,13 @@
 		26703D352A6161DD007E5717 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				265BF30C2A7D37D30087ADDA /* Blueprint */,
+				265BF3072A7D37BB0087ADDA /* Splash */,
 				2660C4DD2A66AAEB00D830E6 /* SelectLocation */,
 				265840722A629B48009F2CC4 /* Sample */,
 				26703D362A6161DD007E5717 /* Util */,
 				26703D382A6161DD007E5717 /* Main */,
-				2671F8E12A7CA1FE00171F52 /* ProgressingViewController.swift */,
+				2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -485,6 +519,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				265BF3142A7D3BB60087ADDA /* splash.json in Resources */,
 				2671F8E02A7CA1A800171F52 /* progressing.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +556,7 @@
 				269216672A67A38E0018D586 /* Geocoding.swift in Sources */,
 				265DB82E2A7BA12E007671B7 /* Weather.swift in Sources */,
 				2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */,
+				265BF30B2A7D37D00087ADDA /* SplashViewModel.swift in Sources */,
 				26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */,
 				26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */,
 				2680B6342A6BD6EA009031AE /* AppConfiguration.swift in Sources */,
@@ -529,10 +565,14 @@
 				26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */,
 				265DB8302A7BA332007671B7 /* WeatherData.swift in Sources */,
 				2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */,
+				265BF3122A7D38CD0087ADDA /* Defaults.swift in Sources */,
 				267391D02A650E3E00F1DC2D /* Location.swift in Sources */,
 				2680B62F2A6BCD46009031AE /* WeatherService.swift in Sources */,
+				265BF3092A7D37C80087ADDA /* SplashViewController.swift in Sources */,
 				26F9827A2A6CC5BB009FAB48 /* Extensions.swift in Sources */,
+				265BF3102A7D37EA0087ADDA /* BlueprintViewModel.swift in Sources */,
 				26703D462A6161DE007E5717 /* MainViewController.swift in Sources */,
+				265BF30E2A7D37E10087ADDA /* BlueprintViewController.swift in Sources */,
 				26703D492A6161DE007E5717 /* BaseViewModel.swift in Sources */,
 				265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */,
 				26703D472A6161DE007E5717 /* MainViewModel.swift in Sources */,
@@ -540,7 +580,7 @@
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,
 				267391CE2A650B3400F1DC2D /* Repository.swift in Sources */,
-				2671F8E22A7CA1FF00171F52 /* ProgressingViewController.swift in Sources */,
+				2671F8E22A7CA1FF00171F52 /* LottieViewController.swift in Sources */,
 				267391D42A65117600F1DC2D /* WeatherDIContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

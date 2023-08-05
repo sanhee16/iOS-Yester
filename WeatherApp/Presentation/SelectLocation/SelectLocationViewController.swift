@@ -188,6 +188,7 @@ extension SelectLocationViewController: UITableViewDelegate {
         cell.name.text = "\(self.vm.results.value[indexPath.row].localName)"
         cell.country.text = "\(self.vm.results.value[indexPath.row].country)"
         cell.value = (indexPath.row, vm.results.value[indexPath.row])
+        
         cell.bind(vm: vm)
         let background = UIView()
         background.backgroundColor = .clear
@@ -198,6 +199,10 @@ extension SelectLocationViewController: UITableViewDelegate {
 
 extension SelectLocationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? SelectLocationCell, cell.isExist {
+            print("Exist \(indexPath.row)")
+            return
+        }
         if let item = vm.selectedItem.value, item.1 == vm.results.value[indexPath.row] {
             print("DeSelect \(indexPath.row)")
             vm.selectedItem.value = nil

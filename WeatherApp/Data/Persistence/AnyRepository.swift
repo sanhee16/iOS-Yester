@@ -28,16 +28,17 @@ class AnyRepository<RepositoryObject>: Repository
         }
         return objects.compactMap{ ($0).model as? RepositoryObject }
     }
-
+    
     func insert(item: RepositoryObject) throws {
         try realm.write {
             realm.add(item.toStorable())
         }
     }
-
+    
     func update(item: RepositoryObject) throws {
-        try delete(item: item)
-        try insert(item: item)
+        try realm.write {
+            realm.add(item.toStorable(), update: .modified)
+        }
     }
 
     func delete(item: RepositoryObject) throws {

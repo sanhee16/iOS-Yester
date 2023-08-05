@@ -27,12 +27,14 @@ protocol MainViewModelOutput {
 class DefaultMainViewModel: BaseViewModel {
     private let locationRespository: AnyRepository<Location>
     private let weatherService: WeatherService
+    private let locationService: LocationService
     var items: Observable<[WeatherItem]> = Observable([])
     var isLoading: Observable<Bool> = Observable(false)
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService) {
+    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
+        self.locationService = locationService
         super.init(coordinator)
     }
     
@@ -67,7 +69,6 @@ extension DefaultMainViewModel: MainViewModel {
         if self.isLoading.value || item.isLoaded {
             return
         }
-        print("load: \(item)")
         self.isLoading.value = true
         let location = item.location
         Publishers.Zip(
@@ -94,12 +95,15 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func getLocations() {
+        if self.isLoading.value {
+            return
+        }
+        self.isLoading.value = true
         let previousItems = self.items.value
         var newItems: [WeatherItem] = []
         self.items.value.removeAll()
         
-        
-        locationRespository.getAll().forEach { location in
+        self.locationRespository.getAll().forEach { location in
             if let idx = previousItems.firstIndex(where: { item in
                 item.location == location
             }) {
@@ -109,5 +113,6 @@ extension DefaultMainViewModel: MainViewModel {
             }
         }
         self.items.value = newItems
+        self.isLoading.value = false
     }
 }
