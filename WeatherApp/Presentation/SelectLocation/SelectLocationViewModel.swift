@@ -58,19 +58,31 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func onClickSearch() {
+        if self.name.value.isEmpty || self.name.value == " " {
+            return
+        }
+        
         self.isSearching.value = true
         self.selectedItem.value = nil
-        self.weatherService.getGeocoding(name.value)
-            .run(in: &self.subscription) {[weak self] response in
-                guard let self = self else { return }
-                self.results.value = response.value ?? []
-//                print("success: \(response.value)")
-//                print("error?: \(response.error)")
-            } complete: {[weak self] in
-                guard let self = self else { return }
-                self.isSearching.value = false
-                print("complete")
-            }
+        
+        Publishers.Zip(
+            self.weatherService.getGeocoding("\(name.value),\(Utils.regionCode())"),
+            self.weatherService.getGeocoding(name.value)
+        )
+        .run(in: &self.subscription) {[weak self] (res1, res2) in
+            guard let self = self else { return }
+            self.results.value = res1.value ?? []
+            let result2 = res2.value?.filter({ geo in
+                !self.results.value.contains { i in
+                    i.lat == geo.lat && i.lon == geo.lon
+                }
+            })
+            self.results.value.append(contentsOf: result2 ?? [])
+        } complete: {[weak self] in
+            guard let self = self else { return }
+            self.isSearching.value = false
+            print("complete")
+        }
     }
     
     func onClickSearchMyLocation() {
