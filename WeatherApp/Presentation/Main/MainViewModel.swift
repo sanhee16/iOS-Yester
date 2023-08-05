@@ -103,7 +103,7 @@ extension DefaultMainViewModel: MainViewModel {
         var newItems: [WeatherItem] = []
         self.items.value.removeAll()
         
-        self.locationRespository.getAll().forEach { location in
+        Defaults.locations.forEach { location in
             if let idx = previousItems.firstIndex(where: { item in
                 item.location == location
             }) {

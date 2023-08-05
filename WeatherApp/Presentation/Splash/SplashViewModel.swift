@@ -24,7 +24,8 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let weatherService: WeatherService
     let locationService: LocationService
     let locationRespository: AnyRepository<Location>
-        
+    let isDoneCnt: Observable<Int> = Observable(0)
+    
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
@@ -37,15 +38,30 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     }
     
     func viewDidLoad() {
-        self.getLocations()
+        self.isDoneCnt.observe(on: self) {[weak self] isDoneCnt in
+            print("isDoneCnt = \(isDoneCnt)")
+            if isDoneCnt == 2 {
+                self?.coordinator.presentMainView()
+            }
+        }
+        
+        self.setCurrentLocation()
+        self.getDefaultsLocations()
     }
     
     func bind() {
         
     }
     
+    func getDefaultsLocations() {
+        Defaults.locations.removeAll()
+        self.locationRespository.getAll().forEach { location in
+            Defaults.locations.append(location)
+        }
+        isDoneCnt.value += 1
+    }
     
-    func getLocations() {
+    func setCurrentLocation() {
         self.locationService.requestLocation {[weak self] coordinate in
             guard let self = self else { return }
             self.weatherService.getReverseGeocoding(coordinate)
@@ -63,7 +79,8 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                     }
                 } complete: { [weak self] in
                     guard let self = self else { return }
-                    self.coordinator.presentMainView()
+                    print("complete!")
+                    isDoneCnt.value += 1
                 }
         }
     }

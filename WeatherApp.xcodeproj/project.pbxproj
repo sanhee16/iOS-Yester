@@ -25,6 +25,7 @@
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
+		266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26703D312A6161DD007E5717 /* Assets.xcassets */; };
 		26703D182A6160E5007E5717 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D172A6160E5007E5717 /* WeatherAppTests.swift */; };
 		26703D222A6160E5007E5717 /* WeatherAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D212A6160E5007E5717 /* WeatherAppUITests.swift */; };
 		26703D242A6160E5007E5717 /* WeatherAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D232A6160E5007E5717 /* WeatherAppUITestsLaunchTests.swift */; };
@@ -520,6 +521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				265BF3142A7D3BB60087ADDA /* splash.json in Resources */,
+				266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */,
 				2671F8E02A7CA1A800171F52 /* progressing.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

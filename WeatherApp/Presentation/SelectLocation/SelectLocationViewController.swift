@@ -28,18 +28,6 @@ class SelectLocationViewController: BaseViewController {
         return button
     }()
     
-    private let myLocationButton: UIButton = {
-        let button = UIButton()
-        
-        button.setTitle("내 위치로 찾기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.orange.withAlphaComponent(0.3)
-        button.layer.cornerRadius = 10
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-        
-        return button
-    }()
-    
     private let searchView: UIStackView = {
         let stackView = UIStackView()
         
@@ -142,7 +130,6 @@ class SelectLocationViewController: BaseViewController {
         }
         
         searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
-        myLocationButton.addTarget(self, action: #selector(self.onClickSearchMyLocation), for: .touchUpInside)
         selectButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
         
         self.navigationItem.searchController = searchController
@@ -158,7 +145,7 @@ class SelectLocationViewController: BaseViewController {
         [searchView].forEach {
             self.view.addSubview($0)
         }
-        [searchButton, myLocationButton, searchingLabel, tableView, selectButton].forEach {
+        [searchButton, searchingLabel, tableView, selectButton].forEach {
             self.searchView.addArrangedSubview($0)
         }
     }

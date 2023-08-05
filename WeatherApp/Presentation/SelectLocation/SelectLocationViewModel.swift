@@ -54,7 +54,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func viewDidLoad() {
-        self.existItems = self.locationRespository.getAll()
+        self.existItems = Defaults.locations
     }
     
     func onClickSearch() {

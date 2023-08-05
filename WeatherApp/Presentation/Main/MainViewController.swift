@@ -29,7 +29,6 @@ class MainViewController: BaseViewController {
         return lottieVC
     }()
     
-    
     init(vm: VM) {
         self.vm = vm
         self.items = []
@@ -73,11 +72,11 @@ class MainViewController: BaseViewController {
         vm.isLoading.observe(on: self) { [weak self] isLoading in
             guard let self = self else { return }
             self.lottieVC.view.isHidden = !isLoading
+            self.pageVC.view.isHidden = isLoading
         }
     }
     
     override func viewDidLoad() {
-        print("viewDidLoad")
         super.viewDidLoad()
         self.addSubViews()
         
@@ -90,7 +89,6 @@ class MainViewController: BaseViewController {
     
     private func reloadPages() {
         self.pageVC.setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
-        print("pages count: \(self.pages.count)")
         self.pageVC.view.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
