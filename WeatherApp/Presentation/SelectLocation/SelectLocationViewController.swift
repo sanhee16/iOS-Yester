@@ -155,10 +155,6 @@ class SelectLocationViewController: BaseViewController {
         vm.onClickSearch()
     }
     
-    @objc private func onClickSearchMyLocation() {
-        print("onClickSearchMyLocation")
-        vm.onClickSearchMyLocation()
-    }
     @objc private func onClickAddLocation() {
         print("onClickAddLocation")
         vm.onClickAddLocation()

@@ -11,6 +11,8 @@ import CoreLocation
 class LocationService: NSObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     var completionHandler: ((CLLocationCoordinate2D) -> (Void))?
+    var errorHandler: ((Error) -> (Void))?
+    let authorStauts: Observable<CLAuthorizationStatus?> = Observable(nil)
     
     override init() {
         super.init()
@@ -22,8 +24,9 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     }
     
     //위치 정보 요청 - 정보 요청이 성공하면 실행될 completionHandler를 등록
-    func requestLocation(completion: @escaping ((CLLocationCoordinate2D) -> (Void))) {
+    func requestLocation(completion: @escaping ((CLLocationCoordinate2D) -> (Void)), error: @escaping ((Error) -> (Void))) {
         completionHandler = completion
+        errorHandler = error
         manager.requestLocation()
     }
     
@@ -52,5 +55,24 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
+        errorHandler?(error)
     }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways {
+            print("locationManager() :: 위치 사용 권한 항상 허용]")
+        }
+        if status == .authorizedWhenInUse {
+            print("locationManager() :: 위치 사용 권한 앱 사용 시 허용]")
+        }
+        if status == .denied {
+            print("locationManager() :: 위치 사용 권한 거부]")
+        }
+        if status == .restricted || status == .notDetermined {
+            print("locationManager() :: 위치 사용 권한 대기 상태]")
+        }
+        authorStauts.value = status
+    }
+    
+    
 }

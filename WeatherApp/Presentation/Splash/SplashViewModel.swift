@@ -25,10 +25,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let locationService: LocationService
     let locationRespository: AnyRepository<Location>
     
+    let onCompleteSetCurrentLocation: CurrentValueSubject<Bool, Error>
+    
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
         self.locationService = locationService
+        
+        self.onCompleteSetCurrentLocation = CurrentValueSubject<Bool, Error>(true)
         super.init(coordinator)
     }
     
@@ -37,10 +41,40 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     }
     
     func viewDidLoad() {
-        self.setCurrentLocation()
+        self.bind()
+        self.locationService.authorStauts.observe(on: self) {[weak self] status in
+            switch status {
+            case .denied:
+                print("TODO: 거절 alert 만든 후 앱 종료 or 권한 창 다시 띄우기")
+                break
+            case .authorizedAlways, .authorizedWhenInUse:
+                self?.setCurrentLocation()
+                break
+            default:
+                break
+            }
+        }
     }
     
     func bind() {
+        self.onCompleteSetCurrentLocation
+            .sink {[weak self] completion in
+                switch completion {
+                case .failure:
+                    print("Error가 발생하였습니다.")
+                    
+                case .finished:
+                    print("finished")
+                    self?.getDefaultsLocations()
+                }
+            } receiveValue: {[weak self] isDone in
+                if isDone {
+                    print("isDone")
+                    self?.getDefaultsLocations()
+                } else {
+                    print("Error가 발생하였습니다.")
+                }
+            }
         
     }
     
@@ -48,8 +82,8 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
         Defaults.locations.removeAll()
         self.locationRespository.getAll().forEach { location in
             Defaults.locations.append(location)
+            self.coordinator.presentMainView()
         }
-        self.coordinator.presentMainView()
     }
     
     func setCurrentLocation() {
@@ -68,10 +102,13 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                         let location = Location(lat: res.lat, lon: res.lon, isStar: false, isCurrent: true, name: res.localName)
                         try? self.locationRespository.insert(item: location)
                     }
+                    self.onCompleteSetCurrentLocation.send(completion: .finished)
                 } complete: { [weak self] in
                     guard let self = self else { return }
-                    self.getDefaultsLocations()
                 }
+        } error: {[weak self] err in
+            print("err!!: \(err)")
+            self?.onCompleteSetCurrentLocation.send(false)
         }
     }
 }

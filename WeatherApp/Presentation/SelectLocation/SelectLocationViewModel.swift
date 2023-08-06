@@ -21,7 +21,6 @@ protocol SelectLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickSearch()
-    func onClickSearchMyLocation()
     func onClickAddLocation()
 }
 
@@ -82,26 +81,6 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
             guard let self = self else { return }
             self.isSearching.value = false
             print("complete")
-        }
-    }
-    
-    func onClickSearchMyLocation() {
-        self.isSearching.value = true
-        self.selectedItem.value = nil
-        self.results.value.removeAll()
-        self.name.value.removeAll()
-        
-        self.locationService.requestLocation {[weak self] coordinate in
-            guard let self = self else { return }
-            
-            self.weatherService.getReverseGeocoding(coordinate)
-                .run(in: &self.subscription) { [weak self] response in
-                    guard let self = self else { return }
-                    self.results.value = response.value ?? []
-                } complete: {[weak self] in
-                    guard let self = self else { return }
-                    self.isSearching.value = false
-                }
         }
     }
     
