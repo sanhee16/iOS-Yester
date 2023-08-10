@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		261677C02A84C0940038DE5D /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 261677BF2A84C0940038DE5D /* FlexLayout */; };
+		261677C22A84C0940038DE5D /* FlexLayoutYoga in Frameworks */ = {isa = PBXBuildFile; productRef = 261677C12A84C0940038DE5D /* FlexLayoutYoga */; };
+		261677C42A84C0940038DE5D /* FlexLayoutYogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 261677C32A84C0940038DE5D /* FlexLayoutYogaKit */; };
+		261677C72A84C0A20038DE5D /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 261677C62A84C0A20038DE5D /* PinLayout */; };
 		2617AF442A74A4100089118A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2617AF432A74A4100089118A /* NavigationController.swift */; };
 		265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840702A628B72009F2CC4 /* BaseViewController.swift */; };
 		265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265840732A629B55009F2CC4 /* SampleViewModel.swift */; };
@@ -132,9 +136,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2671F8DE2A7CA12400171F52 /* Lottie in Frameworks */,
+				261677C22A84C0940038DE5D /* FlexLayoutYoga in Frameworks */,
 				2680B62A2A6BCC8A009031AE /* Alamofire in Frameworks */,
+				261677C72A84C0A20038DE5D /* PinLayout in Frameworks */,
 				265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */,
+				261677C02A84C0940038DE5D /* FlexLayout in Frameworks */,
 				267391C82A65094900F1DC2D /* RealmSwift in Frameworks */,
+				261677C42A84C0940038DE5D /* FlexLayoutYogaKit in Frameworks */,
 				267391C62A65094900F1DC2D /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +433,10 @@
 				2680B6292A6BCC8A009031AE /* Alamofire */,
 				265C2DBB2A71ED9300028A01 /* SnapKit */,
 				2671F8DD2A7CA12400171F52 /* Lottie */,
+				261677BF2A84C0940038DE5D /* FlexLayout */,
+				261677C12A84C0940038DE5D /* FlexLayoutYoga */,
+				261677C32A84C0940038DE5D /* FlexLayoutYogaKit */,
+				261677C62A84C0A20038DE5D /* PinLayout */,
 			);
 			productName = WeatherApp;
 			productReference = 26703CFD2A6160E4007E5717 /* WeatherApp.app */;
@@ -503,6 +515,8 @@
 				2680B6282A6BCC8A009031AE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2671F8DC2A7CA12300171F52 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				261677BE2A84C0940038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */,
+				261677C52A84C0A20038DE5D /* XCRemoteSwiftPackageReference "PinLayout" */,
 			);
 			productRefGroup = 26703CFE2A6160E4007E5717 /* Products */;
 			projectDirPath = "";
@@ -929,6 +943,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		261677BE2A84C0940038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/FlexLayout.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		261677C52A84C0A20038DE5D /* XCRemoteSwiftPackageReference "PinLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/PinLayout.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -964,6 +994,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		261677BF2A84C0940038DE5D /* FlexLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677BE2A84C0940038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayout;
+		};
+		261677C12A84C0940038DE5D /* FlexLayoutYoga */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677BE2A84C0940038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYoga;
+		};
+		261677C32A84C0940038DE5D /* FlexLayoutYogaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677BE2A84C0940038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYogaKit;
+		};
+		261677C62A84C0A20038DE5D /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677C52A84C0A20038DE5D /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
+		};
 		265C2DBB2A71ED9300028A01 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */;
