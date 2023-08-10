@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WeatherItem: Equatable {
-    static func == (lhs: WeatherItem, rhs: WeatherItem) -> Bool {
+struct WeatherCardItem: Equatable {
+    static func == (lhs: WeatherCardItem, rhs: WeatherCardItem) -> Bool {
         return lhs.location == rhs.location
     }
     var location: Location
