@@ -25,14 +25,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let locationService: LocationService
     let locationRespository: AnyRepository<Location>
     
-    let onCompleteSetCurrentLocation: CurrentValueSubject<Bool, Error>
+    let onCompleteSetCurrentLocation: CurrentValueSubject<Bool?, Error>
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
         self.locationService = locationService
         
-        self.onCompleteSetCurrentLocation = CurrentValueSubject<Bool, Error>(true)
+        self.onCompleteSetCurrentLocation = CurrentValueSubject<Bool?, Error>(nil)
         super.init(coordinator)
     }
     
@@ -58,27 +58,22 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     func bind() {
         self.onCompleteSetCurrentLocation
-            .sink {[weak self] completion in
-                switch completion {
-                case .failure:
-                    print("Error가 발생하였습니다.")
-                    
-                case .finished:
-                    print("finished")
-                    self?.getDefaultsLocations()
-                }
+            .sink { completion in
+                
             } receiveValue: {[weak self] isDone in
+                guard let isDone = isDone else { return }
                 if isDone {
-                    print("isDone")
+                    print("[SPLASH] isDone")
                     self?.getDefaultsLocations()
                 } else {
-                    print("Error가 발생하였습니다.")
+                    print("[SPLASH] Error가 발생하였습니다.")
                 }
             }
-        
+            .store(in: &self.subscription)
     }
     
     func getDefaultsLocations() {
+        print("[SPLASH] getDefaultsLocations")
         Defaults.locations.removeAll()
         self.locationRespository.getAll().forEach { location in
             Defaults.locations.append(location)
@@ -87,11 +82,17 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     }
     
     func setCurrentLocation() {
+        print("[SPLASH] setCurrentLocation")
         self.locationService.requestLocation {[weak self] coordinate in
             guard let self = self else { return }
+            print("[SPLASH] requestLocation: coordinate: \(coordinate)")
             self.weatherService.getReverseGeocoding(coordinate)
                 .run(in: &self.subscription) {[weak self] response in
-                    guard let self = self, let res = response.value?.first else { return }
+                    guard let self = self, let res = response.value?.first else {
+                        print("[SPLASH] requestLocation ERR")
+                        return
+                    }
+                    print("[SPLASH] getReverseGeocoding")
                     if self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == true")).count > 0 {
                         var currentItem = self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == true")).first!
                         currentItem.lat = res.lat
@@ -102,13 +103,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                         let location = Location(lat: res.lat, lon: res.lon, isStar: false, isCurrent: true, name: res.localName)
                         try? self.locationRespository.insert(item: location)
                     }
-                    self.onCompleteSetCurrentLocation.send(completion: .finished)
+                    self.onCompleteSetCurrentLocation.value = true
                 } complete: { [weak self] in
                     guard let self = self else { return }
+                    print("[SPLASH] requestLocation complete")
                 }
         } error: {[weak self] err in
-            print("err!!: \(err)")
-            self?.onCompleteSetCurrentLocation.send(false)
+            print("[SPLASH] err!!: \(err)")
+            self?.onCompleteSetCurrentLocation.value = false
         }
     }
 }
