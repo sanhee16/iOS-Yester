@@ -47,21 +47,17 @@ class DefaultMainViewModel: BaseViewModel {
 
 extension DefaultMainViewModel: MainViewModel {
     func viewDidLoad() {
-        self.setLocations()
-        self.updateWeather(items.value[0])
     }
     
     func viewWillAppear() {
-
+        self.setLocations()
+        self.updateWeather(items.value[0])
     }
     
     func onClickAddLocation() {
         coordinator.presentSelectLocation()
     }
     
-    //TODO: 여기 밑에 items 업데이트 어떻게 할건지 수정해야함
-    // 카드 넘길때마다 정보가 없으면 api 호출
-    // 여기를 다음것 까지 미리 업데이트 할까???
     func updateWeather(_ item: WeatherCardItem) {
         guard let idx = self.items.value.firstIndex(where: { a in
             a == item
