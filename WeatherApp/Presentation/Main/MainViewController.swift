@@ -148,7 +148,6 @@ extension MainViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
             if self.pages[self.currentIdx].item == nil { return }
-            print("complete: \(self.currentIdx)")
         }
     }
 }

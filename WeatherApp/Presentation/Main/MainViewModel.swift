@@ -77,14 +77,14 @@ extension DefaultMainViewModel: MainViewModel {
             threeHourlyResponse: DataResponse<ThreeHourlyResponse, NetworkError>
         ) in
             guard let self = self, let wr = weatherResponse.value, let th = threeHourlyResponse.value else {
-                self?.items.value[idx] = WeatherCardItem(location: location,  currentWeather: nil, dailyWeather: [], ThreeHourly: [], isLoaded: true)
+                self?.items.value[idx] = WeatherCardItem(location: location,  currentWeather: nil, dailyWeather: [], threeHourly: [], isLoaded: true)
                 return
             }
             let currentWeather = wr.current
             let dailyWeather = wr.daily
             let threeHourly = th.list
 
-            self.items.value[idx] = WeatherCardItem(location: location, currentWeather: currentWeather, dailyWeather: dailyWeather, ThreeHourly: threeHourly, isLoaded: true)
+            self.items.value[idx] = WeatherCardItem(location: location, currentWeather: currentWeather, dailyWeather: dailyWeather, threeHourly: threeHourly, isLoaded: true)
             self.isProgressing.value = false
         } complete: {[weak self] in
             guard let self = self else { return }
@@ -107,7 +107,7 @@ extension DefaultMainViewModel: MainViewModel {
             }) {
                 newItems.append(previousItems[idx])
             } else {
-                newItems.append(WeatherCardItem(location: location,  currentWeather: nil, dailyWeather: [], ThreeHourly: [], isLoaded: false))
+                newItems.append(WeatherCardItem(location: location,  currentWeather: nil, dailyWeather: [], threeHourly: [], isLoaded: false))
             }
         }
         self.items.value = newItems

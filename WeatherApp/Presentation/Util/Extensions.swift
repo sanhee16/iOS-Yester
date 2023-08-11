@@ -95,3 +95,62 @@ extension UIColor {
     public static let unknown60: UIColor = UIColor(hex: "#76A5FF", opacity: 0.4)
 
 }
+
+
+extension UIFont {
+    public static let en6: UIFont = UIFont.systemFont(ofSize: 6)
+    public static let en7: UIFont = UIFont.systemFont(ofSize: 7)
+    public static let en8: UIFont = UIFont.systemFont(ofSize: 8)
+    public static let en9: UIFont = UIFont.systemFont(ofSize: 9)
+    
+    public static let en10: UIFont = UIFont.systemFont(ofSize: 10)
+    public static let en12: UIFont = UIFont.systemFont(ofSize: 12)
+    public static let en14: UIFont = UIFont.systemFont(ofSize: 14)
+    public static let en16: UIFont = UIFont.systemFont(ofSize: 16)
+    public static let en18: UIFont = UIFont.systemFont(ofSize: 18)
+    
+    public static let en20: UIFont = UIFont.systemFont(ofSize: 20)
+    public static let en22: UIFont = UIFont.systemFont(ofSize: 22)
+    public static let en24: UIFont = UIFont.systemFont(ofSize: 24)
+    public static let en26: UIFont = UIFont.systemFont(ofSize: 26)
+    public static let en28: UIFont = UIFont.systemFont(ofSize: 28)
+    
+    public static let en30: UIFont = UIFont.systemFont(ofSize: 30)
+    public static let en32: UIFont = UIFont.systemFont(ofSize: 32)
+    public static let en34: UIFont = UIFont.systemFont(ofSize: 34)
+    public static let en36: UIFont = UIFont.systemFont(ofSize: 36)
+    public static let en38: UIFont = UIFont.systemFont(ofSize: 38)
+    
+    public static let en40: UIFont = UIFont.systemFont(ofSize: 40)
+    public static let en42: UIFont = UIFont.systemFont(ofSize: 42)
+    public static let en44: UIFont = UIFont.systemFont(ofSize: 44)
+    public static let en46: UIFont = UIFont.systemFont(ofSize: 46)
+    public static let en48: UIFont = UIFont.systemFont(ofSize: 48)
+}
+
+extension UIImage {
+    func resized(withPercentage percentage: CGFloat, isOpaque: Bool = true) -> UIImage? {
+        let newSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { context in
+            draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
+
+    func resized(toWidth width: CGFloat, isOpaque: Bool = true) -> UIImage? {
+        let scale = width / size.width
+        let newHeight = size.height * scale
+        let newSize = CGSize(width: width, height: newHeight)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { context in
+            draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
+    
+    func resized(toSize newSize: CGSize, isOpaque: Bool = true) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { context in
+            draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
+}

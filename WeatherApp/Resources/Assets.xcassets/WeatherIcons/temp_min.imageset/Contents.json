@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "09n.png",
+      "filename" : "temp_min.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "09n@2x.png",
+      "filename" : "temp_min@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "09n@3x.png",
+      "filename" : "temp_min@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

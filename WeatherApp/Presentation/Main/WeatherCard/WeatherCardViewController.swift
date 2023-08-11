@@ -8,71 +8,32 @@
 import Foundation
 import UIKit
 import SnapKit
+import SwiftUI
+import PinLayout
+import FlexLayout
 
 class WeatherCardViewController: UIViewController {
     typealias VM = MainViewModel
     private let vm: VM
     
     var item: WeatherCardItem?
+    var isAddCard: Bool {
+        item == nil
+    }
     
-    let addButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
-        let addImageBold = UIImage(systemName: "plus", withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        button.setImage(addImageBold, for: .normal)
-        return button
-    }()
+    let addButton: UIButton = UIButton()
     
-    let info: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        
-        return label
-    }()
-    
-    let cardHeader: UIStackView = {
-        let stackView = UIStackView()
-        
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.backgroundColor = .white.withAlphaComponent(0.5)
-        stackView.layer.cornerRadius = 6
-        stackView.isLayoutMarginsRelativeArrangement = true
-
-        stackView.layoutMargins = UIEdgeInsets(top: 6.0, left: 12.0, bottom: 6.0, right: 12.0)
-
-        return stackView
-    }()
-     
+    private lazy var rootFlexContainer: UIView = UIView()
     // Header
-    private lazy var currentTempLabel: UILabel = {
-        let label = UILabel()
-        label.text = "currentTempLabel"
-        return label
-    }()
-    
-    private lazy var locationNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "locationNameLabel"
-        return label
-    }()
-    
-    private let cardView: UIStackView = {
-        let stackView = UIStackView()
-        
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.spacing = 8
-        stackView.backgroundColor = .white.withAlphaComponent(0.14)
-        stackView.layer.cornerRadius = 16
-        return stackView
-    }()
+    private lazy var currentTempLabel: UILabel = UILabel()
+    private lazy var currentDescriptionLabel: UILabel = UILabel()
+    private lazy var currentWeatherImage: UIImageView = UIImageView()
+    private lazy var locationLabel: UILabel = UILabel()
+    private lazy var tempDescription: UILabel = UILabel()
     
     init(vm: VM, item: WeatherCardItem?) {
         self.vm = vm
         self.item = item
-        print("[WeatherCardVC] init: \(item?.location)")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -82,74 +43,87 @@ class WeatherCardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addSubViews()
+        self.setLayout()
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        rootFlexContainer.flex.layout()
+    }
+    
+    private func setLayout() {
+        view.addSubview(rootFlexContainer)
         
-        self.cardView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.bottom.equalToSuperview()
-        }
+        rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
+        rootFlexContainer.flex.cornerRadius(16)
         
-        if let item = self.item {
-            addHeader(item)
+        if let item = self.item, let currentWeather = item.currentWeather {
+            let daily = item.dailyWeather
+            let hourly = item.threeHourly
+            
+            rootFlexContainer.flex
+                .padding(16)
+                .define { flex in
+                    // HEADER
+                    flex.addItem()
+                        .direction(.row)
+                        .justifyContent(.spaceBetween)
+                        .padding(0)
+                        .define { flex in
+                            flex.addItem()
+                                .direction(.column)
+                                .define { flex in
+                                    currentTempLabel.font = .en38
+                                    currentTempLabel.text = String(format: "%.1f", currentWeather.temp)
+                                    
+                                    currentDescriptionLabel.font = .en20
+                                    currentDescriptionLabel.text = currentWeather.weather.first?.description
+                                    
+                                    currentWeatherImage.contentMode = .scaleAspectFit
+                                    currentWeatherImage.image = UIImage(named: currentWeather.weather.first?.icon ?? "")?.resized(toWidth: 80.0)
+                                    
+                                    locationLabel.font = .en16
+                                    locationLabel.text = item.location.name
+                                    
+                                    flex.addItem(currentTempLabel)
+                                    flex.addItem(currentDescriptionLabel)
+                                    flex.addItem()
+                                        .direction(.row)
+                                        .marginTop(20)
+                                        .define { flex in
+                                            flex.addItem(locationLabel)
+                                            if item.location.isCurrent {
+                                                let locationImage: UIImageView = UIImageView()
+                                                locationImage.contentMode = .scaleAspectFit
+                                                locationImage.image = UIImage(systemName: "location.fill")?.resized(toWidth: 15)
+                                                flex.addItem(locationImage).marginLeft(4)
+                                            }
+                                        }
+                                    
+                                    tempDescription.font = .en16
+                                    tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
+                                    flex.addItem(tempDescription).marginTop(2)
+                                }
+                            flex.addItem(currentWeatherImage).alignSelf(.start)
+                        }
+                }
         } else {
-            addAddButton()
+            rootFlexContainer.flex
+                .justifyContent(.center)
+                .define { flex in
+                    let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+                    let addImageBold = UIImage(systemName: "plus", withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+                    addButton.setImage(addImageBold, for: .normal)
+                    addButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
+                    
+                    flex.addItem(addButton)
+                }
         }
     }
-    
-    private func addSubViews() {
-        [cardView, cardHeader].forEach {
-            self.view.addSubview($0)
-        }
-        
-        [currentTempLabel, locationNameLabel].forEach {
-            self.cardHeader.addArrangedSubview($0)
-        }
-    }
-    
-    private func addHeader(_ item: WeatherCardItem) {
-        self.cardHeader.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
-            make.leading.trailing.equalToSuperview().inset(30)
-        }
-        if let currentWeather = item.currentWeather {
-            self.currentTempLabel.text = String(format: "%.2f", currentWeather.temp)
-        } else {
-            self.currentTempLabel.text = ""
-        }
-        
-        self.currentTempLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        
-        self.locationNameLabel.text = "\(item.location.name)"
-        self.locationNameLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.currentTempLabel.snp.bottom)
-        }
-    }
-    
-    private func addAddButton() {
-        [addButton].forEach {
-            self.cardView.addArrangedSubview($0)
-        }
-        self.addButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-        
-        self.addButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
-    }
-    
+            
     @objc func onClickAddLocation() {
         vm.onClickAddLocation()
     }
-    
-//    @objc func onClickDelete() {
-//        guard let item = self.item else { return }
-//        vm.onClickDelete(location: item.location)
-//    }
-//
-//    @objc func onClickStar() {
-//        guard let item = self.item else { return }
-//        vm.onClickStar(location: item.location)
-//    }
 }
