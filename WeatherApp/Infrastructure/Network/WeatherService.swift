@@ -64,7 +64,7 @@ extension WeatherService: WeatherServiceProtocol {
         let params: [String: Any] = [
             "lat": location.lat,
             "lon": location.lon,
-            "exclude": "minutely, hourly", // current, minutely, hourly, daily, alerts
+            "exclude": "minutely", // current, minutely, hourly, daily, alerts
             "units": "metric", // standard, metric(섭씨), imperial(화씨)
             "lang": "en"
         ]as Parameters

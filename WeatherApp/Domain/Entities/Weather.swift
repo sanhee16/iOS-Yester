@@ -32,17 +32,20 @@ public struct Weather: Codable {
 //MARK: OneCall
 public struct WeatherResponse: Codable {
     var current: Current // Current
-    var daily: [Daily] // Weekly
+    var daily: [DailyWeather] // Daily
+    var hourly: [HourlyWeather] // Hourly
     
     enum CodingKeys: String, CodingKey {
         case current
         case daily
+        case hourly
     }
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         current = try values.decode(Current.self, forKey: .current)
-        daily = try values.decode([Daily].self, forKey: .daily)
+        daily = try values.decode([DailyWeather].self, forKey: .daily)
+        hourly = try values.decode([HourlyWeather].self, forKey: .hourly)
     }
 }
 
@@ -111,7 +114,7 @@ public struct Temp: Codable {
     }
 }
 
-public struct Daily: Codable {
+public struct DailyWeather: Codable {
     var dt: Int // 시간
     var temp: Temp // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
@@ -139,6 +142,33 @@ public struct Daily: Codable {
     }
 }
 
+public struct HourlyWeather: Codable {
+    var dt: Int // 시간
+    var temp: Double // 온도 정보
+    var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
+    var weather: [Weather]
+    var pop: Double // 강수확률
+    var uvi: Double // 자외선
+    
+    enum CodingKeys: String, CodingKey {
+        case dt
+        case temp
+        case windSpeed = "wind_speed"
+        case weather
+        case pop
+        case uvi
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        dt = try values.decode(Int.self, forKey: .dt)
+        temp = try values.decode(Double.self, forKey: .temp)
+        windSpeed = try values.decode(Double.self, forKey: .windSpeed)
+        weather = try values.decode([Weather].self, forKey: .weather)
+        pop = try values.decode(Double.self, forKey: .pop)
+        uvi = try values.decode(Double.self, forKey: .uvi)
+    }
+}
 
 //MARK: 3 hours in 5 days
 public struct ThreeHourlyResponse: Codable {
