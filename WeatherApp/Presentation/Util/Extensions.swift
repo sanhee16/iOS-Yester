@@ -20,6 +20,10 @@ extension String {
             return self
         }
     }
+    
+    func localized(_ argu: [CVarArg] = []) -> String {
+        String(format: NSLocalizedString(self, comment: ""), arguments: argu)
+    }
 }
 
 extension Publisher {

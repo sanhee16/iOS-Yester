@@ -284,7 +284,8 @@ class WeatherCardViewController: UIViewController {
                             }
                         
                         tempDescription.font = .en16
-                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
+                        tempDescription.text = "tempDescription".localized([daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like])
+//                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
                         flex.addItem(tempDescription).marginTop(2)
                     }
                 flex.addItem(currentWeatherImage).alignSelf(.start)

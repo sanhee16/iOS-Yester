@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by sandy on 2023/08/17.
+  
+*/
+"today" = "오늘";
+"feels_like" = "Feels Like";
+"rain_fall" = "강수확률";
+"uv" = "자외선";
+"sunset" = "일몰";
+"humidity" = "습도";
+"wind" = "풍속";
+
+"tempDescription" = "%.1f / %.1f  체감 온도 %.1f";
