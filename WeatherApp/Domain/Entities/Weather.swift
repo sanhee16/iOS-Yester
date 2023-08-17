@@ -46,6 +46,7 @@ public struct WeatherResponse: Codable {
         current = try values.decode(Current.self, forKey: .current)
         daily = try values.decode([DailyWeather].self, forKey: .daily)
         hourly = try values.decode([HourlyWeather].self, forKey: .hourly)
+        hourly = Array(hourly.count > 19 ? hourly[0...18] : hourly[0..<hourly.count])
     }
 }
 
