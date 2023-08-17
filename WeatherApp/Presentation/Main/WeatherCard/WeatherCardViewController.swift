@@ -24,6 +24,10 @@ class WeatherCardViewController: UIViewController {
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     
+    //Card
+    fileprivate lazy var cardScrollView: UIScrollView = UIScrollView()
+    fileprivate lazy var cardContentView: UIView = UIView()
+    
     // Header
     private lazy var currentTempLabel: UILabel = UILabel()
     private lazy var currentDescriptionLabel: UILabel = UILabel()
@@ -53,7 +57,7 @@ class WeatherCardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-
+    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -64,6 +68,17 @@ class WeatherCardViewController: UIViewController {
         
         rootFlexContainer.pin.all(view.pin.safeArea)
         rootFlexContainer.flex.layout()
+        
+        // cardScrollView
+        cardScrollView.pin.all()
+        
+        cardContentView.flex.layout(mode: .adjustHeight)
+        cardScrollView.contentSize = cardContentView.frame.size
+        
+        cardScrollView.showsVerticalScrollIndicator = false
+        cardScrollView.showsHorizontalScrollIndicator = false
+        cardScrollView.alwaysBounceVertical = false
+        cardScrollView.alwaysBounceHorizontal = false
         
         // hourlyScrollView
         hourlyScrollView.pin
@@ -83,6 +98,7 @@ class WeatherCardViewController: UIViewController {
     private func setLayout() {
         view.addSubview(rootFlexContainer)
         hourlyScrollView.addSubview(hourlyContentView)
+        cardScrollView.addSubview(cardContentView)
         
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)
@@ -93,15 +109,21 @@ class WeatherCardViewController: UIViewController {
             let threeHourly = item.threeHourly
             
             rootFlexContainer.flex
-                .padding(16)
                 .direction(.column)
                 .define { flex in
-                    // HEADER
-                    drawHeader(flex, item: item, currentWeather: currentWeather, daily: daily)
-                    flex.addItem(hourlyScrollView)
-                    drawWeekly(flex, item: item, dailyList: daily)
+                    // CARD
+                    flex.addItem(cardScrollView)
+                    
+                    cardContentView.flex
+                        .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
+                        .direction(.column)
+                        .define { flex in
+                            // HEADER
+                            drawHeader(flex, item: item, currentWeather: currentWeather, daily: daily)
+                            drawHourly(flex, item: item, hourly: hourly)
+                            drawWeekly(flex, item: item, dailyList: daily)
+                        }
                 }
-            drawHourly(item: item, hourly: hourly)
         } else {
             rootFlexContainer.flex
                 .justifyContent(.center)
@@ -144,13 +166,13 @@ class WeatherCardViewController: UIViewController {
                                     let weatherImage: UIImageView = UIImageView()
                                     let temp: UILabel = UILabel()
                                     let pop: UILabel = UILabel()
-
+                                    
                                     temp.font = .en14
                                     temp.text = String(format: "%.0f  %.0f", daily.temp.max, daily.temp.min)
-
+                                    
                                     pop.font = .en14
                                     pop.text = String(format: "%2d%%", daily.pop)
-
+                                    
                                     weatherImage.contentMode = .scaleAspectFit
                                     weatherImage.image = UIImage(named: daily.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
                                     
@@ -171,54 +193,56 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawHourly(item: WeatherCardItem, hourly: [HourlyWeather]) {
-        hourlyContentView.flex
-            .direction(.row)
-            .justifyContent(.start)
-            .alignItems(.center)
-            .backgroundColor(.white.withAlphaComponent(0.13))
-            .cornerRadius(12)
-            .define { flex in
-                hourly.indices.forEach { idx in
-                    let item = hourly[idx]
-                    flex.addItem()
-                        .direction(.column)
-                        .justifyContent(.center)
-                        .alignItems(.center)
-                        .padding(14)
-                        .define { flex in
-                            let time: UILabel = UILabel()
-                            let image: UIImageView = UIImageView()
-                            let temp: UILabel = UILabel()
-                            let pop: UILabel = UILabel()
-
-                            time.font = .en14
-                            time.text = "\(Utils.intervalToHour(item.dt))"
-
-                            temp.font = .en14
-                            temp.text = String(format: "%.0f", item.temp)
-
-                            pop.font = .en14
-                            pop.text = String(format: "%d%%", item.pop)
-
-                            image.contentMode = .scaleAspectFit
-                            image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
-
-                            flex.addItem(time)
-                            flex.addItem(image)
-                            flex.addItem(temp)
-                            flex.addItem()
-                                .direction(.row)
-                                .alignItems(.center)
-                                .define { flex in
-                                    let waterDrop: UIImageView = UIImageView()
-                                    waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
-                                    flex.addItem(waterDrop)
-                                    flex.addItem(pop)
-                                }
-                        }
+    private func drawHourly(_ flex: Flex, item: WeatherCardItem, hourly: [HourlyWeather]) {
+        flex.addItem(hourlyScrollView).define { flex in
+            hourlyContentView.flex
+                .direction(.row)
+                .justifyContent(.start)
+                .alignItems(.center)
+                .backgroundColor(.white.withAlphaComponent(0.13))
+                .cornerRadius(12)
+                .define { flex in
+                    hourly.indices.forEach { idx in
+                        let item = hourly[idx]
+                        flex.addItem()
+                            .direction(.column)
+                            .justifyContent(.center)
+                            .alignItems(.center)
+                            .padding(14)
+                            .define { flex in
+                                let time: UILabel = UILabel()
+                                let image: UIImageView = UIImageView()
+                                let temp: UILabel = UILabel()
+                                let pop: UILabel = UILabel()
+                                
+                                time.font = .en14
+                                time.text = "\(Utils.intervalToHour(item.dt))"
+                                
+                                temp.font = .en14
+                                temp.text = String(format: "%.0f", item.temp)
+                                
+                                pop.font = .en14
+                                pop.text = String(format: "%d%%", item.pop)
+                                
+                                image.contentMode = .scaleAspectFit
+                                image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
+                                
+                                flex.addItem(time)
+                                flex.addItem(image)
+                                flex.addItem(temp)
+                                flex.addItem()
+                                    .direction(.row)
+                                    .alignItems(.center)
+                                    .define { flex in
+                                        let waterDrop: UIImageView = UIImageView()
+                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                        flex.addItem(waterDrop)
+                                        flex.addItem(pop)
+                                    }
+                            }
+                    }
                 }
-            }
+        }
     }
     
     private func drawHeader(_ flex: Flex, item: WeatherCardItem, currentWeather: Current, daily: [DailyWeather]) {
