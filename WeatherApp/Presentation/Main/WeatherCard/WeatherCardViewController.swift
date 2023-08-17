@@ -109,6 +109,7 @@ class WeatherCardViewController: UIViewController {
             let threeHourly = item.threeHourly
             
             rootFlexContainer.flex
+                .margin(0, 16)
                 .direction(.column)
                 .define { flex in
                     // CARD
@@ -126,6 +127,7 @@ class WeatherCardViewController: UIViewController {
                 }
         } else {
             rootFlexContainer.flex
+                .margin(0, 16)
                 .justifyContent(.center)
                 .define { flex in
                     let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
