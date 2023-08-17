@@ -52,7 +52,18 @@ class WeatherCardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         rootFlexContainer.pin.all(view.pin.safeArea)
+            .margin(PEdgeInsets(top: 10, left: 14, bottom: 0, right: 14))
         rootFlexContainer.flex.layout()
         
         // hourlyScrollView
@@ -68,15 +79,6 @@ class WeatherCardViewController: UIViewController {
         hourlyScrollView.showsHorizontalScrollIndicator = false
         hourlyScrollView.alwaysBounceVertical = false
         hourlyScrollView.alwaysBounceHorizontal = false
-    }
-
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
     }
     
     private func setLayout() {

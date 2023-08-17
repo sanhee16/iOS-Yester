@@ -8,7 +8,9 @@
 import UIKit
 import SwiftUI
 import Combine
-import SnapKit
+//import SnapKit
+import PinLayout
+import FlexLayout
 
 
 class MainViewController: BaseViewController {
@@ -16,8 +18,9 @@ class MainViewController: BaseViewController {
     
     private let vm: VM
     
-    var pageVC: UIPageViewController
-    var pages: [WeatherCardViewController]
+    fileprivate lazy var rootFlexContainer: UIView = UIView()
+    fileprivate var pageVC: UIPageViewController
+    fileprivate var pages: [WeatherCardViewController]
     var currentIdx: Int {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
@@ -37,8 +40,7 @@ class MainViewController: BaseViewController {
             .spineLocation: UIPageViewController.SpineLocation.mid
         ]
         self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
-
-
+        
         super.init()
         self.bind(to: vm)
     }
@@ -55,8 +57,14 @@ class MainViewController: BaseViewController {
                 self.pages.append(WeatherCardViewController(vm: vm, item: item))
             }
             self.pages.append(WeatherCardViewController(vm: vm, item: nil))
-            
             self.loadPages()
+        }
+        
+        vm.onCompleteLoadPage.observe(on: self) {[weak self] isComplete in
+            guard let self = self else { return }
+            if isComplete {
+                self.loadPages()
+            }
         }
         
         vm.isProgressing.observe(on: self) { [weak self] isProgressing in
@@ -68,43 +76,59 @@ class MainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addSubViews()
+        self.navigationItem.hidesBackButton = true
+        self.setLayout()
+        
         vm.viewDidLoad()
+    }
+    
+    private func setLayout() {
+        //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정
+        self.addChild(self.lottieVC)
+        self.addChild(self.pageVC)
         
-        self.view.backgroundColor = .primeColor2
+        //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
+        view.addSubview(rootFlexContainer)
+        view.addSubview(self.lottieVC.view)
         
-        self.pageVC.view.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(40)
-        }
+        view.backgroundColor = .primeColor2
         
-        self.lottieVC.view.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
+        rootFlexContainer.flex
+            .justifyContent(.center)
+            .alignItems(.center)
+            .define { flex in
+                flex.addItem(self.pageVC.view)
+            }
     }
     
     private func loadPages() {
+        // BLOCK 1
         self.pageVC.dataSource = nil
         self.pageVC.dataSource = self
         self.pageVC.delegate = self
-        //TROUBLE_SHOOTING: 위 블럭과 아래 블럭 위치를 바꿨더니 데이터 업데이트가 안되었음
+        
+        self.pageVC.setViewControllers([self.pages[currentIdx]], direction: .forward, animated: false, completion: nil)
+    }
+    
+    private func moveFirstPage() {
+        // BLOCK 2
+        //TROUBLE_SHOOTING: 위 블럭(Block1)과 아래 블럭(Block2) 위치를 바꿨더니 데이터 업데이트가 안되었음
         if let startVC = self.pages.first {
-            self.pageVC.setViewControllers([startVC], direction: .forward, animated: true, completion: nil)
+            self.pageVC.setViewControllers([startVC], direction: .forward, animated: true) { isComplete in
+                startVC.viewWillAppear(true)
+            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         vm.viewWillAppear()
-        self.navigationItem.hidesBackButton = true
-    }
-    
-    private func addSubViews() {
-        self.addChild(self.pageVC)
-        self.addChild(self.lottieVC)
         
-        self.view.addSubview(self.pageVC.view)
-        self.view.addSubview(self.lottieVC.view)
+        // 1. container의 Layout을 먼저 잡아줌
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        
+        // 2. flexbox child를 layout한다(child의 layout을 잡아준다).
+        // default is '.fitContainer'. 자식뷰들이 컨테이너의 크기 안에 배치(child는 container의 크기(width, height)내에 배치된다).
+        rootFlexContainer.flex.layout()
     }
 }
 
@@ -123,14 +147,13 @@ extension MainViewController: UIPageViewControllerDataSource {
         if self.currentIdx >= self.pages.count - 1 {
             return nil
         }
-        
         let nextIdx = self.currentIdx + 1
         if self.pages[nextIdx].item != nil {
             vm.updateWeather(vm.items.value[nextIdx])
         }
         return self.pages[nextIdx]
     }
-
+    
     
     // 인디케이터의 개수
     func presentationCount(for pageViewController: UIPageViewController) -> Int {

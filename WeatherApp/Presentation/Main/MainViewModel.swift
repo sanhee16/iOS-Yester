@@ -50,6 +50,7 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func viewWillAppear() {
+        self.onCompleteLoadPage.value = false
         self.setLocations()
         self.updateWeather(items.value[0])
     }
@@ -86,6 +87,10 @@ extension DefaultMainViewModel: MainViewModel {
             let threeHourly = th.list
 
             self.items.value[idx] = WeatherCardItem(location: location, currentWeather: currentWeather, daily: dailyWeather, hourly: hourlyWeather, threeHourly: threeHourly, isLoaded: true)
+            
+            if !self.onCompleteLoadPage.value {
+                self.onCompleteLoadPage.value = true
+            }
             self.isProgressing.value = false
         } complete: {[weak self] in
             guard let self = self else { return }
@@ -100,8 +105,8 @@ extension DefaultMainViewModel: MainViewModel {
         self.isLoading = true
         let previousItems = self.items.value
         var newItems: [WeatherCardItem] = []
-        self.items.value.removeAll()
-        
+        print("[setLocation] \(Defaults.locations)")
+
         Defaults.locations.forEach { location in
             if let idx = previousItems.firstIndex(where: { item in
                 item.location == location
@@ -111,7 +116,9 @@ extension DefaultMainViewModel: MainViewModel {
                 newItems.append(WeatherCardItem(location: location,  currentWeather: nil, daily: [], hourly:[], threeHourly: [], isLoaded: false))
             }
         }
+//        self.items.value.removeAll()
         self.items.value = newItems
+        print("[setLocation] \(self.items.value)")
         self.isLoading = false
     }
 }
