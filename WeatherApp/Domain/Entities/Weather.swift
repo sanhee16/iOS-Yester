@@ -119,7 +119,7 @@ public struct DailyWeather: Codable {
     var temp: Temp // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
-    var pop: Double // 강수확률
+    var pop: Int // 강수확률
     var uvi: Double // 자외선
     
     enum CodingKeys: String, CodingKey {
@@ -137,7 +137,7 @@ public struct DailyWeather: Codable {
         temp = try values.decode(Temp.self, forKey: .temp)
         windSpeed = try values.decode(Double.self, forKey: .windSpeed)
         weather = try values.decode([Weather].self, forKey: .weather)
-        pop = try values.decode(Double.self, forKey: .pop)
+        pop = Int(try values.decode(Double.self, forKey: .pop) * 100)
         uvi = try values.decode(Double.self, forKey: .uvi)
     }
 }
@@ -147,7 +147,7 @@ public struct HourlyWeather: Codable {
     var temp: Double // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
-    var pop: Double // 강수확률
+    var pop: Int // 강수확률
     var uvi: Double // 자외선
     
     enum CodingKeys: String, CodingKey {
@@ -165,7 +165,7 @@ public struct HourlyWeather: Codable {
         temp = try values.decode(Double.self, forKey: .temp)
         windSpeed = try values.decode(Double.self, forKey: .windSpeed)
         weather = try values.decode([Weather].self, forKey: .weather)
-        pop = try values.decode(Double.self, forKey: .pop)
+        pop = Int(try values.decode(Double.self, forKey: .pop) * 100)
         uvi = try values.decode(Double.self, forKey: .uvi)
     }
 }

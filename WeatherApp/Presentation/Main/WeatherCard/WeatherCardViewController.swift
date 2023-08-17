@@ -63,7 +63,6 @@ class WeatherCardViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         rootFlexContainer.pin.all(view.pin.safeArea)
-            .margin(PEdgeInsets(top: 10, left: 14, bottom: 0, right: 14))
         rootFlexContainer.flex.layout()
         
         // hourlyScrollView
@@ -143,13 +142,13 @@ class WeatherCardViewController: UIViewController {
                             let pop: UILabel = UILabel()
 
                             time.font = .en14
-                            time.text = "\(item.dt)"
+                            time.text = "\(Utils.intervalToHour(item.dt))"
 
                             temp.font = .en14
                             temp.text = String(format: "%.0f", item.temp)
 
                             pop.font = .en14
-                            pop.text = String(format: "%.0f%%", item.pop)
+                            pop.text = String(format: "%d%%", item.pop)
 
                             image.contentMode = .scaleAspectFit
                             image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
@@ -157,7 +156,15 @@ class WeatherCardViewController: UIViewController {
                             flex.addItem(time)
                             flex.addItem(image)
                             flex.addItem(temp)
-                            flex.addItem(pop)
+                            flex.addItem()
+                                .direction(.row)
+                                .alignItems(.center)
+                                .define { flex in
+                                    let waterDrop: UIImageView = UIImageView()
+                                    waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                    flex.addItem(waterDrop)
+                                    flex.addItem(pop)
+                                }
                         }
                 }
             }

@@ -60,7 +60,7 @@ class MainViewController: BaseViewController {
             self.loadPages()
         }
         
-        vm.onCompleteLoadPage.observe(on: self) {[weak self] isComplete in
+        vm.onCompleteLoadPage.observe(on: self) { [weak self] isComplete in
             guard let self = self else { return }
             if isComplete {
                 self.loadPages()
