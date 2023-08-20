@@ -38,6 +38,7 @@ class WeatherCardViewController: UIViewController {
     //Hourly
     fileprivate lazy var hourlyScrollView: UIScrollView = UIScrollView()
     fileprivate lazy var hourlyContentView: UIView = UIView()
+    fileprivate lazy var hourlyView: UIView = UIView()
     
     init(vm: VM, item: WeatherCardItem?) {
         self.vm = vm
@@ -54,15 +55,6 @@ class WeatherCardViewController: UIViewController {
         self.setLayout()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -77,28 +69,17 @@ class WeatherCardViewController: UIViewController {
         
         cardScrollView.showsVerticalScrollIndicator = false
         cardScrollView.showsHorizontalScrollIndicator = false
-        cardScrollView.alwaysBounceVertical = false
-        cardScrollView.alwaysBounceHorizontal = false
         
         // hourlyScrollView
-        hourlyScrollView.pin
-            .below(of: tempDescription).marginTop(14)
-            .left()
-            .right()
-        
+        hourlyContentView.pin.all() // The view fill completely its parent
         hourlyContentView.flex.layout(mode: .adjustWidth)
         hourlyScrollView.contentSize = hourlyContentView.frame.size
-        
         hourlyScrollView.showsVerticalScrollIndicator = false
         hourlyScrollView.showsHorizontalScrollIndicator = false
-        hourlyScrollView.alwaysBounceVertical = false
-        hourlyScrollView.alwaysBounceHorizontal = false
     }
     
     private func setLayout() {
         view.addSubview(rootFlexContainer)
-        hourlyScrollView.addSubview(hourlyContentView)
-        cardScrollView.addSubview(cardContentView)
         
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)
@@ -109,20 +90,25 @@ class WeatherCardViewController: UIViewController {
             let threeHourly = item.threeHourly
             
             rootFlexContainer.flex
-                .margin(0, 16)
+                .marginHorizontal(14)
                 .direction(.column)
                 .define { flex in
+                    hourlyView.addSubview(hourlyScrollView)
+                    
                     // CARD
                     flex.addItem(cardScrollView)
-                    
-                    cardContentView.flex
-                        .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
-                        .direction(.column)
                         .define { flex in
-                            // HEADER
-                            drawHeader(flex, item: item, currentWeather: currentWeather, daily: daily)
-                            drawHourly(flex, item: item, hourly: hourly)
-                            drawWeekly(flex, item: item, dailyList: daily)
+                            flex.addItem(cardContentView)
+                                .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
+                                .direction(.column)
+                                .define { flex in
+                                    // HEADER
+                                    drawHeader(flex, item: item, currentWeather: currentWeather, daily: daily)
+                                    // 1Hour
+                                    drawHourly(flex, item: item, hourly: hourly)
+                                    // Weekly
+                                    drawWeekly(flex, item: item, dailyList: daily)
+                                }
                         }
                 }
         } else {
@@ -195,56 +181,63 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
+    
     private func drawHourly(_ flex: Flex, item: WeatherCardItem, hourly: [HourlyWeather]) {
-        flex.addItem(hourlyScrollView).define { flex in
-            hourlyContentView.flex
-                .direction(.row)
-                .justifyContent(.start)
-                .alignItems(.center)
-                .backgroundColor(.white.withAlphaComponent(0.13))
-                .cornerRadius(12)
-                .define { flex in
-                    hourly.indices.forEach { idx in
-                        let item = hourly[idx]
-                        flex.addItem()
-                            .direction(.column)
-                            .justifyContent(.center)
+        flex.addItem(hourlyView)
+            .backgroundColor(.white.withAlphaComponent(0.13))
+            .cornerRadius(12)
+            .marginVertical(16)
+            .define { flex in
+                flex.addItem(hourlyScrollView)
+                    .define { flex in
+                        flex.addItem(hourlyContentView)
+                            .direction(.row)
+                            .padding(0)
+                            .justifyContent(.start)
                             .alignItems(.center)
-                            .padding(14)
                             .define { flex in
-                                let time: UILabel = UILabel()
-                                let image: UIImageView = UIImageView()
-                                let temp: UILabel = UILabel()
-                                let pop: UILabel = UILabel()
-                                
-                                time.font = .en14
-                                time.text = "\(Utils.intervalToHour(item.dt))"
-                                
-                                temp.font = .en14
-                                temp.text = String(format: "%.0f", item.temp)
-                                
-                                pop.font = .en14
-                                pop.text = String(format: "%d%%", item.pop)
-                                
-                                image.contentMode = .scaleAspectFit
-                                image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
-                                
-                                flex.addItem(time)
-                                flex.addItem(image)
-                                flex.addItem(temp)
-                                flex.addItem()
-                                    .direction(.row)
-                                    .alignItems(.center)
-                                    .define { flex in
-                                        let waterDrop: UIImageView = UIImageView()
-                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
-                                        flex.addItem(waterDrop)
-                                        flex.addItem(pop)
-                                    }
+                                hourly.indices.forEach { idx in
+                                    let item = hourly[idx]
+                                    flex.addItem()
+                                        .direction(.column)
+                                        .justifyContent(.center)
+                                        .alignItems(.center)
+                                        .padding(0, 14)
+                                        .define { flex in
+                                            let time: UILabel = UILabel()
+                                            let image: UIImageView = UIImageView()
+                                            let temp: UILabel = UILabel()
+                                            let pop: UILabel = UILabel()
+                                            
+                                            time.font = .en14
+                                            time.text = "\(Utils.intervalToHour(item.dt))"
+                                            
+                                            temp.font = .en14
+                                            temp.text = String(format: "%.0f", item.temp)
+                                            
+                                            pop.font = .en14
+                                            pop.text = String(format: "%d%%", item.pop)
+                                            
+                                            image.contentMode = .scaleAspectFit
+                                            image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
+                                            
+                                            flex.addItem(time).paddingBottom(6)
+                                            flex.addItem(image).paddingBottom(6)
+                                            flex.addItem(temp).paddingBottom(4)
+                                            flex.addItem()
+                                                .direction(.row)
+                                                .alignItems(.center)
+                                                .define { flex in
+                                                    let waterDrop: UIImageView = UIImageView()
+                                                    waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                                    flex.addItem(waterDrop).paddingLeft(4)
+                                                    flex.addItem(pop)
+                                                }
+                                        }
+                                }
                             }
                     }
-                }
-        }
+            }
     }
     
     private func drawHeader(_ flex: Flex, item: WeatherCardItem, currentWeather: Current, daily: [DailyWeather]) {
@@ -285,7 +278,7 @@ class WeatherCardViewController: UIViewController {
                         
                         tempDescription.font = .en16
                         tempDescription.text = "tempDescription".localized([daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like])
-//                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
+                        //                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
                         flex.addItem(tempDescription).marginTop(2)
                     }
                 flex.addItem(currentWeatherImage).alignSelf(.start)
