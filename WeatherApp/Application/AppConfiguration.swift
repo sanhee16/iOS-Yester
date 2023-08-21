@@ -21,4 +21,18 @@ final class AppConfiguration {
         }
         return apiBaseURL
     }()
+    
+    lazy var WeatherApiKeyV2: String = {
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "WeatherApiKeyV2") as? String else {
+            fatalError("Weather ApiKey must not be empty in plist")
+        }
+        return apiKey
+    }()
+    
+    lazy var WeatherApiBaseURLV2: String = {
+        guard let apiBaseURL = Bundle.main.object(forInfoDictionaryKey: "WeatherApiUrlV2") as? String else {
+            fatalError("Weather ApiBaseURL must not be empty in plist")
+        }
+        return apiBaseURL
+    }()
 }

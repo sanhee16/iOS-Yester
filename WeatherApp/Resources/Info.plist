@@ -13,6 +13,10 @@
 	<string>$(WEATHER_API_URL)</string>
 	<key>WeatherApiKey</key>
 	<string>$(WEATHER_API_KEY)</string>
+	<key>WeatherApiUrlV2</key>
+	<string>$(WEATHER_API_URL_V2)</string>
+	<key>WeatherApiKeyV2</key>
+	<string>$(WEATHER_API_KEY_V2)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

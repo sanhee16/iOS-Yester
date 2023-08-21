@@ -42,4 +42,15 @@ final class Utils {
         date.dateFormat = "hh:mm"
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
     }
+    
+    static func oneDayBefore() -> String {
+        let today = Date()
+        let date = DateFormatter()
+        
+        date.locale = Locale(identifier: "ko_kr")
+        date.dateFormat = "yyyy-MM-dd"
+        let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        
+        return date.string(from: modifiedDate)
+    }
 }
