@@ -60,7 +60,7 @@ public struct Current: Codable {
     var pressure: Int // 기압
     var feels_like: Double // 체감 온도
     var humidity: Int // 습도 %
-    var uvi: Double // 현재 자외선 지수
+    var uvi: Int // 현재 자외선 지수
     var clouds: Int // 흐림 %
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
@@ -89,7 +89,7 @@ public struct Current: Codable {
         pressure = try values.decode(Int.self, forKey: .pressure)
         feels_like = try values.decode(Double.self, forKey: .feels_like)
         humidity = try values.decode(Int.self, forKey: .humidity)
-        uvi = try values.decode(Double.self, forKey: .uvi)
+        uvi = Int(try values.decode(Double.self, forKey: .uvi))
         clouds = try values.decode(Int.self, forKey: .clouds)
         windSpeed = try values.decode(Double.self, forKey: .windSpeed)
         weather = try values.decode([Weather].self, forKey: .weather)
@@ -121,7 +121,7 @@ public struct DailyWeather: Codable {
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
     var pop: Int // 강수확률
-    var uvi: Double // 자외선
+    var uvi: Int // 자외선
     
     enum CodingKeys: String, CodingKey {
         case dt
@@ -139,7 +139,7 @@ public struct DailyWeather: Codable {
         windSpeed = try values.decode(Double.self, forKey: .windSpeed)
         weather = try values.decode([Weather].self, forKey: .weather)
         pop = Int(try values.decode(Double.self, forKey: .pop) * 100)
-        uvi = try values.decode(Double.self, forKey: .uvi)
+        uvi = Int(try values.decode(Double.self, forKey: .uvi))
     }
 }
 
@@ -149,7 +149,7 @@ public struct HourlyWeather: Codable {
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
     var pop: Int // 강수확률
-    var uvi: Double // 자외선
+    var uvi: Int // 자외선
     
     enum CodingKeys: String, CodingKey {
         case dt
@@ -167,7 +167,7 @@ public struct HourlyWeather: Codable {
         windSpeed = try values.decode(Double.self, forKey: .windSpeed)
         weather = try values.decode([Weather].self, forKey: .weather)
         pop = Int(try values.decode(Double.self, forKey: .pop) * 100)
-        uvi = try values.decode(Double.self, forKey: .uvi)
+        uvi = Int(try values.decode(Double.self, forKey: .uvi))
     }
 }
 

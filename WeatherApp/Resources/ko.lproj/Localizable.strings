@@ -8,9 +8,17 @@
 "today" = "오늘";
 "feels_like" = "Feels Like";
 "rain_fall" = "강수확률";
-"uv" = "자외선";
+"uvi" = "자외선";
+"sunrise" = "일출";
 "sunset" = "일몰";
 "humidity" = "습도";
-"wind" = "풍속";
+"wind" = "바람";
+"wind_speed" = "풍속";
 
 "tempDescription" = "%.1f / %.1f  체감 온도 %.1f";
+
+"low_uv" = "낮음";
+"normal_uv" = "보통";
+"high_uv" = "높음";
+"very_high_uv" = "매우 높음";
+"dangerous_uv" = "위험";

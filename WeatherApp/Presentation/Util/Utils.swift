@@ -35,4 +35,11 @@ final class Utils {
 
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
     }
+    
+    static func intervalToHourMin(_ interval: Int) -> String {
+        let date = DateFormatter()
+        date.locale = Locale(identifier: "ko_kr")
+        date.dateFormat = "hh:mm"
+        return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
+    }
 }

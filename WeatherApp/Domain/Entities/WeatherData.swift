@@ -73,3 +73,15 @@ extension String {
         }
     }
 }
+
+extension Int {
+    func uviText() -> String {
+        switch self {
+        case ..<3: return "low_uv".localized()
+        case 3..<6: return "normal_uv".localized()
+        case 6..<8: return "high_uv".localized()
+        case 8..<11: return "very_high_uv".localized()
+        default: return "dangerous_uv".localized()
+        }
+    }
+}

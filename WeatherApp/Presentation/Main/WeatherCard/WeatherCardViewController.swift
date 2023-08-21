@@ -24,7 +24,7 @@ class WeatherCardViewController: UIViewController {
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     
-    //Card
+    // Card
     fileprivate lazy var cardScrollView: UIScrollView = UIScrollView()
     fileprivate lazy var cardContentView: UIView = UIView()
     
@@ -35,10 +35,11 @@ class WeatherCardViewController: UIViewController {
     private lazy var locationLabel: UILabel = UILabel()
     private lazy var tempDescription: UILabel = UILabel()
     
-    //Hourly
+    // Hourly
     fileprivate lazy var hourlyScrollView: UIScrollView = UIScrollView()
     fileprivate lazy var hourlyContentView: UIView = UIView()
     fileprivate lazy var hourlyView: UIView = UIView()
+    
     
     init(vm: VM, item: WeatherCardItem?) {
         self.vm = vm
@@ -108,7 +109,10 @@ class WeatherCardViewController: UIViewController {
                                     drawHourly(flex, item: item, hourly: hourly)
                                     // Weekly
                                     drawWeekly(flex, item: item, dailyList: daily)
+                                    // Extra
+                                    drawExtra(flex, item: item, currentWeather: currentWeather)
                                 }
+                            
                         }
                 }
         } else {
@@ -126,8 +130,167 @@ class WeatherCardViewController: UIViewController {
         }
     }
     
+    
     @objc func onClickAddLocation() {
         vm.onClickAddLocation()
+    }
+    
+    private func drawExtra(_ flex: Flex, item: WeatherCardItem, currentWeather: Current) {
+        flex.addItem()
+            .direction(.column)
+            .marginTop(16)
+            .define { flex in
+                flex.addItem()
+                    .direction(.row)
+                    .justifyContent(.spaceBetween)
+                    .define { flex in
+                        flex.addItem()
+                            .height(100)
+                            .width(100%)
+                            .shrink(1)
+                            .backgroundColor(.white.withAlphaComponent(0.13))
+                            .cornerRadius(12)
+                            .alignItems(.center)
+                            .justifyContent(.center)
+                            .direction(.column)
+                            .define { flex in
+                                let image: UIImageView = UIImageView()
+                                image.contentMode = .scaleAspectFit
+                                image.image = UIImage(named: "wind_speed")?.resized(toWidth: 34.0)
+
+                                let name: UILabel = UILabel()
+                                name.font = .en18
+                                name.text = String(format: "%@", "wind_speed".localized())
+
+                                let value: UILabel = UILabel()
+                                value.font = .en14
+                                value.text = String(format: "%.0f m/s", currentWeather.windSpeed)
+
+                                flex.addItem(image)
+                                flex.addItem(name)
+                                flex.addItem(value)
+                            }
+                        
+                        flex.addItem()
+                            .height(100)
+                            .width(14)
+
+                        flex.addItem()
+                            .height(100)
+                            .width(100%)
+                            .shrink(1)
+                            .backgroundColor(.white.withAlphaComponent(0.13))
+                            .cornerRadius(12)
+                            .alignItems(.center)
+                            .justifyContent(.center)
+                            .direction(.column)
+                            .define { flex in
+                                let image: UIImageView = UIImageView()
+                                image.contentMode = .scaleAspectFit
+                                image.image = UIImage(named: "uvi")?.resized(toWidth: 34.0)
+
+                                let name: UILabel = UILabel()
+                                name.font = .en18
+                                name.text = String(format: "%@", "uvi".localized())
+
+                                let value: UILabel = UILabel()
+                                value.font = .en14
+                                value.text = String(format: "%@ (%d)", currentWeather.uvi.uviText(), currentWeather.uvi)
+
+                                flex.addItem(image)
+                                flex.addItem(name)
+                                flex.addItem(value)
+                            }
+                    }
+                flex.addItem()
+                    .direction(.row)
+                    .marginTop(14)
+                    .define { flex in
+                        flex.addItem()
+                            .height(100)
+                            .width(100%)
+                            .shrink(1)
+                            .backgroundColor(.white.withAlphaComponent(0.13))
+                            .cornerRadius(12)
+                            .alignItems(.center)
+                            .justifyContent(.center)
+                            .direction(.column)
+                            .define { flex in
+                                let image: UIImageView = UIImageView()
+                                image.contentMode = .scaleAspectFit
+                                image.image = UIImage(named: "humidity")?.resized(toWidth: 34.0)
+
+                                let name: UILabel = UILabel()
+                                name.font = .en18
+                                name.text = String(format: "%@", "humidity".localized())
+
+                                let value: UILabel = UILabel()
+                                value.font = .en14
+                                value.text = String(format: "%d %%", currentWeather.humidity)
+
+                                flex.addItem(image)
+                                flex.addItem(name)
+                                flex.addItem(value)
+                            }
+                        
+                        flex.addItem()
+                            .height(100)
+                            .width(14)
+
+                        flex.addItem()
+                            .height(100)
+                            .width(100%)
+                            .shrink(1)
+                            .justifyContent(.spaceEvenly)
+                            .backgroundColor(.white.withAlphaComponent(0.13))
+                            .cornerRadius(12)
+                            .direction(.row)
+                            .define { flex in
+                                flex.addItem()
+                                    .alignItems(.center)
+                                    .justifyContent(.center)
+                                    .direction(.column)
+                                    .define { flex in
+                                        let image: UIImageView = UIImageView()
+                                        image.contentMode = .scaleAspectFit
+                                        image.image = UIImage(named: "sunrise")?.resized(toWidth: 34.0)
+
+                                        let name: UILabel = UILabel()
+                                        name.font = .en18
+                                        name.text = String(format: "%@", "sunrise".localized())
+
+                                        let value: UILabel = UILabel()
+                                        value.font = .en14
+                                        value.text = String(format: "%@", Utils.intervalToHourMin(currentWeather.sunrise))
+
+                                        flex.addItem(image)
+                                        flex.addItem(name)
+                                        flex.addItem(value)
+                                    }
+                                flex.addItem()
+                                    .alignItems(.center)
+                                    .justifyContent(.center)
+                                    .direction(.column)
+                                    .define { flex in
+                                        let image: UIImageView = UIImageView()
+                                        image.contentMode = .scaleAspectFit
+                                        image.image = UIImage(named: "sunset")?.resized(toWidth: 34.0)
+
+                                        let name: UILabel = UILabel()
+                                        name.font = .en18
+                                        name.text = String(format: "%@", "sunset".localized())
+
+                                        let value: UILabel = UILabel()
+                                        value.font = .en14
+                                        value.text = String(format: "%@", Utils.intervalToHourMin(currentWeather.sunset))
+
+                                        flex.addItem(image)
+                                        flex.addItem(name)
+                                        flex.addItem(value)
+                                    }
+                            }
+                    }
+            }
     }
     
     private func drawWeekly(_ flex: Flex, item: WeatherCardItem, dailyList: [DailyWeather]) {
@@ -135,6 +298,7 @@ class WeatherCardViewController: UIViewController {
             .direction(.column)
             .backgroundColor(.white.withAlphaComponent(0.13))
             .cornerRadius(12)
+            .marginTop(16)
             .padding(6, 14, 10, 14)
             .define { flex in
                 dailyList.forEach { daily in
@@ -181,12 +345,11 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    
     private func drawHourly(_ flex: Flex, item: WeatherCardItem, hourly: [HourlyWeather]) {
         flex.addItem(hourlyView)
             .backgroundColor(.white.withAlphaComponent(0.13))
             .cornerRadius(12)
-            .marginVertical(16)
+            .marginTop(16)
             .define { flex in
                 flex.addItem(hourlyScrollView)
                     .define { flex in
