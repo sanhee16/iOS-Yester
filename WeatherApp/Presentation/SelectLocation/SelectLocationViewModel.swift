@@ -31,9 +31,10 @@ protocol SelectLocationViewModelOutput {
 }
 
 class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
-    let weatherService: WeatherService
-    let locationService: LocationService
-    let locationRespository: AnyRepository<Location>
+    private let weatherService: WeatherService
+    private let locationService: LocationService
+    private let weatherServiceV2: WeatherServiceV2
+    private let locationRespository: AnyRepository<Location>
     
     var results: Observable<[Geocoding]> = Observable([])
     var name: Observable<String> = Observable("")
@@ -41,9 +42,10 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     var selectedItem: Observable<GeocodingItem?> = Observable(nil)
     var existItems: [Location] = []
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
+    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
+        self.weatherServiceV2 = weatherServiceV2
         self.locationService = locationService
         super.init(coordinator)
     }

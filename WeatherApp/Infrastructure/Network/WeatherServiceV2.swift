@@ -10,21 +10,15 @@ import Alamofire
 import Combine
 import CoreLocation
 
-protocol WeatherServiceV2Protocol {
+class WeatherServiceV2: WeatherServiceProtocol {
+    var baseUrl: String
+    var apiKey: String
     
-}
-
-class WeatherServiceV2 {
-    private let baseUrl: String
-    private let apiKey: String
     init(baseUrl: String, apiKey: String) {
         self.baseUrl = baseUrl
         self.apiKey = apiKey
     }
-}
-
-
-extension WeatherServiceV2: WeatherServiceV2Protocol {
+    
     private func getData<T: Decodable>(_ url: String, paramters: Parameters? = nil) -> AnyPublisher<DataResponse<T, NetworkErrorV2>, Never> {
         let url = URL(string: self.baseUrl + url)!
         var params = paramters
@@ -42,22 +36,22 @@ extension WeatherServiceV2: WeatherServiceV2Protocol {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
-
-    func getForecastWeather(_ location: Location) -> AnyPublisher<DataResponse<CurrentResponseV2, NetworkErrorV2>, Never>{
+    
+    func getForecastWeather(_ location: Location) -> AnyPublisher<DataResponse<ForecastResponseV2, NetworkErrorV2>, Never>{
         let params: [String: Any] = [
             "q": "\(location.lat),\(location.lon)",
             "lang": Utils.languageCode()
         ]as Parameters
-        return self.getData("", paramters: params)
+        return self.getData("forecast.json", paramters: params)
     }
     
-    func getHistoryWeather(_ location: Location) -> AnyPublisher<DataResponse<CurrentResponseV2, NetworkErrorV2>, Never>{
+    func getHistoryWeather(_ location: Location) -> AnyPublisher<DataResponse<HistoryResponseV2, NetworkErrorV2>, Never>{
         let params: [String: Any] = [
             "q": "\(location.lat),\(location.lon)",
             "lang": Utils.languageCode(),
             "dt": Utils.oneDayBefore()
         ]as Parameters
-        return self.getData("", paramters: params)
+        return self.getData("history.json", paramters: params)
     }
     
 }

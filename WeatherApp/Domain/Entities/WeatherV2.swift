@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol WeatherIcon {
+    var condition: ConditionV2 { get }
+    var is_day: Bool { get }
+}
 // Common
 public struct ConditionV2: Codable {
     var text: String
@@ -28,10 +32,8 @@ public struct ConditionV2: Codable {
     }
 }
 
-
-
 // Current
-public struct CurrentResponseV2: Codable {
+public struct ForecastResponseV2: Codable {
     var current: CurrentV2
     var forecast: ForecastListV2
     
@@ -47,7 +49,7 @@ public struct CurrentResponseV2: Codable {
     }
 }
 
-public struct CurrentV2: Codable {
+public struct CurrentV2: Codable, WeatherIcon {
     var temp_c: Double
     var temp_f: Double
     var condition: ConditionV2
@@ -92,12 +94,12 @@ public struct CurrentV2: Codable {
         uv = try values.decode(Int.self, forKey: .uv)
         humidity = try values.decode(Int.self, forKey: .humidity)
         cloud = try values.decode(Int.self, forKey: .cloud)
-        is_day = try values.decode(Bool.self, forKey: .is_day)
+        is_day = try values.decode(Int.self, forKey: .is_day) == 1 ? true : false
     }
 }
 
 // Forecast
-public struct ForecastResponseV2: Codable {
+public struct HistoryResponseV2: Codable {
     var forecast: ForecastListV2
     
     enum CodingKeys: String, CodingKey {
@@ -126,7 +128,7 @@ public struct ForecastListV2: Codable {
 public struct ForecastV2: Codable {
     var day: ForecastDayV2
     var astro: ForecastAstroV2
-    var hour: ForecastHourV2
+    var hour: [ForecastHourV2]
     
     enum CodingKeys: String, CodingKey {
         case day
@@ -138,12 +140,12 @@ public struct ForecastV2: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         day = try values.decode(ForecastDayV2.self, forKey: .day)
         astro = try values.decode(ForecastAstroV2.self, forKey: .astro)
-        hour = try values.decode(ForecastHourV2.self, forKey: .hour)
+        hour = try values.decode([ForecastHourV2].self, forKey: .hour)
     }
 }
 
 
-public struct ForecastHourV2: Codable {
+public struct ForecastHourV2: Codable, WeatherIcon {
     var time_epoch: Int
     var temp_c: Double
     var temp_f: Double
@@ -153,6 +155,8 @@ public struct ForecastHourV2: Codable {
     var precip_in: Double
     var humidity: Int
     var cloud: Int
+    var chance_of_rain: Int
+    var chance_of_snow: Int
     
     enum CodingKeys: String, CodingKey {
         case time_epoch
@@ -164,6 +168,8 @@ public struct ForecastHourV2: Codable {
         case precip_in
         case humidity
         case cloud
+        case chance_of_rain
+        case chance_of_snow
     }
     
     public init(from decoder: Decoder) throws {
@@ -171,12 +177,14 @@ public struct ForecastHourV2: Codable {
         time_epoch = try values.decode(Int.self, forKey: .time_epoch)
         temp_c = try values.decode(Double.self, forKey: .temp_c)
         temp_f = try values.decode(Double.self, forKey: .temp_f)
-        is_day = try values.decode(Bool.self, forKey: .is_day)
+        is_day = try values.decode(Int.self, forKey: .is_day) == 1 ? true : false
         condition = try values.decode(ConditionV2.self, forKey: .condition)
         precip_mm = try values.decode(Double.self, forKey: .precip_mm)
         precip_in = try values.decode(Double.self, forKey: .precip_in)
         humidity = try values.decode(Int.self, forKey: .humidity)
         cloud = try values.decode(Int.self, forKey: .cloud)
+        chance_of_rain = try values.decode(Int.self, forKey: .chance_of_rain)
+        chance_of_snow = try values.decode(Int.self, forKey: .chance_of_snow)
     }
 }
 
@@ -223,7 +231,7 @@ public struct ForecastAstroV2: Codable {
     }
 }
 
-extension CurrentV2 {
+extension WeatherIcon {
     func iconImage() -> UIImage? {
         let code = self.condition.code
         var iconCode = ""

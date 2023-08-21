@@ -11,20 +11,20 @@ import Combine
 import CoreLocation
 
 protocol WeatherServiceProtocol {
-    func getGeocoding(_ name: String) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never>
+    var baseUrl: String { get }
+    var apiKey: String { get }
 }
 
-class WeatherService {
-    private let baseUrl: String
-    private let apiKey: String
+class WeatherService: WeatherServiceProtocol {
+    var baseUrl: String
+    var apiKey: String
+    
     init(baseUrl: String, apiKey: String) {
         self.baseUrl = baseUrl
         self.apiKey = apiKey
     }
-}
-
-
-extension WeatherService: WeatherServiceProtocol {
+    
+    
     private func getData<T: Decodable>(_ url: String, paramters: Parameters? = nil) -> AnyPublisher<DataResponse<T, NetworkError>, Never> {
         let url = URL(string: self.baseUrl + url)!
         var params = paramters

@@ -15,7 +15,7 @@ class WeatherCardViewController: UIViewController {
     typealias VM = MainViewModel
     private let vm: VM
     
-    var item: WeatherCardItem?
+    var item: WeatherCardItemV2?
     var isAddCard: Bool {
         item == nil
     }
@@ -41,7 +41,7 @@ class WeatherCardViewController: UIViewController {
     fileprivate lazy var hourlyView: UIView = UIView()
     
     
-    init(vm: VM, item: WeatherCardItem?) {
+    init(vm: VM, item: WeatherCardItemV2?) {
         self.vm = vm
         self.item = item
         super.init(nibName: nil, bundle: nil)
@@ -85,10 +85,7 @@ class WeatherCardViewController: UIViewController {
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)
         
-        if let item = self.item, let currentWeather = item.currentWeather {
-            let daily = item.daily
-            let hourly = item.hourly
-            let threeHourly = item.threeHourly
+        if let item = self.item, let current = item.currentWeather {
             
             rootFlexContainer.flex
                 .marginHorizontal(14)
@@ -103,14 +100,16 @@ class WeatherCardViewController: UIViewController {
                                 .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
                                 .direction(.column)
                                 .define { flex in
-                                    // HEADER
-                                    drawHeader(flex, item: item, currentWeather: currentWeather, daily: daily)
-                                    // 1Hour
-                                    drawHourly(flex, item: item, hourly: hourly)
+                                    if let today = item.forecast {
+                                        // HEADER
+                                        drawHeader(flex, location: item.location, current: current, today: today)
+                                        // 3Hour
+                                        drawHourly(flex, current: current, today: today)
+                                        // Extra
+                                        drawExtra(flex, current: current, today: today)
+                                    }
                                     // Weekly
-                                    drawWeekly(flex, item: item, dailyList: daily)
-                                    // Extra
-                                    drawExtra(flex, item: item, currentWeather: currentWeather)
+//                                    drawWeekly(flex, item: item, dailyList: daily)
                                 }
                             
                         }
@@ -135,7 +134,7 @@ class WeatherCardViewController: UIViewController {
         vm.onClickAddLocation()
     }
     
-    private func drawExtra(_ flex: Flex, item: WeatherCardItem, currentWeather: Current) {
+    private func drawExtra(_ flex: Flex, current: CurrentV2, today: ForecastV2) {
         flex.addItem()
             .direction(.column)
             .marginTop(16)
@@ -164,7 +163,7 @@ class WeatherCardViewController: UIViewController {
 
                                 let value: UILabel = UILabel()
                                 value.font = .en14
-                                value.text = String(format: "%.0f m/s", currentWeather.windSpeed)
+                                value.text = String(format: "%.0f k/h", current.wind_kph)
 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -195,7 +194,7 @@ class WeatherCardViewController: UIViewController {
 
                                 let value: UILabel = UILabel()
                                 value.font = .en14
-                                value.text = String(format: "%@ (%d)", currentWeather.uvi.uviText(), currentWeather.uvi)
+                                value.text = String(format: "%@ (%d)", current.uv.uviText(), current.uv)
 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -226,7 +225,7 @@ class WeatherCardViewController: UIViewController {
 
                                 let value: UILabel = UILabel()
                                 value.font = .en14
-                                value.text = String(format: "%d %%", currentWeather.humidity)
+                                value.text = String(format: "%d %%", current.humidity)
 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -261,7 +260,7 @@ class WeatherCardViewController: UIViewController {
 
                                         let value: UILabel = UILabel()
                                         value.font = .en14
-                                        value.text = String(format: "%@", Utils.intervalToHourMin(currentWeather.sunrise))
+                                        value.text = String(format: "%@", today.astro.sunrise)
 
                                         flex.addItem(image)
                                         flex.addItem(name)
@@ -282,7 +281,7 @@ class WeatherCardViewController: UIViewController {
 
                                         let value: UILabel = UILabel()
                                         value.font = .en14
-                                        value.text = String(format: "%@", Utils.intervalToHourMin(currentWeather.sunset))
+                                        value.text = String(format: "%@", today.astro.sunset)
 
                                         flex.addItem(image)
                                         flex.addItem(name)
@@ -292,8 +291,8 @@ class WeatherCardViewController: UIViewController {
                     }
             }
     }
-    
-    private func drawWeekly(_ flex: Flex, item: WeatherCardItem, dailyList: [DailyWeather]) {
+    /*
+    private func drawWeekly(_ flex: Flex, item: WeatherCardItemV2, dailyList: [DailyWeather]) {
         flex.addItem()
             .direction(.column)
             .backgroundColor(.white.withAlphaComponent(0.13))
@@ -344,8 +343,8 @@ class WeatherCardViewController: UIViewController {
                 }
             }
     }
-    
-    private func drawHourly(_ flex: Flex, item: WeatherCardItem, hourly: [HourlyWeather]) {
+    */
+    private func drawHourly(_ flex: Flex, current: CurrentV2, today: ForecastV2) {
         flex.addItem(hourlyView)
             .backgroundColor(.white.withAlphaComponent(0.13))
             .cornerRadius(12)
@@ -359,8 +358,8 @@ class WeatherCardViewController: UIViewController {
                             .justifyContent(.start)
                             .alignItems(.center)
                             .define { flex in
-                                hourly.indices.forEach { idx in
-                                    let item = hourly[idx]
+                                today.hour.indices.forEach { idx in
+                                    let item = today.hour[idx]
                                     flex.addItem()
                                         .direction(.column)
                                         .justifyContent(.center)
@@ -370,19 +369,16 @@ class WeatherCardViewController: UIViewController {
                                             let time: UILabel = UILabel()
                                             let image: UIImageView = UIImageView()
                                             let temp: UILabel = UILabel()
-                                            let pop: UILabel = UILabel()
                                             
                                             time.font = .en14
-                                            time.text = "\(Utils.intervalToHour(item.dt))"
+                                            time.text = "\(Utils.intervalToHour(item.time_epoch))"
                                             
                                             temp.font = .en14
-                                            temp.text = String(format: "%.0f", item.temp)
+                                            temp.text = String(format: "%.0f", item.temp_c)
                                             
-                                            pop.font = .en14
-                                            pop.text = String(format: "%d%%", item.pop)
-                                            
+                    
                                             image.contentMode = .scaleAspectFit
-                                            image.image = UIImage(named: item.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
+                                            image.image = item.iconImage()?.resized(toWidth: 34.0)
                                             
                                             flex.addItem(time).paddingBottom(6)
                                             flex.addItem(image).paddingBottom(6)
@@ -391,8 +387,19 @@ class WeatherCardViewController: UIViewController {
                                                 .direction(.row)
                                                 .alignItems(.center)
                                                 .define { flex in
+                                                    let pop: UILabel = UILabel()
                                                     let waterDrop: UIImageView = UIImageView()
-                                                    waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                                    pop.font = .en14
+                                                    
+                                                    if item.chance_of_snow > 0 {
+                                                        pop.text = String(format: "%d%%", item.chance_of_snow)
+                                                        waterDrop.image = UIImage(named: "13n")?.resized(toWidth: 12)
+                                                    } else {
+                                                        pop.text = String(format: "%d%%", item.chance_of_rain)
+                                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                                    }
+                                                    
+                                                    
                                                     flex.addItem(waterDrop).paddingLeft(4)
                                                     flex.addItem(pop)
                                                 }
@@ -403,7 +410,7 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawHeader(_ flex: Flex, item: WeatherCardItem, currentWeather: Current, daily: [DailyWeather]) {
+    private func drawHeader(_ flex: Flex, location: Location, current: CurrentV2, today: ForecastV2) {
         flex.addItem()
             .direction(.row)
             .justifyContent(.spaceBetween)
@@ -413,16 +420,16 @@ class WeatherCardViewController: UIViewController {
                     .direction(.column)
                     .define { flex in
                         currentTempLabel.font = .en38
-                        currentTempLabel.text = String(format: "%.1f", currentWeather.temp)
+                        currentTempLabel.text = String(format: "%.1f", current.temp_c)
                         
                         currentDescriptionLabel.font = .en20
-                        currentDescriptionLabel.text = currentWeather.weather.first?.description
+                        currentDescriptionLabel.text = current.condition.text
                         
                         currentWeatherImage.contentMode = .scaleAspectFit
-                        currentWeatherImage.image = UIImage(named: currentWeather.weather.first?.icon ?? "")?.resized(toWidth: 80.0)
+                        currentWeatherImage.image = current.iconImage()?.resized(toWidth: 80.0)
                         
                         locationLabel.font = .en16
-                        locationLabel.text = item.location.name
+                        locationLabel.text = location.name
                         
                         flex.addItem(currentTempLabel)
                         flex.addItem(currentDescriptionLabel)
@@ -431,7 +438,7 @@ class WeatherCardViewController: UIViewController {
                             .marginTop(20)
                             .define { flex in
                                 flex.addItem(locationLabel)
-                                if item.location.isCurrent {
+                                if location.isCurrent {
                                     let locationImage: UIImageView = UIImageView()
                                     locationImage.contentMode = .scaleAspectFit
                                     locationImage.image = UIImage(systemName: "location.fill")?.resized(toWidth: 13)
@@ -440,7 +447,7 @@ class WeatherCardViewController: UIViewController {
                             }
                         
                         tempDescription.font = .en16
-                        tempDescription.text = "tempDescription".localized([daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like])
+                        tempDescription.text = "tempDescription".localized([today.day.mintemp_c, today.day.maxtemp_c, current.feelslike_c])
                         //                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
                         flex.addItem(tempDescription).marginTop(2)
                     }
