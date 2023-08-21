@@ -22,15 +22,15 @@ final class Utils {
     
     static func intervalToHour(_ interval: Int) -> String {
         let date = DateFormatter()
-        date.locale = Locale(identifier: "ko_kr")
-        date.dateFormat = "a hh시"
+        date.locale = Locale(identifier: languageCode())
+        date.dateFormat = "a hh"
 
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
     }
     
     static func intervalToWeekday(_ interval: Int) -> String {
         let date = DateFormatter()
-        date.locale = Locale(identifier: "ko_kr")
+        date.locale = Locale(identifier: languageCode())
         date.dateFormat = "EEEE"
 
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
@@ -38,7 +38,7 @@ final class Utils {
     
     static func intervalToHourMin(_ interval: Int) -> String {
         let date = DateFormatter()
-        date.locale = Locale(identifier: "ko_kr")
+        date.locale = Locale(identifier: languageCode())
         date.dateFormat = "hh:mm"
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
     }
@@ -47,7 +47,7 @@ final class Utils {
         let today = Date()
         let date = DateFormatter()
         
-        date.locale = Locale(identifier: "ko_kr")
+        date.locale = Locale(identifier: languageCode())
         date.dateFormat = "yyyy-MM-dd"
         let modifiedDate = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         
