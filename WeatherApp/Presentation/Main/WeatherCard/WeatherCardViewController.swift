@@ -79,6 +79,13 @@ class WeatherCardViewController: UIViewController {
         hourlyScrollView.showsHorizontalScrollIndicator = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // hourlyScrollView
+        hourlyScrollView.showsVerticalScrollIndicator = false
+        hourlyScrollView.showsHorizontalScrollIndicator = false
+    }
+    
     private func setLayout() {
         view.addSubview(rootFlexContainer)
         
@@ -351,6 +358,7 @@ class WeatherCardViewController: UIViewController {
             .marginTop(16)
             .define { flex in
                 flex.addItem(hourlyScrollView)
+                    .paddingVertical(14)
                     .define { flex in
                         flex.addItem(hourlyContentView)
                             .direction(.row)
