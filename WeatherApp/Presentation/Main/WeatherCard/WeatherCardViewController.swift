@@ -54,6 +54,10 @@ class WeatherCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setLayout()
+        
+        //[TROUBLE_SHOOTING]: hourly scrollview indicator 영역 잡히는 이슈 수정
+        hourlyScrollView.showsVerticalScrollIndicator = false
+        hourlyScrollView.showsHorizontalScrollIndicator = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,15 +79,10 @@ class WeatherCardViewController: UIViewController {
         hourlyContentView.pin.all() // The view fill completely its parent
         hourlyContentView.flex.layout(mode: .adjustWidth)
         hourlyScrollView.contentSize = hourlyContentView.frame.size
-        hourlyScrollView.showsVerticalScrollIndicator = false
-        hourlyScrollView.showsHorizontalScrollIndicator = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //[TROUBLE_SHOOTING]: hourlyScrollView Indicator 영역 잡히는 이슈 수정
-        hourlyScrollView.showsVerticalScrollIndicator = false
-        hourlyScrollView.showsHorizontalScrollIndicator = false
     }
     
     private func setLayout() {
