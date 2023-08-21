@@ -82,11 +82,11 @@ extension DefaultMainViewModel: MainViewModel {
                 self?.onCompleteLoadPage.value = true
                 print(forecastResponse.error)
                 print(historyResponse.error)
-                self?.items.value[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: nil, isLoaded: true)
+                self?.items.value[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: true)
                 return
             }
             let current = forecastResponse.current
-            let forecast = forecastResponse.forecast.forecastday.first
+            let forecast = forecastResponse.forecast.forecastday
             let history = historyResponse.forecast.forecastday.first
             
             self.items.value[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
@@ -116,7 +116,7 @@ extension DefaultMainViewModel: MainViewModel {
             }) {
                 newItems.append(previousItems[idx])
             } else {
-                newItems.append(WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: nil, isLoaded: false))
+                newItems.append(WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: false))
             }
         }
         //        self.items.value.removeAll()

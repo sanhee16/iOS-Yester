@@ -40,7 +40,8 @@ class WeatherServiceV2: WeatherServiceProtocol {
     func getForecastWeather(_ location: Location) -> AnyPublisher<DataResponse<ForecastResponseV2, NetworkErrorV2>, Never>{
         let params: [String: Any] = [
             "q": "\(location.lat),\(location.lon)",
-            "lang": Utils.languageCode()
+            "lang": Utils.languageCode(),
+            "days": 8
         ]as Parameters
         return self.getData("forecast.json", paramters: params)
     }

@@ -112,7 +112,7 @@ class MainViewController: BaseViewController {
     
     private func moveFirstPage() {
         // BLOCK 2
-        //TROUBLE_SHOOTING: 위 블럭(Block1)과 아래 블럭(Block2) 위치를 바꿨더니 데이터 업데이트가 안되었음
+        //[TROUBLE_SHOOTING]: 위 블럭(Block1)과 아래 블럭(Block2) 위치를 바꿨더니 데이터 업데이트가 안되었음
         if let startVC = self.pages.first {
             self.pageVC.setViewControllers([startVC], direction: .forward, animated: true) { isComplete in
                 startVC.viewWillAppear(true)

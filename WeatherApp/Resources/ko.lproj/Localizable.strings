@@ -6,6 +6,7 @@
   
 */
 "today" = "오늘";
+"yesterday" = "어제";
 "feels_like" = "Feels Like";
 "rain_fall" = "강수확률";
 "uvi" = "자외선";
@@ -22,3 +23,4 @@
 "high_uv" = "높음";
 "very_high_uv" = "매우 높음";
 "dangerous_uv" = "위험";
+

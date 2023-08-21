@@ -81,7 +81,7 @@ class WeatherCardViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // hourlyScrollView
+        //[TROUBLE_SHOOTING]: hourlyScrollView Indicator 영역 잡히는 이슈 수정
         hourlyScrollView.showsVerticalScrollIndicator = false
         hourlyScrollView.showsHorizontalScrollIndicator = false
     }
@@ -107,16 +107,18 @@ class WeatherCardViewController: UIViewController {
                                 .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
                                 .direction(.column)
                                 .define { flex in
-                                    if let today = item.forecast {
+                                    if let today = item.forecast.first {
                                         // HEADER
                                         drawHeader(flex, location: item.location, current: current, today: today)
                                         // 3Hour
                                         drawHourly(flex, current: current, today: today)
+                                        // Weekly
+                                        var forecast = item.forecast
+                                        forecast.removeFirst()
+                                        drawWeekly(flex, item: item, weekly: forecast, yesterday: item.history)
                                         // Extra
                                         drawExtra(flex, current: current, today: today)
                                     }
-                                    // Weekly
-//                                    drawWeekly(flex, item: item, dailyList: daily)
                                 }
                             
                         }
@@ -298,8 +300,8 @@ class WeatherCardViewController: UIViewController {
                     }
             }
     }
-    /*
-    private func drawWeekly(_ flex: Flex, item: WeatherCardItemV2, dailyList: [DailyWeather]) {
+    
+    private func drawWeekly(_ flex: Flex, item: WeatherCardItemV2, weekly: [ForecastV2], yesterday: ForecastV2?) {
         flex.addItem()
             .direction(.column)
             .backgroundColor(.white.withAlphaComponent(0.13))
@@ -307,50 +309,64 @@ class WeatherCardViewController: UIViewController {
             .marginTop(16)
             .padding(6, 14, 10, 14)
             .define { flex in
-                dailyList.forEach { daily in
+                if let yesterday = yesterday {
                     flex.addItem()
                         .direction(.row)
                         .justifyContent(.spaceBetween)
                         .paddingTop(4)
                         .define { flex in
-                            let weekday: UILabel = UILabel()
-                            weekday.font = .en14
-                            weekday.text = "\(Utils.intervalToWeekday(daily.dt))"
-                            flex.addItem(weekday)
-                            
-                            flex.addItem()
-                                .direction(.row)
-                                .define { flex in
-                                    let weatherImage: UIImageView = UIImageView()
-                                    let temp: UILabel = UILabel()
-                                    let pop: UILabel = UILabel()
-                                    
-                                    temp.font = .en14
-                                    temp.text = String(format: "%.0f  %.0f", daily.temp.max, daily.temp.min)
-                                    
-                                    pop.font = .en14
-                                    pop.text = String(format: "%2d%%", daily.pop)
-                                    
-                                    weatherImage.contentMode = .scaleAspectFit
-                                    weatherImage.image = UIImage(named: daily.weather.first?.icon ?? "")?.resized(toWidth: 34.0)
-                                    
-                                    flex.addItem()
-                                        .direction(.row)
-                                        .alignItems(.center)
-                                        .define { flex in
-                                            let waterDrop: UIImageView = UIImageView()
-                                            waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
-                                            flex.addItem(waterDrop)
-                                            flex.addItem(pop).paddingLeft(6)
-                                        }
-                                    flex.addItem(weatherImage).paddingLeft(12)
-                                    flex.addItem(temp).paddingLeft(12)
-                                }
+                            drawWeeklyItem(flex, weekdayText: "yesterday".localized(), minTemp: yesterday.day.mintemp_c, maxTemp: yesterday.day.maxtemp_c, rainChance: yesterday.day.daily_chance_of_rain, iconImage: yesterday.day.iconImage())
+                        }
+                }
+                weekly.forEach { daily in
+                    flex.addItem()
+                        .direction(.row)
+                        .justifyContent(.spaceBetween)
+                        .paddingTop(4)
+                        .define { flex in
+                            drawWeeklyItem(flex, weekdayText: Utils.intervalToWeekday(daily.date_epoch), minTemp: daily.day.mintemp_c, maxTemp: daily.day.maxtemp_c, rainChance: daily.day.daily_chance_of_rain, iconImage: daily.day.iconImage())
                         }
                 }
             }
     }
-    */
+    
+    private func drawWeeklyItem(_ flex: Flex, weekdayText: String, minTemp: Double, maxTemp: Double, rainChance: Int, iconImage: UIImage?) {
+        let weekday: UILabel = UILabel()
+        weekday.font = .en14
+        weekday.text = weekdayText
+        flex.addItem(weekday)
+        
+        flex.addItem()
+            .direction(.row)
+            .define { flex in
+                let weatherImage: UIImageView = UIImageView()
+                let temp: UILabel = UILabel()
+                let pop: UILabel = UILabel()
+                
+                temp.font = .en14
+                temp.text = String(format: "%.0f  %.0f", minTemp, maxTemp)
+                
+                pop.font = .en14
+                pop.text = String(format: "%2d%%", rainChance)
+                
+                weatherImage.contentMode = .scaleAspectFit
+
+                weatherImage.image = iconImage?.resized(toWidth: 34.0)
+                
+                flex.addItem()
+                    .direction(.row)
+                    .alignItems(.center)
+                    .define { flex in
+                        let waterDrop: UIImageView = UIImageView()
+                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                        flex.addItem(waterDrop)
+                        flex.addItem(pop).paddingLeft(6)
+                    }
+                flex.addItem(weatherImage).paddingLeft(12)
+                flex.addItem(temp).paddingLeft(12)
+            }
+    }
+    
     private func drawHourly(_ flex: Flex, current: CurrentV2, today: ForecastV2) {
         flex.addItem(hourlyView)
             .backgroundColor(.white.withAlphaComponent(0.13))

@@ -126,11 +126,13 @@ public struct ForecastListV2: Codable {
 }
 
 public struct ForecastV2: Codable {
+    var date_epoch: Int
     var day: ForecastDayV2
     var astro: ForecastAstroV2
     var hour: [ForecastHourV2]
     
     enum CodingKeys: String, CodingKey {
+        case date_epoch
         case day
         case astro
         case hour
@@ -138,6 +140,7 @@ public struct ForecastV2: Codable {
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        date_epoch = try values.decode(Int.self, forKey: .date_epoch)
         day = try values.decode(ForecastDayV2.self, forKey: .day)
         astro = try values.decode(ForecastAstroV2.self, forKey: .astro)
         hour = try values.decode([ForecastHourV2].self, forKey: .hour)
@@ -188,12 +191,15 @@ public struct ForecastHourV2: Codable, WeatherIcon {
     }
 }
 
-public struct ForecastDayV2: Codable {
+public struct ForecastDayV2: Codable, WeatherIcon {
     var maxtemp_c: Double
     var maxtemp_f: Double
     var mintemp_c: Double
     var mintemp_f: Double
     var condition: ConditionV2
+    var daily_chance_of_rain: Int
+    var daily_will_it_snow: Int
+    var is_day: Bool
     
     
     enum CodingKeys: String, CodingKey {
@@ -202,6 +208,8 @@ public struct ForecastDayV2: Codable {
         case mintemp_c
         case mintemp_f
         case condition
+        case daily_chance_of_rain
+        case daily_will_it_snow
     }
     
     public init(from decoder: Decoder) throws {
@@ -211,6 +219,9 @@ public struct ForecastDayV2: Codable {
         mintemp_c = try values.decode(Double.self, forKey: .mintemp_c)
         mintemp_f = try values.decode(Double.self, forKey: .mintemp_f)
         condition = try values.decode(ConditionV2.self, forKey: .condition)
+        daily_chance_of_rain = try values.decodeIfPresent(Int.self, forKey: .daily_chance_of_rain) ?? 0
+        daily_will_it_snow = try values.decodeIfPresent(Int.self, forKey: .daily_will_it_snow) ?? 0
+        is_day = true
     }
 }
 

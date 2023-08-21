@@ -6,6 +6,7 @@
   
 */
 "today" = "today";
+"yesterday" = "yesterday";
 "feels_like" = "Feels Like";
 "rain_fall" = "Rain Fall";
 "uvi" = "UV";

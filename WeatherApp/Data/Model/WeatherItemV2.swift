@@ -14,6 +14,6 @@ struct WeatherCardItemV2: Equatable {
     var location: Location
     var currentWeather: CurrentV2?
     var history: ForecastV2?
-    var forecast: ForecastV2?
+    var forecast: [ForecastV2]
     var isLoaded: Bool
 }
