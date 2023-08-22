@@ -1,5 +1,5 @@
 //
-//  WeatherV2.swift
+//  WeatherDataV2.swift
 //  WeatherApp
 //
 //  Created by sandy on 2023/08/21.
@@ -356,6 +356,12 @@ extension WeatherIcon {
         imageCode += self.is_day ? "d" : "n"
         return UIImage(named: imageCode)
     }
+}
+
+enum UnitTypeV2: String {
+    case temp = "UNIT_TEMP"
+    case wind = "UNIT_WIND"
+    case prec = "UNIT_PREC"
 }
 
 enum TemperatureUnitV2: Int {

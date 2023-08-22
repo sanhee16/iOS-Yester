@@ -16,7 +16,7 @@
 "wind" = "Wind";
 "wind_speed" = "Wind Speed";
 
-"tempDescription" = "%.1f / %.1f  Feels Like %.1f";
+"tempDescription" = "%.1f%@ / %.1f%@  Feels Like %.1f%@";
 
 "low_uv" = "low";
 "normal_uv" = "normal";

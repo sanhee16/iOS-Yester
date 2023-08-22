@@ -16,7 +16,7 @@
 "wind" = "바람";
 "wind_speed" = "풍속";
 
-"tempDescription" = "%.1f / %.1f  체감 온도 %.1f";
+"tempDescription" = "%.1f%@ / %.1f%@  체감 온도 %.1f%@";
 
 "low_uv" = "낮음";
 "normal_uv" = "보통";
