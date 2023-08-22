@@ -28,13 +28,6 @@ class WeatherCardViewController: UIViewController {
     fileprivate lazy var cardScrollView: UIScrollView = UIScrollView()
     fileprivate lazy var cardContentView: UIView = UIView()
     
-    // Header
-    private lazy var currentTempLabel: UILabel = UILabel()
-    private lazy var currentDescriptionLabel: UILabel = UILabel()
-    private lazy var currentWeatherImage: UIImageView = UIImageView()
-    private lazy var locationLabel: UILabel = UILabel()
-    private lazy var tempDescription: UILabel = UILabel()
-    
     // Hourly
     fileprivate lazy var hourlyScrollView: UIScrollView = UIScrollView()
     fileprivate lazy var hourlyContentView: UIView = UIView()
@@ -438,14 +431,23 @@ class WeatherCardViewController: UIViewController {
             .justifyContent(.spaceBetween)
             .padding(0)
             .define { flex in
+                // Header
+                var currentWeatherImage: UIImageView = UIImageView()
                 flex.addItem()
+                    .shrink(1)
                     .direction(.column)
                     .define { flex in
+                        var currentTempLabel: UILabel = UILabel()
+                        var currentDescriptionLabel: UILabel = UILabel()
+                        var locationLabel: UILabel = UILabel()
+                        var tempDescription: UILabel = UILabel()
+                        
                         currentTempLabel.font = .en38
                         currentTempLabel.text = String(format: "%.1f", current.temp_c)
                         
                         currentDescriptionLabel.font = .en20
                         currentDescriptionLabel.text = current.condition.text
+                        currentDescriptionLabel.numberOfLines = 0
                         
                         currentWeatherImage.contentMode = .scaleAspectFit
                         currentWeatherImage.image = current.iconImage()?.resized(toWidth: 80.0)
@@ -473,6 +475,8 @@ class WeatherCardViewController: UIViewController {
                         //                        tempDescription.text = String(format: "%.1f / %.1f  체감 온도 %.1f", daily.first?.temp.min ?? 0.0, daily.first?.temp.max ?? 0.0, currentWeather.feels_like)
                         flex.addItem(tempDescription).marginTop(2)
                     }
+                
+                currentWeatherImage.flex.view?.pin.left()
                 flex.addItem(currentWeatherImage).alignSelf(.start)
             }
     }
