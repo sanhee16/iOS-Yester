@@ -357,3 +357,61 @@ extension WeatherIcon {
         return UIImage(named: imageCode)
     }
 }
+
+enum TemperatureUnitV2: Int {
+    case celsius = 0 //°C
+    case fahrenheit = 1 //°F
+    
+    var keys: String {
+        switch self {
+        case .celsius: return "_c"
+        case .fahrenheit: return "_f"
+        }
+    }
+    
+    var units: String {
+        switch self {
+        case .celsius: return "°C"
+        case .fahrenheit: return "°F"
+        }
+    }
+}
+
+enum WindUnitV2: Int {
+    case mph = 0 // mi/h
+    case kph = 1 // km/h
+    
+    var keys: String {
+        switch self {
+        case .mph: return "_mph"
+        case .kph: return "_kph"
+        }
+    }
+    
+    var units: String {
+        switch self {
+        case .mph: return "mi/h"
+        case .kph: return "km/h"
+        }
+    }
+}
+
+// precipitation
+enum PrecipitationUnitV2: Int {
+    case inch = 0 //in
+    case mm = 1 //mm
+    
+    var keys: String {
+        switch self {
+        case .inch: return "_in"
+        case .mm: return "_mm"
+        }
+    }
+    
+    var units: String {
+        switch self {
+        case .inch: return "in"
+        case .mm: return "mm"
+        }
+    }
+}

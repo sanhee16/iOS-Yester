@@ -44,4 +44,7 @@ class Defaults {
     
     @UserDefault<[Location]>(key: "LOCATIONS", defaultValue: [])
     public static var locations
+    
+    @UserDefault<[String: Int]>(key: "UNITS", defaultValue: [C.UNIT_TEMP: 0, C.UNIT_WIND: 0, C.UNIT_PREC: 0])
+    public static var units
 }

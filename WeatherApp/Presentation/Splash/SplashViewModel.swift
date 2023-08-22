@@ -27,6 +27,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     var onCompleteFirstTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     var onCompleteSecondTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteThirdTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
@@ -69,10 +70,25 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
-                self?.coordinator.presentMainView()
+                self?.setUnits()
             }
         }.store(in: &self.subscription)
-
+        
+        self.onCompleteThirdTasks.sink { completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+//                self?.coordinator.presentMainView()
+            }
+        }.store(in: &self.subscription)
+    }
+    
+    // alert
+    func setUnits() {
+        Defaults.units.forEach { (key, value) in
+            C.units[key] = value
+        }
+        self.onCompleteThirdTasks.send(true)
     }
     
     func getDefaultsLocations() {
