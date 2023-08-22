@@ -12,7 +12,7 @@ import Combine
 import PinLayout
 import FlexLayout
 
-
+// https://marlonjames.medium.com/uipageviewcontroller-with-dynamic-data-d5eedadccce6
 class MainViewController: BaseViewController {
     typealias VM = MainViewModel
     
@@ -21,16 +21,18 @@ class MainViewController: BaseViewController {
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var pageVC: UIPageViewController
     fileprivate var pages: [WeatherCardViewController]
+    
+    
     var currentIdx: Int {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
     }
+    var isLoading: CurrentValueSubject<Bool, Never> = CurrentValueSubject(true)
     
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
         return lottieVC
     }()
-    
     
     init(vm: VM) {
         self.vm = vm
@@ -42,37 +44,38 @@ class MainViewController: BaseViewController {
         self.pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
         
         super.init()
-        self.bind(to: vm)
+        self.bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func bind(to vm: VM) {
-        vm.items.observe(on: self) { [weak self] items in
+    private func bind() {
+        print("[MainVC] Bind")
+        vm.items.observe(on: self) {[weak self] items in
             guard let self = self else { return }
-            self.pages.removeAll()
-            items.forEach { item in
-                self.pages.append(WeatherCardViewController(vm: vm, item: item))
+            self.isLoading.send(true)
+        
+            var newPages: [WeatherCardViewController] = []
+            for item in items {
+                newPages.append(WeatherCardViewController(vm: self.vm, item: item))
             }
-            self.pages.append(WeatherCardViewController(vm: vm, item: nil))
+            newPages.append(WeatherCardViewController(vm: self.vm, item: nil))
+            self.pages = newPages
+            
             self.loadPages()
+            self.isLoading.send(false)
         }
         
-        vm.onCompleteLoadPage.observe(on: self) { [weak self] isComplete in
-            guard let self = self else { return }
-            if isComplete {
-                self.loadPages()
-            }
-        }
-        
-        vm.isProgressing.observe(on: self) { [weak self] isProgressing in
-            guard let self = self else { return }
-            self.lottieVC.view.isHidden = !isProgressing
-            self.pageVC.view.isHidden = isProgressing
-        }
+        self.isLoading.sink { _ in
+            
+        } receiveValue: { [weak self] isLoading in
+            self?.lottieVC.view.isHidden = !isLoading
+            self?.pageVC.view.isHidden = isLoading
+        }.store(in: &self.subscription)
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +83,17 @@ class MainViewController: BaseViewController {
         self.setLayout()
         
         vm.viewDidLoad()
+    }
+    
+    private func loadPages() {
+        self.pageVC.dataSource = nil
+        self.pageVC.dataSource = self
+        self.pageVC.delegate = self
+        
+        if let firstVC = cardViewControllerAtIndex(currentIdx) {
+            let viewControllers = [firstVC]
+            self.pageVC.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
+        }
     }
     
     private func setLayout() {
@@ -101,23 +115,10 @@ class MainViewController: BaseViewController {
             }
     }
     
-    private func loadPages() {
-        // BLOCK 1
-        self.pageVC.dataSource = nil
-        self.pageVC.dataSource = self
-        self.pageVC.delegate = self
-        
-        self.pageVC.setViewControllers([self.pages[currentIdx]], direction: .forward, animated: false, completion: nil)
-    }
-    
-    private func moveFirstPage() {
-        // BLOCK 2
-        //[TROUBLE_SHOOTING]: 위 블럭(Block1)과 아래 블럭(Block2) 위치를 바꿨더니 데이터 업데이트가 안되었음
-        if let startVC = self.pages.first {
-            self.pageVC.setViewControllers([startVC], direction: .forward, animated: true) { isComplete in
-                startVC.viewWillAppear(true)
-            }
-        }
+    private func cardViewControllerAtIndex(_ index: Int) -> WeatherCardViewController? {
+        if self.pages.count <= index { return nil }
+        vm.onChangePage(index)
+        return self.pages[index]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,25 +136,15 @@ class MainViewController: BaseViewController {
 extension MainViewController: UIPageViewControllerDataSource {
     // 현재 페이지 뷰의 이전 뷰를 미리 로드
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if self.currentIdx <= 0 {
-            return nil
-        }
-        let previousIndex = self.currentIdx - 1
-        return self.pages[previousIndex]
+        guard self.currentIdx > 0 else { return nil }
+        return cardViewControllerAtIndex(self.currentIdx - 1)
     }
     
     // 현재 페이지 뷰의 다음 뷰를 미리 로드
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if self.currentIdx >= self.pages.count - 1 {
-            return nil
-        }
-        let nextIdx = self.currentIdx + 1
-        if self.pages[nextIdx].item != nil {
-            vm.updateWeather(vm.items.value[nextIdx])
-        }
-        return self.pages[nextIdx]
+        guard self.currentIdx < self.pages.count - 1 else { return nil }
+        return cardViewControllerAtIndex(self.currentIdx + 1)
     }
-    
     
     // 인디케이터의 개수
     func presentationCount(for pageViewController: UIPageViewController) -> Int {

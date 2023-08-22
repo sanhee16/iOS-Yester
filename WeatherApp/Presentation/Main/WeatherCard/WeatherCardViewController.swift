@@ -92,7 +92,6 @@ class WeatherCardViewController: UIViewController {
         rootFlexContainer.flex.cornerRadius(20)
         
         if let item = self.item, let current = item.currentWeather {
-            
             rootFlexContainer.flex
                 .marginHorizontal(14)
                 .direction(.column)

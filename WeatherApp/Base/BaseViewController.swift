@@ -10,7 +10,7 @@ import Combine
 import UIKit
 
 class BaseViewController: UIViewController {
-    var cancellables = Set<AnyCancellable>()
+    var subscription: Set<AnyCancellable> = []
         
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -31,5 +31,10 @@ class BaseViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = ""
     }
-
+    
+    deinit {
+        subscription.forEach {
+            $0.cancel()
+        }
+    }
 }
