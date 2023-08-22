@@ -25,14 +25,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let locationService: LocationService
     let locationRespository: AnyRepository<Location>
     
-    let onCompleteSetCurrentLocation: CurrentValueSubject<Bool?, Error>
+    var onCompleteFirstTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteSecondTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
         self.locationService = locationService
         
-        self.onCompleteSetCurrentLocation = CurrentValueSubject<Bool?, Error>(nil)
         super.init(coordinator)
     }
     
@@ -57,28 +57,30 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     }
     
     func bind() {
-        self.onCompleteSetCurrentLocation
-            .sink { completion in
-                
-            } receiveValue: {[weak self] isDone in
-                guard let isDone = isDone else { return }
-                if isDone {
-                    print("[SPLASH] isDone")
-                    self?.getDefaultsLocations()
-                } else {
-                    print("[SPLASH] Error가 발생하였습니다.")
-                }
+        self.onCompleteFirstTasks.sink { completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+                self?.getDefaultsLocations()
             }
-            .store(in: &self.subscription)
+        }.store(in: &self.subscription)
+        
+        self.onCompleteSecondTasks.sink { completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+                self?.coordinator.presentMainView()
+            }
+        }.store(in: &self.subscription)
+
     }
     
     func getDefaultsLocations() {
-        print("[SPLASH] getDefaultsLocations")
         Defaults.locations.removeAll()
         self.locationRespository.getAll().forEach { location in
             Defaults.locations.append(location)
-            self.coordinator.presentMainView()
         }
+        self.onCompleteSecondTasks.send(true)
     }
     
     func setCurrentLocation() {
@@ -103,14 +105,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                         let location = Location(lat: res.lat, lon: res.lon, isStar: false, isCurrent: true, name: res.localName)
                         try? self.locationRespository.insert(item: location)
                     }
-                    self.onCompleteSetCurrentLocation.value = true
-                } complete: { [weak self] in
-                    guard let self = self else { return }
+                    self.onCompleteFirstTasks.send(true)
+                } complete: {
                     print("[SPLASH] requestLocation complete")
                 }
         } error: {[weak self] err in
+            guard let self = self else { return }
             print("[SPLASH] err!!: \(err)")
-            self?.onCompleteSetCurrentLocation.value = false
+            self.onCompleteFirstTasks.send(completion: .failure(err))
         }
     }
 }
