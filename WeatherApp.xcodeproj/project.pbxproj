@@ -30,6 +30,8 @@
 		265DB8302A7BA332007671B7 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DB82F2A7BA332007671B7 /* WeatherData.swift */; };
 		265DB8322A7BC1BF007671B7 /* WeatherItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DB8312A7BC1BF007671B7 /* WeatherItem.swift */; };
 		265EFDCB2A94942200655208 /* C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265EFDCA2A94942200655208 /* C.swift */; };
+		265EFDCE2A9496CA00655208 /* SelectUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265EFDCD2A9496CA00655208 /* SelectUnitViewController.swift */; };
+		265EFDD02A9496D200655208 /* SelectUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265EFDCF2A9496D200655208 /* SelectUnitViewModel.swift */; };
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
@@ -102,6 +104,8 @@
 		265DB82F2A7BA332007671B7 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		265DB8312A7BC1BF007671B7 /* WeatherItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherItem.swift; sourceTree = "<group>"; };
 		265EFDCA2A94942200655208 /* C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C.swift; sourceTree = "<group>"; };
+		265EFDCD2A9496CA00655208 /* SelectUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitViewController.swift; sourceTree = "<group>"; };
+		265EFDCF2A9496D200655208 /* SelectUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitViewModel.swift; sourceTree = "<group>"; };
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 		265BF3072A7D37BB0087ADDA /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				265EFDCC2A94969C00655208 /* SelectUnitView */,
 				265BF3082A7D37C80087ADDA /* SplashViewController.swift */,
 				265BF30A2A7D37D00087ADDA /* SplashViewModel.swift */,
 			);
@@ -217,6 +222,15 @@
 				2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */,
 			);
 			path = WeatherCard;
+			sourceTree = "<group>";
+		};
+		265EFDCC2A94969C00655208 /* SelectUnitView */ = {
+			isa = PBXGroup;
+			children = (
+				265EFDCD2A9496CA00655208 /* SelectUnitViewController.swift */,
+				265EFDCF2A9496D200655208 /* SelectUnitViewModel.swift */,
+			);
+			path = SelectUnitView;
 			sourceTree = "<group>";
 		};
 		2660C4DD2A66AAEB00D830E6 /* SelectLocation */ = {
@@ -595,6 +609,7 @@
 				265BF30B2A7D37D00087ADDA /* SplashViewModel.swift in Sources */,
 				26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */,
 				26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */,
+				265EFDCE2A9496CA00655208 /* SelectUnitViewController.swift in Sources */,
 				2680B6342A6BD6EA009031AE /* AppConfiguration.swift in Sources */,
 				2638F7A52A932F7E0017EED8 /* WeatherServiceV2.swift in Sources */,
 				267391CC2A650AFD00F1DC2D /* AnyRepository.swift in Sources */,
@@ -615,6 +630,7 @@
 				265840712A628B72009F2CC4 /* BaseViewController.swift in Sources */,
 				26703D472A6161DE007E5717 /* MainViewModel.swift in Sources */,
 				2617AF442A74A4100089118A /* NavigationController.swift in Sources */,
+				265EFDD02A9496D200655208 /* SelectUnitViewModel.swift in Sources */,
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,
 				267391CE2A650B3400F1DC2D /* Repository.swift in Sources */,

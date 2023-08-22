@@ -53,4 +53,21 @@ final class AppCoordinator {
         )
         self.navigationController.pushViewController(vc, animated: true)
     }
+
+    func presentSelectUnitView(_ onDismiss: @escaping ()->()) {
+        let lastVC = self.navigationController.viewControllers.last
+        let vc = SelectUnitViewController(vm: DefaultSelectUnitViewModel(self, onDismiss: onDismiss))
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        vc.view.backgroundColor = .clear
+
+        lastVC?.present(vc, animated: true)
+    }
+    
+    func dismissSelectUnitView(_ onDismiss: @escaping ()->()) {
+        let lastVC = self.navigationController.viewControllers.last
+        lastVC?.dismiss(animated: true)
+        onDismiss()
+    }
+    
 }

@@ -24,3 +24,8 @@
 "very_high_uv" = "매우 높음";
 "dangerous_uv" = "위험";
 
+"select_unit" = "단위 선택하기";
+"temperature" = "온도";
+"precipitation" = "강수량";
+
+"save" = "저장";

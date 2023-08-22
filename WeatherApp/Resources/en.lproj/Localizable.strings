@@ -23,3 +23,9 @@
 "high_uv" = "high";
 "very_high_uv" = "very high";
 "dangerous_uv" = "dangerous";
+
+"select_unit" = "Select Units";
+"temperature" = "Temperature";
+"precipitation" = "Precipitation";
+
+"save" = "Save";

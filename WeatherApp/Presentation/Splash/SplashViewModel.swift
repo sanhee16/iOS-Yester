@@ -78,13 +78,24 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
-//                self?.coordinator.presentMainView()
+                self?.coordinator.presentMainView()
             }
         }.store(in: &self.subscription)
     }
     
     // alert
     func setUnits() {
+        if Defaults.firstLaunch {
+            Defaults.firstLaunch = false
+            self.coordinator.presentSelectUnitView {[weak self] in
+                self?.loadUnits()
+            }
+        } else {
+            loadUnits()
+        }
+    }
+    
+    func loadUnits() {
         Defaults.units.forEach { (key, value) in
             C.units[key] = value
         }
