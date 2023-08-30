@@ -20,7 +20,6 @@ class WeatherCardViewController: UIViewController {
         item == nil
     }
     
-    let addButton: UIButton = UIButton()
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     
@@ -119,8 +118,10 @@ class WeatherCardViewController: UIViewController {
                 .margin(0, 16)
                 .justifyContent(.center)
                 .define { flex in
+                    let addButton: UIButton = UIButton()
                     let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
                     let addImageBold = UIImage(systemName: "plus", withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+                    
                     addButton.setImage(addImageBold, for: .normal)
                     addButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
                     
@@ -441,60 +442,64 @@ class WeatherCardViewController: UIViewController {
     
     private func drawHeader(_ flex: Flex, location: Location, current: CurrentV2, today: ForecastV2) {
         flex.addItem()
-            .direction(.row)
-            .justifyContent(.spaceBetween)
+            .direction(.column)
             .padding(0)
             .define { flex in
-                // Header
-                let currentWeatherImage: UIImageView = UIImageView()
                 flex.addItem()
-                    .shrink(1)
-                    .direction(.column)
+                    .direction(.row)
+                    .justifyContent(.spaceBetween)
+                    .padding(0)
                     .define { flex in
-                        let currentTempLabel: UILabel = UILabel()
-                        let currentDescriptionLabel: UILabel = UILabel()
-                        let locationLabel: UILabel = UILabel()
-                        let tempDescription: UILabel = UILabel()
-                        
-                        currentTempLabel.font = .en38
-                        currentTempLabel.text = String(format: "%.1f %@", Utils.getTempUnit() == .celsius ? current.temp_c : current.temp_f, Utils.getTempUnitText())
-                        
-                        currentDescriptionLabel.font = .en20
-                        currentDescriptionLabel.text = current.condition.text
-                        currentDescriptionLabel.numberOfLines = 0
-                        
-                        currentWeatherImage.contentMode = .scaleAspectFit
-                        currentWeatherImage.image = current.iconImage()?.resized(toWidth: 80.0)
-                        
-                        locationLabel.font = .en16
-                        locationLabel.text = location.name
-                        
-                        flex.addItem(currentTempLabel)
-                        flex.addItem(currentDescriptionLabel)
+                        // Header
+                        let currentWeatherImage: UIImageView = UIImageView()
                         flex.addItem()
-                            .direction(.row)
-                            .marginTop(20)
+                            .shrink(1)
+                            .direction(.column)
                             .define { flex in
-                                flex.addItem(locationLabel)
-                                if location.isCurrent {
-                                    let locationImage: UIImageView = UIImageView()
-                                    locationImage.contentMode = .scaleAspectFit
-                                    locationImage.image = UIImage(systemName: "location.fill")?.resized(toWidth: 13)
-                                    flex.addItem(locationImage).marginLeft(4)
-                                }
+                                let currentTempLabel: UILabel = UILabel()
+                                let currentDescriptionLabel: UILabel = UILabel()
+                                
+                                currentTempLabel.font = .en38
+                                currentTempLabel.text = String(format: "%.1f %@", Utils.getTempUnit() == .celsius ? current.temp_c : current.temp_f, Utils.getTempUnitText())
+                                
+                                currentDescriptionLabel.font = .en20
+                                currentDescriptionLabel.text = current.condition.text
+                                currentDescriptionLabel.numberOfLines = 0
+                                
+                                currentWeatherImage.contentMode = .scaleAspectFit
+                                currentWeatherImage.image = current.iconImage()?.resized(toWidth: 80.0)
+                                flex.addItem(currentTempLabel)
+                                flex.addItem(currentDescriptionLabel)
                             }
                         
-                        tempDescription.font = .en16
-                        tempDescription.text = "tempDescription".localized([
-                            Utils.getTempUnit() == .celsius ? today.day.mintemp_c : today.day.mintemp_f, Utils.getTempUnitText(),
-                            Utils.getTempUnit() == .celsius ? today.day.maxtemp_c : today.day.maxtemp_f, Utils.getTempUnitText(),
-                            Utils.getTempUnit() == .celsius ? current.feelslike_c : current.feelslike_f, Utils.getTempUnitText()
-                        ])
-                        flex.addItem(tempDescription).marginTop(2)
+                        currentWeatherImage.flex.view?.pin.left()
+                        flex.addItem(currentWeatherImage).alignSelf(.start)
+                    }
+                let locationLabel: UILabel = UILabel()
+                let tempDescription: UILabel = UILabel()
+                locationLabel.font = .en16
+                locationLabel.text = location.name
+                
+                flex.addItem()
+                    .direction(.row)
+                    .marginTop(20)
+                    .define { flex in
+                        flex.addItem(locationLabel)
+                        if location.isCurrent {
+                            let locationImage: UIImageView = UIImageView()
+                            locationImage.contentMode = .scaleAspectFit
+                            locationImage.image = UIImage(systemName: "location.fill")?.resized(toWidth: 13)
+                            flex.addItem(locationImage).marginLeft(4)
+                        }
                     }
                 
-                currentWeatherImage.flex.view?.pin.left()
-                flex.addItem(currentWeatherImage).alignSelf(.start)
+                tempDescription.font = .en16
+                tempDescription.text = "tempDescription".localized([
+                    Utils.getTempUnit() == .celsius ? today.day.mintemp_c : today.day.mintemp_f, Utils.getTempUnitText(),
+                    Utils.getTempUnit() == .celsius ? today.day.maxtemp_c : today.day.maxtemp_f, Utils.getTempUnitText(),
+                    Utils.getTempUnit() == .celsius ? current.feelslike_c : current.feelslike_f, Utils.getTempUnitText()
+                ])
+                flex.addItem(tempDescription).marginTop(2)
             }
     }
 }
