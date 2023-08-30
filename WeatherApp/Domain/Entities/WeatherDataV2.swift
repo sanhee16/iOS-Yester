@@ -377,8 +377,8 @@ enum TemperatureUnitV2: Int {
     
     var units: String {
         switch self {
-        case .celsius: return "°C"
-        case .fahrenheit: return "°F"
+        case .celsius: return "°" // "°C"
+        case .fahrenheit: return "°" // "°F"
         }
     }
 }

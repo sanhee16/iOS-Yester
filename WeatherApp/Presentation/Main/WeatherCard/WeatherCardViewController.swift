@@ -312,7 +312,7 @@ class WeatherCardViewController: UIViewController {
                                 weekdayText: "yesterday".localized(),
                                 minTemp: Utils.getTempUnit() == .celsius ? yesterday.day.mintemp_c : yesterday.day.mintemp_f,
                                 maxTemp: Utils.getTempUnit() == .celsius ? yesterday.day.maxtemp_c : yesterday.day.maxtemp_f,
-                                rainChance: yesterday.day.daily_chance_of_rain,
+                                rainChance: nil,
                                 iconImage: yesterday.day.iconImage()
                             )
                         }
@@ -336,40 +336,47 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawWeeklyItem(_ flex: Flex, weekdayText: String, minTemp: Double, maxTemp: Double, rainChance: Int, iconImage: UIImage?) {
+    private func drawWeeklyItem(_ flex: Flex, weekdayText: String, minTemp: Double, maxTemp: Double, rainChance: Int?, iconImage: UIImage?) {
         let weekday: UILabel = UILabel()
         weekday.font = .en14
         weekday.text = weekdayText
         flex.addItem(weekday)
         
         flex.addItem()
+            .justifyContent(.end)
+            .alignItems(.center)
             .direction(.row)
             .define { flex in
                 let weatherImage: UIImageView = UIImageView()
                 let temp: UILabel = UILabel()
-                let pop: UILabel = UILabel()
                 
                 temp.font = .en14
-                temp.text = String(format: "%.0f%@  %.0f%@", minTemp, Utils.getTempUnitText(), maxTemp, Utils.getTempUnitText())
+                temp.text = String(format: "%.0f%@ %.0f%@", minTemp, Utils.getTempUnitText(), maxTemp, Utils.getTempUnitText())
                 
-                pop.font = .en14
-                pop.text = String(format: "%2d%%", rainChance)
+                if let rainChance = rainChance {
+                    flex.addItem()
+                        .direction(.row)
+                        .alignItems(.center)
+                        .width(42)
+                        .justifyContent(.spaceBetween)
+                        .define { flex in
+                            let pop: UILabel = UILabel()
+                            pop.font = .en12
+                            pop.text = String(format: "%d%%", rainChance)
+                            pop.textColor = .black.withAlphaComponent(0.82)
+                            
+                            let waterDrop: UIImageView = UIImageView()
+                            waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 10)
+                            flex.addItem(waterDrop)
+                            flex.addItem(pop)
+                        }
+                }
                 
                 weatherImage.contentMode = .scaleAspectFit
+                weatherImage.image = iconImage?.resized(toWidth: 30.0)
                 
-                weatherImage.image = iconImage?.resized(toWidth: 34.0)
-                
-                flex.addItem()
-                    .direction(.row)
-                    .alignItems(.center)
-                    .define { flex in
-                        let waterDrop: UIImageView = UIImageView()
-                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
-                        flex.addItem(waterDrop)
-                        flex.addItem(pop).paddingLeft(6)
-                    }
-                flex.addItem(weatherImage).paddingLeft(12)
-                flex.addItem(temp)
+                flex.addItem(weatherImage).width(50).alignItems(.center)
+                flex.addItem(temp).justifyContent(.spaceBetween).width(60)
             }
     }
     
@@ -410,27 +417,27 @@ class WeatherCardViewController: UIViewController {
                                             image.contentMode = .scaleAspectFit
                                             image.image = item.iconImage()?.resized(toWidth: 34.0)
                                             
-                                            flex.addItem(time).paddingBottom(6)
-                                            flex.addItem(image).paddingBottom(6)
-                                            flex.addItem(temp).paddingBottom(4)
+                                            flex.addItem(time).paddingBottom(8)
+                                            flex.addItem(image).paddingBottom(4)
+                                            flex.addItem(temp).paddingBottom(8)
                                             flex.addItem()
                                                 .direction(.row)
                                                 .alignItems(.center)
                                                 .define { flex in
                                                     let pop: UILabel = UILabel()
                                                     let waterDrop: UIImageView = UIImageView()
-                                                    pop.font = .en14
+                                                    pop.font = .en12
                                                     
                                                     if item.chance_of_snow > 0 {
                                                         pop.text = String(format: "%d%%", item.chance_of_snow)
-                                                        waterDrop.image = UIImage(named: "13n")?.resized(toWidth: 12)
+                                                        waterDrop.image = UIImage(named: "13n")?.resized(toWidth: 10)
                                                     } else {
                                                         pop.text = String(format: "%d%%", item.chance_of_rain)
-                                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 12)
+                                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 10)
                                                     }
                                                     
                                                     
-                                                    flex.addItem(waterDrop).paddingLeft(4)
+                                                    flex.addItem(waterDrop).marginRight(2)
                                                     flex.addItem(pop)
                                                 }
                                         }
