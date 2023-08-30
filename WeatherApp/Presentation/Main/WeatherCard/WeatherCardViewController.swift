@@ -351,7 +351,7 @@ class WeatherCardViewController: UIViewController {
                 let temp: UILabel = UILabel()
                 
                 temp.font = .en14
-                temp.text = String(format: "%.0f%@ %.0f%@", minTemp, Utils.getTempUnitText(), maxTemp, Utils.getTempUnitText())
+                temp.text = String(format: "%.0f%@  %.0f%@", minTemp, Utils.getTempUnitText(), maxTemp, Utils.getTempUnitText())
                 
                 if let rainChance = rainChance {
                     flex.addItem()
@@ -375,8 +375,10 @@ class WeatherCardViewController: UIViewController {
                 weatherImage.contentMode = .scaleAspectFit
                 weatherImage.image = iconImage?.resized(toWidth: 30.0)
                 
-                flex.addItem(weatherImage).width(50).alignItems(.center)
-                flex.addItem(temp).justifyContent(.spaceBetween).width(60)
+                flex.addItem(weatherImage).marginLeft(10)
+                flex.addItem().direction(.row).justifyContent(.end).width(60).define { flex in
+                    flex.addItem(temp)
+                }
             }
     }
     
@@ -466,8 +468,8 @@ class WeatherCardViewController: UIViewController {
                                 let currentTempLabel: UILabel = UILabel()
                                 let currentDescriptionLabel: UILabel = UILabel()
                                 
-                                currentTempLabel.font = .en38
-                                currentTempLabel.text = String(format: "%.1f %@", Utils.getTempUnit() == .celsius ? current.temp_c : current.temp_f, Utils.getTempUnitText())
+                                currentTempLabel.font = .en48
+                                currentTempLabel.text = String(format: "%.1f%@", Utils.getTempUnit() == .celsius ? current.temp_c : current.temp_f, Utils.getTempUnitText())
                                 
                                 currentDescriptionLabel.font = .en20
                                 currentDescriptionLabel.text = current.condition.text
