@@ -18,7 +18,6 @@ class SplashViewController: BaseViewController {
     
     private let searchButton: UIButton = {
         let button = UIButton()
-        
         return button
     }()
     

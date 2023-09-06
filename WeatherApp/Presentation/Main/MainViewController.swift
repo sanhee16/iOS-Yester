@@ -69,7 +69,7 @@ class MainViewController: BaseViewController {
                     self.pages.append(WeatherCardViewController(vm: self.vm, item: item))
                 }
                 self.pages.append(WeatherCardViewController(vm: self.vm, item: nil))
-
+                
                 self.loadPages(status)
                 break
             }
@@ -82,12 +82,38 @@ class MainViewController: BaseViewController {
         }
     }
     
+    
     override func viewDidLoad() {
+        func navigationButtonItem(_ systemName: String, action: Selector) -> UIBarButtonItem {
+            let btn: UIButton = UIButton()
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .medium)
+            let image = UIImage(systemName: systemName, withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            
+            btn.setImage(image, for: .normal)
+            btn.addTarget(self, action: action, for: .touchUpInside)
+            btn.frame = CGRectMake(0, 0, 30, 30)
+            
+            return UIBarButtonItem(customView: btn)
+        }
+
         super.viewDidLoad()
+        
+        let listBtn: UIBarButtonItem = navigationButtonItem("list.dash", action: #selector(self.didTapListButton))
+        let settingBtn: UIBarButtonItem = navigationButtonItem("gearshape.fill", action: #selector(self.didTapSettingButton))
+        
         self.navigationItem.hidesBackButton = true
+        self.navigationItem.rightBarButtonItems = [listBtn, settingBtn]
         self.setLayout()
         
         vm.viewDidLoad()
+    }
+    
+    @objc func didTapListButton(sender: AnyObject) {
+        print("didTapListButton")
+    }
+    
+    @objc func didTapSettingButton(sender: AnyObject) {
+        print("didTapSettingButton")
     }
     
     private func loadPages(_ status: UpdateStatus) {
