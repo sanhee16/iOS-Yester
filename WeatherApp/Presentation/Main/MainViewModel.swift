@@ -9,17 +9,25 @@ import Foundation
 import Alamofire
 import Combine
 
+
+enum UpdateStatus {
+    case none
+    case reload([WeatherCardItemV2])
+    case load(Int, WeatherCardItemV2)
+}
+
 protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
 
 protocol MainViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickAddLocation()
-    func onChangePage(_ idx: Int)
+    func onChangePage(_ idx: Int, onDone: (()->())?)
 }
 
 protocol MainViewModelOutput {
-    var items: Observable<[WeatherCardItemV2]> { get }
+    var items: [WeatherCardItemV2] { get }
+    var updateStatus: Observable<UpdateStatus> { get }
 }
 
 class DefaultMainViewModel: BaseViewModel {
@@ -29,8 +37,9 @@ class DefaultMainViewModel: BaseViewModel {
     private let locationService: LocationService
     
     var isLoading: Bool = false
-    var items: Observable<[WeatherCardItemV2]> = Observable([])
-    
+    var items: [WeatherCardItemV2] = []
+    var isFirstLoad: Bool = true
+    var updateStatus: Observable<UpdateStatus> = Observable(.none)
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         print("init!")
@@ -50,11 +59,10 @@ extension DefaultMainViewModel: MainViewModel {
         print("[MainVC] viewWillAppear")
         self.loadLocations()
         
-        self.updateWeather(0) {[weak self] in
-            guard let self = self else { return }
-            if self.items.value.count > 1 {
-                self.updateWeather(1)
-            }
+        self.isFirstLoad = true
+        self.updateStatus.value = .none
+        self.onChangePage(0) {[weak self] in
+            self?.onChangePage(1, onDone: nil)
         }
     }
     
@@ -62,35 +70,26 @@ extension DefaultMainViewModel: MainViewModel {
         coordinator.presentSelectLocation()
     }
     
-    func onChangePage(_ idx: Int) {
-        if idx >= self.items.value.count {
+    func onChangePage(_ idx: Int, onDone: (()->())?) {
+        if idx >= self.items.count {
             return
         }
-        if self.items.value[idx].isLoaded {
+        if self.items[idx].isLoaded {
             return
         }
-        self.updateWeather(idx) {[weak self] in
-            guard let self = self else { return }
-            let idx2 = idx + 1
-            if idx2 >= self.items.value.count {
-                return
-            }
-            if self.items.value[idx2].isLoaded {
-                return
-            }
-            self.updateWeather(idx2)
-        }
+        self.updateWeather(idx, onDone: onDone)
     }
     
     func updateWeather(_ idx: Int, onDone: (()->())? = nil) {
-        if self.isLoading {
+        if self.isLoading || self.items[idx].isLoaded{
             onDone?()
             return
         }
+        
         self.isLoading = true
         print("[MainVC] updateWeather: \(idx)")
         
-        let location = self.items.value[idx].location
+        let location = self.items[idx].location
         
         Publishers.Zip(
             self.weatherServiceV2.getForecastWeather(location),
@@ -98,7 +97,7 @@ extension DefaultMainViewModel: MainViewModel {
         )
         .run(in: &self.subscription) {[weak self] ( forecastResponse: DataResponse<ForecastResponseV2, NetworkErrorV2>, historyResponse: DataResponse<HistoryResponseV2, NetworkErrorV2>) in
             guard let self = self, let forecastResponse = forecastResponse.value, let historyResponse = historyResponse.value else {
-                self?.items.value[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: true)
+                self?.items[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: true)
                 self?.isLoading = false
                 onDone?()
                 return
@@ -107,9 +106,14 @@ extension DefaultMainViewModel: MainViewModel {
             let forecast = forecastResponse.forecast.forecastday
             let history = historyResponse.forecast.forecastday.first
             
-            self.items.value[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
+            self.items[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
             self.isLoading = false
-            
+            if self.isFirstLoad {
+                self.updateStatus.value = .reload(self.items)
+                self.isFirstLoad = false
+            } else {
+                self.updateStatus.value = .load(idx, self.items[idx])
+            }
             onDone?()
         } complete: {
             
@@ -121,7 +125,7 @@ extension DefaultMainViewModel: MainViewModel {
             return
         }
         self.isLoading = true
-        let previousItems = self.items.value
+        let previousItems = self.items
         var newItems: [WeatherCardItemV2] = []
         
         Defaults.locations.forEach { location in
@@ -133,7 +137,7 @@ extension DefaultMainViewModel: MainViewModel {
                 newItems.append(WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: false))
             }
         }
-        self.items.value = newItems
+        self.items = newItems
         self.isLoading = false
     }
 }

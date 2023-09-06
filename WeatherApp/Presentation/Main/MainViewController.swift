@@ -52,22 +52,32 @@ class MainViewController: BaseViewController {
     }
     
     private func bind() {
-        print("[MainVC] Bind")
-        vm.items.observe(on: self) {[weak self] items in
+        vm.updateStatus.observe(on: self) { [weak self] status in
             guard let self = self else { return }
-            self.isLoading.send(true)
-        
-            var newPages: [WeatherCardViewController] = []
-            for item in items {
-                newPages.append(WeatherCardViewController(vm: self.vm, item: item))
-            }
-            newPages.append(WeatherCardViewController(vm: self.vm, item: nil))
-            self.pages = newPages
+            switch status {
+            case .none:
+                break
+            case .load(let idx, let item):
+                self.isLoading.send(true)
+                self.pages[idx] = WeatherCardViewController(vm: self.vm, item: item)
+                self.loadPages(status)
+                self.isLoading.send(false)
+                break
             
-            self.loadPages()
-            self.isLoading.send(false)
+            case .reload(let items):
+                self.isLoading.send(true)
+                
+                self.pages.removeAll()
+                for item in items {
+                    self.pages.append(WeatherCardViewController(vm: self.vm, item: item))
+                }
+                self.pages.append(WeatherCardViewController(vm: self.vm, item: nil))
+
+                self.loadPages(status)
+                self.isLoading.send(false)
+                break
+            }
         }
-        
         self.isLoading.sink { _ in
             
         } receiveValue: { [weak self] isLoading in
@@ -81,18 +91,20 @@ class MainViewController: BaseViewController {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
         self.setLayout()
-        
         vm.viewDidLoad()
     }
     
-    private func loadPages() {
+    private func loadPages(_ status: UpdateStatus) {
         self.pageVC.dataSource = nil
         self.pageVC.dataSource = self
-        self.pageVC.delegate = self
         
-        if let firstVC = cardViewControllerAtIndex(currentIdx) {
-            let viewControllers = [firstVC]
-            self.pageVC.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
+        if case .reload(_) = status {
+            self.pageVC.delegate = self
+            if let firstVC = cardViewControllerAtIndex(self.currentIdx) {
+                let viewControllers = [firstVC]
+                // 현재 페이지를 설정하는 것
+                self.pageVC.setViewControllers(viewControllers, direction: .forward, animated: false, completion: nil)
+            }
         }
     }
     
@@ -117,7 +129,7 @@ class MainViewController: BaseViewController {
     
     private func cardViewControllerAtIndex(_ index: Int) -> WeatherCardViewController? {
         if self.pages.count <= index { return nil }
-        vm.onChangePage(index)
+        vm.onChangePage(index, onDone: nil)
         return self.pages[index]
     }
     
@@ -160,8 +172,6 @@ extension MainViewController: UIPageViewControllerDataSource {
 extension MainViewController: UIPageViewControllerDelegate {
     // 현재 페이지 로드가 끝났을 때
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            if self.pages[self.currentIdx].item == nil { return }
-        }
+        if !completed { return }
     }
 }
