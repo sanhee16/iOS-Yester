@@ -35,6 +35,8 @@
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
+		266710A72AA894BF00B64DC5 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */; };
+		266710A92AA894C600B64DC5 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */; };
 		266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 266C82E82A8DE6C10017AB49 /* Localizable.strings */; };
 		266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26703D312A6161DD007E5717 /* Assets.xcassets */; };
 		26703D182A6160E5007E5717 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D172A6160E5007E5717 /* WeatherAppTests.swift */; };
@@ -109,6 +111,8 @@
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
+		266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
+		266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		266C82E72A8DE6C10017AB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		266C82E92A8DE6E40017AB49 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		26703CFD2A6160E4007E5717 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +247,15 @@
 			path = SelectLocation;
 			sourceTree = "<group>";
 		};
+		266710A52AA894AE00B64DC5 /* EditLocation */ = {
+			isa = PBXGroup;
+			children = (
+				266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */,
+				266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */,
+			);
+			path = EditLocation;
+			sourceTree = "<group>";
+		};
 		26703CF42A6160E4007E5717 = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +326,7 @@
 		26703D352A6161DD007E5717 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				266710A52AA894AE00B64DC5 /* EditLocation */,
 				265BF30C2A7D37D30087ADDA /* Blueprint */,
 				265BF3072A7D37BB0087ADDA /* Splash */,
 				2660C4DD2A66AAEB00D830E6 /* SelectLocation */,
@@ -615,6 +629,7 @@
 				267391CC2A650AFD00F1DC2D /* AnyRepository.swift in Sources */,
 				265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */,
 				26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */,
+				266710A72AA894BF00B64DC5 /* EditLocationViewController.swift in Sources */,
 				265DB8302A7BA332007671B7 /* WeatherData.swift in Sources */,
 				2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */,
 				265BF3122A7D38CD0087ADDA /* Defaults.swift in Sources */,
@@ -631,6 +646,7 @@
 				26703D472A6161DE007E5717 /* MainViewModel.swift in Sources */,
 				2617AF442A74A4100089118A /* NavigationController.swift in Sources */,
 				265EFDD02A9496D200655208 /* SelectUnitViewModel.swift in Sources */,
+				266710A92AA894C600B64DC5 /* EditLocationViewModel.swift in Sources */,
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,
 				267391CE2A650B3400F1DC2D /* Repository.swift in Sources */,

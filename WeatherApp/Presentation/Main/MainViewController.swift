@@ -8,7 +8,6 @@
 import UIKit
 import SwiftUI
 import Combine
-//import SnapKit
 import PinLayout
 import FlexLayout
 
@@ -102,18 +101,19 @@ class MainViewController: BaseViewController {
         let settingBtn: UIBarButtonItem = navigationButtonItem("gearshape.fill", action: #selector(self.didTapSettingButton))
         
         self.navigationItem.hidesBackButton = true
-        self.navigationItem.rightBarButtonItems = [listBtn, settingBtn]
+        self.navigationItem.rightBarButtonItems = [settingBtn, listBtn]
         self.setLayout()
         
         vm.viewDidLoad()
     }
     
     @objc func didTapListButton(sender: AnyObject) {
-        print("didTapListButton")
+        vm.onClickEditLocation()
     }
     
     @objc func didTapSettingButton(sender: AnyObject) {
         print("didTapSettingButton")
+        
     }
     
     private func loadPages(_ status: UpdateStatus) {
