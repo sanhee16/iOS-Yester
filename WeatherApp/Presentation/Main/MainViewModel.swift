@@ -156,6 +156,6 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func onClickSetting() {
-        
+        self.coordinator.presentSetting()
     }
 }

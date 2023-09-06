@@ -113,7 +113,7 @@ class MainViewController: BaseViewController {
     
     @objc func didTapSettingButton(sender: AnyObject) {
         print("didTapSettingButton")
-        
+        vm.onClickSetting()
     }
     
     private func loadPages(_ status: UpdateStatus) {

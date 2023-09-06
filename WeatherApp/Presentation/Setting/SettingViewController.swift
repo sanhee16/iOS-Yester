@@ -1,5 +1,5 @@
 //
-//  EditLocationViewController.swift
+//  SettingViewController.swift
 //  WeatherApp
 //
 //  Created by sandy on 2023/09/06.
@@ -11,8 +11,9 @@ import Combine
 import PinLayout
 import FlexLayout
 
-class EditLocationViewController: BaseViewController {
-    typealias VM = EditLocationViewModel
+
+class SettingViewController: BaseViewController {
+    typealias VM = SettingViewModel
     
     private let vm: VM
     

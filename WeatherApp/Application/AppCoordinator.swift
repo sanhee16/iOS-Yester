@@ -53,6 +53,15 @@ final class AppCoordinator {
     }
     
     
+    func presentSetting() {
+        let vc = SettingViewController(vm: DefaultSettingViewModel(
+            self
+        ))
+        
+        self.navigationController.pushViewController(vc, animated: false)
+    }
+    
+    
     func presentSelectLocation() {
         let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(
             self,
