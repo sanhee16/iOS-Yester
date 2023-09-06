@@ -63,7 +63,6 @@ class MainViewController: BaseViewController {
                 self.pages[idx] = WeatherCardViewController(vm: self.vm, item: item)
                 self.loadPages(status)
                 break
-            
             case .reload(let items):
                 self.pages.removeAll()
                 for item in items {
@@ -75,19 +74,19 @@ class MainViewController: BaseViewController {
                 break
             }
         }
+        
         vm.isLoading.observe(on: self) {[weak self] isLoading in
             DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
                 self?.lottieVC.view.isHidden = !isLoading
-//                self?.pageVC.view.isHidden = isLoading
             }
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
         self.setLayout()
+        
         vm.viewDidLoad()
     }
     

@@ -54,10 +54,12 @@ class DefaultMainViewModel: BaseViewModel {
 
 extension DefaultMainViewModel: MainViewModel {
     
-    func viewDidLoad() { }
+    func viewDidLoad() {
+        print("[LOCATION] VM viewDidLoad")
+    }
     
     func viewWillAppear() {
-        print("[MainVC] viewWillAppear")
+        print("[LOCATION] VM viewWillAppear")
         self.isLoading.value = false
         self.isFirstLoad = true
         self.updateStatus.value = .none
@@ -84,7 +86,7 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func updateWeather(_ idx: Int, onDone: (()->())? = nil) {
-        if self.isLoading.value || self.items[idx].isLoaded{
+        if self.isLoading.value || self.items[idx].isLoaded {
             onDone?()
             return
         }
@@ -110,13 +112,15 @@ extension DefaultMainViewModel: MainViewModel {
             let history = historyResponse.forecast.forecastday.first
             
             self.items[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
-            self.isLoading.value = false
+            
             if self.isFirstLoad {
                 self.updateStatus.value = .reload(self.items)
                 self.isFirstLoad = false
             } else {
                 self.updateStatus.value = .load(idx, self.items[idx])
             }
+            
+            self.isLoading.value = false
             onDone?()
         } complete: {
             
@@ -141,6 +145,7 @@ extension DefaultMainViewModel: MainViewModel {
             }
         }
         self.items = newItems
+        self.updateStatus.value = .reload(self.items)
         self.isLoading.value = false
     }
 }
