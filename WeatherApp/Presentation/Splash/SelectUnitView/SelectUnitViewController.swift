@@ -70,6 +70,7 @@ class SelectUnitViewController: BaseViewController {
     override func viewDidLoad() {
         print("[UnitView] viewDidLoad")
         super.viewDidLoad()
+
         vm.viewDidLoad()
         self.setLayout()
         

@@ -1,5 +1,5 @@
 //
-//  EditLocationViewController.swift
+//  ManageLocationViewController.swift
 //  WeatherApp
 //
 //  Created by sandy on 2023/09/06.
@@ -11,8 +11,8 @@ import Combine
 import PinLayout
 import FlexLayout
 
-class EditLocationViewController: BaseViewController {
-    typealias VM = EditLocationViewModel
+class ManageLocationViewController: BaseViewController {
+    typealias VM = ManageLocationViewModel
     
     private let vm: VM
     
@@ -45,12 +45,19 @@ class EditLocationViewController: BaseViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setLayout()
         
+        self.navigationItem.title = "manage_locations".localized()
+        
+        self.setLayout()
+
         vm.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.viewWillAppear()
     }
     
     private func setLayout() {

@@ -1,5 +1,5 @@
 //
-//  EditLocationViewModel.swift
+//  ManageLocationViewModel.swift
 //  WeatherApp
 //
 //  Created by sandy on 2023/09/06.
@@ -10,18 +10,18 @@ import Alamofire
 import Combine
 
 
-protocol EditLocationViewModel: EditLocationViewModelInput, EditLocationViewModelOutput { }
+protocol ManageLocationViewModel: ManageLocationViewModelInput, ManageLocationViewModelOutput { }
 
-protocol EditLocationViewModelInput {
+protocol ManageLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
 }
 
-protocol EditLocationViewModelOutput {
+protocol ManageLocationViewModelOutput {
     var isLoading: Observable<Bool> { get }
 }
 
-class DefaultEditLocationViewModel: BaseViewModel {
+class DefaultManageLocationViewModel: BaseViewModel {
     private let locationRespository: AnyRepository<Location>
     private let locationService: LocationService
     
@@ -34,7 +34,7 @@ class DefaultEditLocationViewModel: BaseViewModel {
     }
 }
 
-extension DefaultEditLocationViewModel: EditLocationViewModel {
+extension DefaultManageLocationViewModel: ManageLocationViewModel {
     func viewDidLoad() { }
     
     func viewWillAppear() {

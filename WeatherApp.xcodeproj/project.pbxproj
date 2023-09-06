@@ -35,8 +35,8 @@
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
-		266710A72AA894BF00B64DC5 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */; };
-		266710A92AA894C600B64DC5 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */; };
+		266710A72AA894BF00B64DC5 /* ManageLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */; };
+		266710A92AA894C600B64DC5 /* ManageLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */; };
 		266710AD2AA896DD00B64DC5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AC2AA896DD00B64DC5 /* SettingViewController.swift */; };
 		266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AE2AA896E200B64DC5 /* SettingViewModel.swift */; };
 		266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 266C82E82A8DE6C10017AB49 /* Localizable.strings */; };
@@ -113,8 +113,8 @@
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
-		266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
-		266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
+		266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewController.swift; sourceTree = "<group>"; };
+		266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewModel.swift; sourceTree = "<group>"; };
 		266710AC2AA896DD00B64DC5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		266710AE2AA896E200B64DC5 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		266C82E72A8DE6C10017AB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -254,8 +254,8 @@
 		266710A52AA894AE00B64DC5 /* EditLocation */ = {
 			isa = PBXGroup;
 			children = (
-				266710A62AA894BF00B64DC5 /* EditLocationViewController.swift */,
-				266710A82AA894C600B64DC5 /* EditLocationViewModel.swift */,
+				266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */,
+				266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */,
 			);
 			path = EditLocation;
 			sourceTree = "<group>";
@@ -644,7 +644,7 @@
 				267391CC2A650AFD00F1DC2D /* AnyRepository.swift in Sources */,
 				265840742A629B55009F2CC4 /* SampleViewModel.swift in Sources */,
 				26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */,
-				266710A72AA894BF00B64DC5 /* EditLocationViewController.swift in Sources */,
+				266710A72AA894BF00B64DC5 /* ManageLocationViewController.swift in Sources */,
 				265DB8302A7BA332007671B7 /* WeatherData.swift in Sources */,
 				2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */,
 				265BF3122A7D38CD0087ADDA /* Defaults.swift in Sources */,
@@ -661,7 +661,7 @@
 				26703D472A6161DE007E5717 /* MainViewModel.swift in Sources */,
 				2617AF442A74A4100089118A /* NavigationController.swift in Sources */,
 				265EFDD02A9496D200655208 /* SelectUnitViewModel.swift in Sources */,
-				266710A92AA894C600B64DC5 /* EditLocationViewModel.swift in Sources */,
+				266710A92AA894C600B64DC5 /* ManageLocationViewModel.swift in Sources */,
 				26703D482A6161DE007E5717 /* AppCoordinator.swift in Sources */,
 				266710AD2AA896DD00B64DC5 /* SettingViewController.swift in Sources */,
 				267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */,

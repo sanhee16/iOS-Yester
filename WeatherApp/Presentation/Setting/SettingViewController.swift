@@ -46,13 +46,21 @@ class SettingViewController: BaseViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = "setting".localized()
+        
         self.setLayout()
         
         vm.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.viewWillAppear()
+    }
+    
     
     private func setLayout() {
         //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정

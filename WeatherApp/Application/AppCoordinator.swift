@@ -42,8 +42,8 @@ final class AppCoordinator {
         self.navigationController.pushViewController(vc, animated: true)
     }
     
-    func presentEditLocation() {
-        let vc = EditLocationViewController(vm: DefaultEditLocationViewModel(
+    func presentManageLocation() {
+        let vc = ManageLocationViewController(vm: DefaultManageLocationViewModel(
             self,
             locationRespository: appDIContainer.locationRespository,
             locationService: appDIContainer.locationService

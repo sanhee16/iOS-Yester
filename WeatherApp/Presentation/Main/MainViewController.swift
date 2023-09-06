@@ -108,11 +108,10 @@ class MainViewController: BaseViewController {
     }
     
     @objc func didTapListButton(sender: AnyObject) {
-        vm.onClickEditLocation()
+        vm.onClickManageLocation()
     }
     
     @objc func didTapSettingButton(sender: AnyObject) {
-        print("didTapSettingButton")
         vm.onClickSetting()
     }
     

@@ -22,7 +22,7 @@ protocol MainViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickAddLocation()
-    func onClickEditLocation()
+    func onClickManageLocation()
     func onClickSetting()
     func onChangePage(_ idx: Int, onDone: (()->())?)
 }
@@ -151,8 +151,8 @@ extension DefaultMainViewModel: MainViewModel {
         self.isLoading.value = false
     }
     
-    func onClickEditLocation() {
-        self.coordinator.presentEditLocation()
+    func onClickManageLocation() {
+        self.coordinator.presentManageLocation()
     }
     
     func onClickSetting() {
