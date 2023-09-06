@@ -27,10 +27,12 @@ class MainViewController: BaseViewController {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
     }
-    var isLoading: CurrentValueSubject<Bool, Never> = CurrentValueSubject(true)
     
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
+        lottieVC.modalPresentationStyle = .overFullScreen
+        lottieVC.modalTransitionStyle = .crossDissolve
+        lottieVC.view.backgroundColor = .clear
         return lottieVC
     }()
     
@@ -58,15 +60,11 @@ class MainViewController: BaseViewController {
             case .none:
                 break
             case .load(let idx, let item):
-                self.isLoading.send(true)
                 self.pages[idx] = WeatherCardViewController(vm: self.vm, item: item)
                 self.loadPages(status)
-                self.isLoading.send(false)
                 break
             
             case .reload(let items):
-                self.isLoading.send(true)
-                
                 self.pages.removeAll()
                 for item in items {
                     self.pages.append(WeatherCardViewController(vm: self.vm, item: item))
@@ -74,16 +72,15 @@ class MainViewController: BaseViewController {
                 self.pages.append(WeatherCardViewController(vm: self.vm, item: nil))
 
                 self.loadPages(status)
-                self.isLoading.send(false)
                 break
             }
         }
-        self.isLoading.sink { _ in
-            
-        } receiveValue: { [weak self] isLoading in
-            self?.lottieVC.view.isHidden = !isLoading
-            self?.pageVC.view.isHidden = isLoading
-        }.store(in: &self.subscription)
+        vm.isLoading.observe(on: self) {[weak self] isLoading in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
+                self?.lottieVC.view.isHidden = !isLoading
+//                self?.pageVC.view.isHidden = isLoading
+            }
+        }
     }
     
     
@@ -95,11 +92,13 @@ class MainViewController: BaseViewController {
     }
     
     private func loadPages(_ status: UpdateStatus) {
+        if case .reload(_) = status {
+            self.pageVC.delegate = self
+        }
         self.pageVC.dataSource = nil
         self.pageVC.dataSource = self
         
         if case .reload(_) = status {
-            self.pageVC.delegate = self
             if let firstVC = cardViewControllerAtIndex(self.currentIdx) {
                 let viewControllers = [firstVC]
                 // 현재 페이지를 설정하는 것
@@ -116,7 +115,6 @@ class MainViewController: BaseViewController {
         //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
         view.addSubview(rootFlexContainer)
         view.addSubview(self.lottieVC.view)
-        
         view.backgroundColor = .primeColor2
         
         rootFlexContainer.flex

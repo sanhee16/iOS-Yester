@@ -26,6 +26,7 @@ protocol MainViewModelInput {
 }
 
 protocol MainViewModelOutput {
+    var isLoading: Observable<Bool> { get }
     var items: [WeatherCardItemV2] { get }
     var updateStatus: Observable<UpdateStatus> { get }
 }
@@ -36,7 +37,7 @@ class DefaultMainViewModel: BaseViewModel {
     private let weatherServiceV2: WeatherServiceV2
     private let locationService: LocationService
     
-    var isLoading: Bool = false
+    var isLoading: Observable<Bool> = Observable(false)
     var items: [WeatherCardItemV2] = []
     var isFirstLoad: Bool = true
     var updateStatus: Observable<UpdateStatus> = Observable(.none)
@@ -57,10 +58,12 @@ extension DefaultMainViewModel: MainViewModel {
     
     func viewWillAppear() {
         print("[MainVC] viewWillAppear")
-        self.loadLocations()
-        
+        self.isLoading.value = false
         self.isFirstLoad = true
         self.updateStatus.value = .none
+        
+        self.loadLocations()
+        
         self.onChangePage(0) {[weak self] in
             self?.onChangePage(1, onDone: nil)
         }
@@ -81,12 +84,12 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func updateWeather(_ idx: Int, onDone: (()->())? = nil) {
-        if self.isLoading || self.items[idx].isLoaded{
+        if self.isLoading.value || self.items[idx].isLoaded{
             onDone?()
             return
         }
         
-        self.isLoading = true
+        self.isLoading.value = true
         print("[MainVC] updateWeather: \(idx)")
         
         let location = self.items[idx].location
@@ -98,7 +101,7 @@ extension DefaultMainViewModel: MainViewModel {
         .run(in: &self.subscription) {[weak self] ( forecastResponse: DataResponse<ForecastResponseV2, NetworkErrorV2>, historyResponse: DataResponse<HistoryResponseV2, NetworkErrorV2>) in
             guard let self = self, let forecastResponse = forecastResponse.value, let historyResponse = historyResponse.value else {
                 self?.items[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: true)
-                self?.isLoading = false
+                self?.isLoading.value = false
                 onDone?()
                 return
             }
@@ -107,7 +110,7 @@ extension DefaultMainViewModel: MainViewModel {
             let history = historyResponse.forecast.forecastday.first
             
             self.items[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
-            self.isLoading = false
+            self.isLoading.value = false
             if self.isFirstLoad {
                 self.updateStatus.value = .reload(self.items)
                 self.isFirstLoad = false
@@ -121,10 +124,10 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func loadLocations() {
-        if self.isLoading {
+        if self.isLoading.value {
             return
         }
-        self.isLoading = true
+        self.isLoading.value = true
         let previousItems = self.items
         var newItems: [WeatherCardItemV2] = []
         
@@ -138,6 +141,6 @@ extension DefaultMainViewModel: MainViewModel {
             }
         }
         self.items = newItems
-        self.isLoading = false
+        self.isLoading.value = false
     }
 }
