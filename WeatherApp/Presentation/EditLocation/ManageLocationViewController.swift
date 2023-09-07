@@ -11,13 +11,21 @@ import Combine
 import PinLayout
 import FlexLayout
 
+/*
+ 삭제
+ 추가
+ 순서 변경
+*/
 class ManageLocationViewController: BaseViewController {
     typealias VM = ManageLocationViewModel
     
     private let vm: VM
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
-    
+    fileprivate lazy var scrollView: UIScrollView = UIScrollView()
+    fileprivate lazy var contentView: UIView = UIView()
+
+    var locations: [Location] = []
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
         lottieVC.modalPresentationStyle = .overFullScreen
@@ -43,6 +51,13 @@ class ManageLocationViewController: BaseViewController {
                 self?.lottieVC.view.isHidden = !isLoading
             }
         }
+        
+        vm.locations.observe(on: self) {[weak self] locations in
+            guard let self = self else { return }
+            print("[ML] locations: \(locations)")
+            self.locations = locations
+            self.setLayout()
+        }
     }
     
     override func viewDidLoad() {
@@ -51,13 +66,28 @@ class ManageLocationViewController: BaseViewController {
         self.navigationItem.title = "manage_locations".localized()
         
         self.setLayout()
-
         vm.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         vm.viewWillAppear()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        rootFlexContainer.flex.layout()
+        
+        // scrollView
+        scrollView.pin.all()
+        
+        contentView.flex.layout(mode: .adjustHeight)
+        scrollView.contentSize = contentView.frame.size
+        
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
     }
     
     private func setLayout() {
@@ -70,10 +100,61 @@ class ManageLocationViewController: BaseViewController {
         view.backgroundColor = .backgroundColor
         
         rootFlexContainer.flex
-            .justifyContent(.center)
-            .alignItems(.center)
+            .direction(.column)
+            .justifyContent(.start)
             .define { flex in
-                
+                flex.addItem(scrollView)
+                    .define { flex in
+                        flex.addItem(contentView)
+                            .direction(.column)
+                            .justifyContent(.start)
+                            .define { flex in
+                                for idx in self.locations.indices {
+                                    locationItem(flex, location: self.locations[idx])
+                                    if idx < self.locations.count - 1 {
+                                        divider(flex)
+                                    }
+                                }
+                            }
+                    }
             }
+    }
+    
+    private func divider(_ flex: Flex) {
+        flex.addItem()
+            .padding(0, 14)
+            .define { flex in
+                let view = UIView()
+                view.backgroundColor = .black.withAlphaComponent(0.1)
+                view.pin.width(100%).height(1)
+                flex.addItem(view)
+            }
+    }
+    
+    private func locationItem(_ flex: Flex, location: Location) {
+        flex.addItem()
+            .direction(.row)
+            .justifyContent(.spaceBetween)
+            .padding(7, 14)
+            .define { flex in
+                let name: UILabel = UILabel()
+                name.text = location.name
+                name.font = .en16r
+                
+                let delete: UIButton = UIButton()
+                let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)
+                let image: UIImage? = UIImage(systemName: "x.circle.fill", withConfiguration: config)?.withTintColor(.primeColor2, renderingMode: .alwaysOriginal)
+                delete.setImage(image, for: .normal)
+                delete.addTarget(self, action: #selector(self.onClickDelete), for: .touchUpInside)
+                delete.flex.padding(UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 0))
+
+                flex.addItem(name)
+                flex.addItem(delete)
+            }
+    }
+    
+    @objc
+    private func onClickDelete() {
+        vm.onClickDelete()
     }
 }

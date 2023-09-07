@@ -86,7 +86,7 @@ final class Utils {
     static func getWindUnit() -> WindUnitV2 { return WindUnitV2(rawValue: C.units[C.UNIT_WIND] ?? 0) ?? .kph }
     static func getPrecUnit() -> PrecipitationUnitV2 { return PrecipitationUnitV2(rawValue: C.units[C.UNIT_PREC] ?? 0) ?? .inch }
     
-    static func getTempUnitText() -> String { return Self.getUnitText(key: C.UNIT_TEMP) ?? "" }
+    static func getTempUnitText() -> String { return "°" } // Self.getUnitText(key: C.UNIT_TEMP) ?? ""
     static func getWindUnitText() -> String { return Self.getUnitText(key: C.UNIT_WIND) ?? "" }
     static func getPrecUnitText() -> String { return Self.getUnitText(key: C.UNIT_PREC) ?? "" }
 }

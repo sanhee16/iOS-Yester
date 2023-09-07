@@ -111,9 +111,9 @@ class SelectUnitViewController: BaseViewController {
                 flex.addItem(title)
                     .paddingBottom(16)
                 
-                drawSelectUnits(flex, key: C.UNIT_TEMP, unit0: tempUnit0, unit1: tempUnit1)
-                drawSelectUnits(flex, key: C.UNIT_WIND, unit0: windUnit0, unit1: windUnit1)
-                drawSelectUnits(flex, key: C.UNIT_PREC, unit0: precUnit0, unit1: precUnit1)
+                drawSelectUnits(flex, text: "temperature".localized(), key: C.UNIT_TEMP, unit0: tempUnit0, unit1: tempUnit1)
+                drawSelectUnits(flex, text: "wind_speed".localized(), key: C.UNIT_WIND, unit0: windUnit0, unit1: windUnit1)
+                drawSelectUnits(flex, text: "precipitation".localized(), key: C.UNIT_PREC, unit0: precUnit0, unit1: precUnit1)
                 
                 drawSaveButton(flex)
             }
@@ -135,13 +135,13 @@ class SelectUnitViewController: BaseViewController {
             }
     }
     
-    private func drawSelectUnits(_ flex: Flex, key: String, unit0: UILabel, unit1: UILabel) {
+    private func drawSelectUnits(_ flex: Flex, text: String, key: String, unit0: UILabel, unit1: UILabel) {
         flex.addItem()
             .direction(.column)
             .define { flex in
                 var subTitle: UILabel = UILabel()
                 subTitle.font = .en18r
-                subTitle.text = "temperature".localized()
+                subTitle.text = text
                 flex.addItem(subTitle)
                     .paddingBottom(6)
                 flex.addItem()

@@ -15,16 +15,19 @@ protocol ManageLocationViewModel: ManageLocationViewModelInput, ManageLocationVi
 protocol ManageLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
+    func onClickDelete()
 }
 
 protocol ManageLocationViewModelOutput {
     var isLoading: Observable<Bool> { get }
+    var locations: Observable<[Location]> { get }
 }
 
 class DefaultManageLocationViewModel: BaseViewModel {
     private let locationRespository: AnyRepository<Location>
     private let locationService: LocationService
     
+    var locations: Observable<[Location]> = Observable([])
     var isLoading: Observable<Bool> = Observable(false)
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, locationService: LocationService) {
@@ -35,9 +38,24 @@ class DefaultManageLocationViewModel: BaseViewModel {
 }
 
 extension DefaultManageLocationViewModel: ManageLocationViewModel {
-    func viewDidLoad() { }
+    func viewDidLoad() {
+        
+    }
     
     func viewWillAppear() {
         self.isLoading.value = false
+        self.locations.value = Defaults.locations
+    }
+    
+    func deleteLocation() {
+        
+    }
+    
+    func onClickAddLocation() {
+        
+    }
+    
+    func onClickDelete() {
+        
     }
 }
