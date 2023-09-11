@@ -29,7 +29,6 @@ class BaseViewController: UIViewController {
         // backButton에 text(뒤로) 제거하기
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

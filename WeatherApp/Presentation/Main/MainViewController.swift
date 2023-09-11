@@ -85,8 +85,7 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         func navigationButtonItem(_ systemName: String, action: Selector) -> UIBarButtonItem {
             let btn: UIButton = UIButton()
-            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .medium)
-            let image = UIImage(systemName: systemName, withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            let image = Utils.systemImage(systemName, weight: .medium, color: .black, size: 16)
             
             btn.setImage(image, for: .normal)
             btn.addTarget(self, action: action, for: .touchUpInside)
@@ -97,8 +96,8 @@ class MainViewController: BaseViewController {
 
         super.viewDidLoad()
         
-        let listBtn: UIBarButtonItem = navigationButtonItem("list.dash", action: #selector(self.didTapListButton))
-        let settingBtn: UIBarButtonItem = navigationButtonItem("gearshape.fill", action: #selector(self.didTapSettingButton))
+        let listBtn: UIBarButtonItem = navigationButtonItem("list.bullet", action: #selector(self.didTapListButton))
+        let settingBtn: UIBarButtonItem = navigationButtonItem("gearshape", action: #selector(self.didTapSettingButton))
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.rightBarButtonItems = [settingBtn, listBtn]
