@@ -89,4 +89,14 @@ final class Utils {
     static func getTempUnitText() -> String { return "°" } // Self.getUnitText(key: C.UNIT_TEMP) ?? ""
     static func getWindUnitText() -> String { return Self.getUnitText(key: C.UNIT_WIND) ?? "" }
     static func getPrecUnitText() -> String { return Self.getUnitText(key: C.UNIT_PREC) ?? "" }
+    
+    static func uiImage(_ systemName: String, color: UIColor? = nil, size: CGFloat) -> UIImage? {
+        let config = UIImage.SymbolConfiguration(pointSize: size, weight: .bold, scale: .large)
+        let image = UIImage(systemName: systemName, withConfiguration: config)
+        if let color = color {
+            return image?.withTintColor(color, renderingMode: .alwaysOriginal)
+        } else {
+            return image
+        }
+    }
 }
