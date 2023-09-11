@@ -6,24 +6,28 @@
 //
 
 import UIKit
-import SwiftUI
 import Combine
 import PinLayout
 import FlexLayout
 
-/*
- 삭제
- 추가
- 순서 변경
-*/
 class ManageLocationViewController: BaseViewController {
     typealias VM = ManageLocationViewModel
     
     private let vm: VM
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
-    fileprivate lazy var scrollView: UIScrollView = UIScrollView()
-    fileprivate lazy var contentView: UIView = UIView()
+    fileprivate var cellTemplate = ManageLocationCell()
+
+    lazy var collectionView: UICollectionView = {
+        var layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 4
+        layout.scrollDirection = .vertical
+        layout.sectionInset = .zero
+
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
+    }()
 
     var locations: [Location] = []
     var lottieVC: LottieVC = {
@@ -39,6 +43,7 @@ class ManageLocationViewController: BaseViewController {
         
         super.init()
         self.bind()
+        self.setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
@@ -54,9 +59,10 @@ class ManageLocationViewController: BaseViewController {
         
         vm.locations.observe(on: self) {[weak self] locations in
             guard let self = self else { return }
-            print("[ML] locations: \(locations)")
+            self.locations.removeAll()
             self.locations = locations
-            self.setLayout()
+            
+            self.collectionView.reloadData()
         }
     }
     
@@ -65,7 +71,8 @@ class ManageLocationViewController: BaseViewController {
         
         self.navigationItem.title = "manage_locations".localized()
         
-        self.setLayout()
+        setLayout()
+        
         vm.viewDidLoad()
     }
     
@@ -80,81 +87,50 @@ class ManageLocationViewController: BaseViewController {
         rootFlexContainer.pin.all(view.pin.safeArea)
         rootFlexContainer.flex.layout()
         
-        // scrollView
-        scrollView.pin.all()
-        
-        contentView.flex.layout(mode: .adjustHeight)
-        scrollView.contentSize = contentView.frame.size
-        
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
+        collectionView.pin.all()
     }
     
     private func setLayout() {
-        //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정
-        self.addChild(self.lottieVC)
-        
-        //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
-        view.addSubview(rootFlexContainer)
-        view.addSubview(self.lottieVC.view)
-        view.backgroundColor = .backgroundColor
+        self.view.addSubview(rootFlexContainer)
         
         rootFlexContainer.flex
             .direction(.column)
             .justifyContent(.start)
             .define { flex in
-                flex.addItem(scrollView)
-                    .define { flex in
-                        flex.addItem(contentView)
-                            .direction(.column)
-                            .justifyContent(.start)
-                            .define { flex in
-                                for idx in self.locations.indices {
-                                    locationItem(flex, location: self.locations[idx])
-                                    if idx < self.locations.count - 1 {
-                                        divider(flex)
-                                    }
-                                }
-                            }
-                    }
+                flex.addItem(collectionView)
             }
     }
     
-    private func divider(_ flex: Flex) {
-        flex.addItem()
-            .padding(0, 14)
-            .define { flex in
-                let view = UIView()
-                view.backgroundColor = .black.withAlphaComponent(0.1)
-                view.pin.width(100%).height(1)
-                flex.addItem(view)
-            }
+    fileprivate func setupCollectionView() {
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.register(ManageLocationCell.self, forCellWithReuseIdentifier: ManageLocationCell.identifier)
     }
     
-    private func locationItem(_ flex: Flex, location: Location) {
-        flex.addItem()
-            .direction(.row)
-            .justifyContent(.spaceBetween)
-            .padding(7, 14)
-            .define { flex in
-                let name: UILabel = UILabel()
-                name.text = location.name
-                name.font = .en16r
-                
-                let delete: UIButton = UIButton()
-                let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)
-                let image: UIImage? = UIImage(systemName: "x.circle.fill", withConfiguration: config)?.withTintColor(.primeColor2, renderingMode: .alwaysOriginal)
-                delete.setImage(image, for: .normal)
-                delete.addTarget(self, action: #selector(self.onClickDelete), for: .touchUpInside)
-                delete.flex.padding(UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 0))
+}
 
-                flex.addItem(name)
-                flex.addItem(delete)
-            }
+extension ManageLocationViewController: UICollectionViewDataSource {
+    // 1. 만들 cell 갯수
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.locations.count
     }
     
-    @objc
-    private func onClickDelete() {
-        vm.onClickDelete()
+    // 3. cell 정의
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ManageLocationCell.identifier, for: indexPath) as? ManageLocationCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(self.vm, location: self.locations[indexPath.item])
+        
+        return cell
+    }
+}
+
+extension ManageLocationViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        cellTemplate = ManageLocationCell()
+        cellTemplate.configure(self.vm, location: self.locations[indexPath.item])
+        let size = cellTemplate.sizeThatFits(CGSize(width: collectionView.bounds.width, height: .greatestFiniteMagnitude))
+        return size
     }
 }

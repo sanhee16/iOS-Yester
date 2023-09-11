@@ -31,3 +31,7 @@
 "save" = "저장";
 "setting" = "설정";
 "manage_locations" = "지역 관리";
+
+"ok" = "확인";
+"cancel" = "취소";
+"check_delete" = "%@를 정말 삭제하시겠습니까?";

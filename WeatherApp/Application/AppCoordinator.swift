@@ -8,6 +8,12 @@
 import Foundation
 import UIKit
 
+
+enum AlertType {
+    case ok(onClickOk: ()->())
+    case yesOrNo(onClickYes: ()->(), onClickNo: ()->())
+}
+
 final class AppCoordinator {
     private let navigationController: UINavigationController
     let appDIContainer = AppDIContainer.shared
@@ -72,14 +78,14 @@ final class AppCoordinator {
         )
         self.navigationController.pushViewController(vc, animated: true)
     }
-
+    
     func presentSelectUnitView(_ onDismiss: @escaping ()->()) {
         let lastVC = self.navigationController.viewControllers.last
         let vc = SelectUnitViewController(vm: DefaultSelectUnitViewModel(self, onDismiss: onDismiss))
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.view.backgroundColor = .clear
-
+        
         lastVC?.present(vc, animated: true)
     }
     
@@ -87,5 +93,21 @@ final class AppCoordinator {
         let lastVC = self.navigationController.viewControllers.last
         lastVC?.dismiss(animated: true)
         onDismiss()
+    }
+    
+    
+    func presentAlertView(_ type: AlertType, title: String? = "", message: String? = "") {
+        let lastVC = self.navigationController.viewControllers.last
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        switch type {
+        case let .ok(onClickOk):
+            alertVC.addAction(UIAlertAction(title: "ok".localized(), style: .destructive, handler: { _ in onClickOk() }))
+            break
+        case let .yesOrNo(onClickYes, onClickNo):
+            alertVC.addAction(UIAlertAction(title: "ok".localized(), style: .destructive, handler: { _ in onClickYes() }))
+            alertVC.addAction(UIAlertAction(title: "cancel".localized(), style: .cancel, handler: { _ in onClickNo() }))
+            break
+        }
+        lastVC?.present(alertVC, animated: true)
     }
 }

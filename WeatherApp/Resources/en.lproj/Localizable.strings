@@ -31,3 +31,7 @@
 "save" = "Save";
 "setting" = "Setting";
 "manage_locations" = "Manage Locations";
+
+"ok" = "OK";
+"cancel" = "Cancel";
+"check_delete" = "Are you sure you want to delete %@?";

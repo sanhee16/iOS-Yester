@@ -42,6 +42,7 @@
 		266710B12AA8A65200B64DC5 /* SettingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710B02AA8A65200B64DC5 /* SettingViewCell.swift */; };
 		266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 266C82E82A8DE6C10017AB49 /* Localizable.strings */; };
 		266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26703D312A6161DD007E5717 /* Assets.xcassets */; };
+		267030B62AAB5DAF0026ADC3 /* ManageLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267030B52AAB5DAF0026ADC3 /* ManageLocationCell.swift */; };
 		26703D182A6160E5007E5717 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D172A6160E5007E5717 /* WeatherAppTests.swift */; };
 		26703D222A6160E5007E5717 /* WeatherAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D212A6160E5007E5717 /* WeatherAppUITests.swift */; };
 		26703D242A6160E5007E5717 /* WeatherAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D232A6160E5007E5717 /* WeatherAppUITestsLaunchTests.swift */; };
@@ -121,6 +122,7 @@
 		266710B02AA8A65200B64DC5 /* SettingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewCell.swift; sourceTree = "<group>"; };
 		266C82E72A8DE6C10017AB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		266C82E92A8DE6E40017AB49 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		267030B52AAB5DAF0026ADC3 /* ManageLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationCell.swift; sourceTree = "<group>"; };
 		26703CFD2A6160E4007E5717 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26703D132A6160E5007E5717 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26703D172A6160E5007E5717 /* WeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppTests.swift; sourceTree = "<group>"; };
@@ -198,6 +200,14 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		265058582AA9FB52007821B8 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
 		265840722A629B48009F2CC4 /* Sample */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +268,7 @@
 			children = (
 				266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */,
 				266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */,
+				267030B52AAB5DAF0026ADC3 /* ManageLocationCell.swift */,
 			);
 			path = EditLocation;
 			sourceTree = "<group>";
@@ -342,6 +353,7 @@
 		26703D352A6161DD007E5717 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				265058582AA9FB52007821B8 /* CustomView */,
 				266710AB2AA896CF00B64DC5 /* Setting */,
 				266710A52AA894AE00B64DC5 /* EditLocation */,
 				265BF30C2A7D37D30087ADDA /* Blueprint */,
@@ -350,7 +362,6 @@
 				265840722A629B48009F2CC4 /* Sample */,
 				26703D362A6161DD007E5717 /* Util */,
 				26703D382A6161DD007E5717 /* Main */,
-				2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -639,6 +650,7 @@
 				269216672A67A38E0018D586 /* Geocoding.swift in Sources */,
 				265DB82E2A7BA12E007671B7 /* Weather.swift in Sources */,
 				2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */,
+				267030B62AAB5DAF0026ADC3 /* ManageLocationCell.swift in Sources */,
 				265BF30B2A7D37D00087ADDA /* SplashViewModel.swift in Sources */,
 				26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */,
 				26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */,

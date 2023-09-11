@@ -15,7 +15,7 @@ protocol ManageLocationViewModel: ManageLocationViewModelInput, ManageLocationVi
 protocol ManageLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
-    func onClickDelete()
+    func onClickDelete(_ location: Location)
 }
 
 protocol ManageLocationViewModelOutput {
@@ -43,19 +43,31 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
     }
     
     func viewWillAppear() {
-        self.isLoading.value = false
         self.locations.value = Defaults.locations
-    }
-    
-    func deleteLocation() {
-        
+        self.isLoading.value = false
     }
     
     func onClickAddLocation() {
         
     }
     
-    func onClickDelete() {
-        
+    func onClickDelete(_ location: Location) {
+        if self.isLoading.value {
+            return
+        }
+        self.isLoading.value = true
+        self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
+            guard let self = self else { return }
+            
+            try? self.locationRespository.delete(item: location)
+            Defaults.locations.removeAll()
+            self.locationRespository.getAll().forEach { location in
+                Defaults.locations.append(location)
+            }
+            self.locations.value = Defaults.locations
+            self.isLoading.value = false
+        }, onClickNo: { [weak self] in
+            self?.isLoading.value = false
+        }), title: nil, message: "check_delete".localized([location.name]))
     }
 }
