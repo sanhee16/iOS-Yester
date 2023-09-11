@@ -17,6 +17,23 @@ class ManageLocationViewController: BaseViewController {
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var cellTemplate = ManageLocationCell()
+    
+    fileprivate lazy var addButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("추가하기", for: .normal)
+        button.backgroundColor = .primeColor2
+        
+        button.layer.cornerRadius = 8
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 1.4, height: 2) // 가로방향으로 1.4만큼 세로방향으로 2만큼 그림자가 이동
+        button.layer.shadowRadius = 2
+        
+        button.flex.paddingVertical(6)
+        button.flex.margin(8)
+        
+        return button
+    }()
 
     lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -87,7 +104,7 @@ class ManageLocationViewController: BaseViewController {
         rootFlexContainer.pin.all(view.pin.safeArea)
         rootFlexContainer.flex.layout()
         
-        collectionView.pin.all()
+        collectionView.pin.top().left().right().above(of: addButton)
     }
     
     private func setLayout() {
@@ -95,9 +112,12 @@ class ManageLocationViewController: BaseViewController {
         
         rootFlexContainer.flex
             .direction(.column)
-            .justifyContent(.start)
+            .justifyContent(.spaceBetween)
             .define { flex in
                 flex.addItem(collectionView)
+                addButton.addTarget(self, action: #selector(self.onClickAdd), for: .touchUpInside)
+                
+                flex.addItem(addButton)
             }
     }
     
@@ -107,6 +127,10 @@ class ManageLocationViewController: BaseViewController {
         self.collectionView.register(ManageLocationCell.self, forCellWithReuseIdentifier: ManageLocationCell.identifier)
     }
     
+    @objc
+    func onClickAdd() {
+        vm.onClickAdd()
+    }
 }
 
 extension ManageLocationViewController: UICollectionViewDataSource {

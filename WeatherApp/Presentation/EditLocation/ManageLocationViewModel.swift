@@ -16,6 +16,7 @@ protocol ManageLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickDelete(_ location: Location)
+    func onClickAdd()
 }
 
 protocol ManageLocationViewModelOutput {
@@ -47,8 +48,8 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         self.isLoading.value = false
     }
     
-    func onClickAddLocation() {
-        
+    func onClickAdd() {
+        self.coordinator.presentSelectLocation()
     }
     
     func onClickDelete(_ location: Location) {

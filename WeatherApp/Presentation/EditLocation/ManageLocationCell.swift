@@ -91,7 +91,7 @@ class ManageLocationCell: UICollectionViewCell {
     //MARK: View
     private func divider(_ flex: Flex) {
         flex.addItem()
-            .padding(0, 14)
+            .marginHorizontal(14)
             .define { flex in
                 let view = UIView()
                 view.backgroundColor = .black.withAlphaComponent(0.1)
@@ -105,14 +105,17 @@ class ManageLocationCell: UICollectionViewCell {
             .direction(.row)
             .justifyContent(location.isCurrent ? .start : .spaceBetween)
             .cornerRadius(6)
-            .padding(0, 14)
+            .marginHorizontal(14)
             .define { flex in
+                name.numberOfLines = 0
                 name.text = location.name
                 name.font = .en16r
-                name.flex.padding(10, 0)
+                name.flex.paddingVertical(10)
+                name.flex.shrink(1)
                 flex.addItem(name)
                 
                 if location.isCurrent {
+                    locationImage.flex.shrink(0)
                     locationImage.contentMode = .scaleAspectFit
                     locationImage.image = UIImage(systemName: "location.fill")?.resized(toWidth: 13)
                     flex.addItem(locationImage).marginLeft(4)
