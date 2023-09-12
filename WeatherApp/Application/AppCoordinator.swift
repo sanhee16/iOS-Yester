@@ -55,7 +55,7 @@ final class AppCoordinator {
             locationService: appDIContainer.locationService
         ))
         
-        self.navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(vc, animated: true)
     }
     
     
@@ -64,7 +64,7 @@ final class AppCoordinator {
             self
         ))
         
-        self.navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(vc, animated: true)
     }
     
     

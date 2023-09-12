@@ -9,105 +9,125 @@
 import UIKit
 import SwiftUI
 import Combine
-import SnapKit
+import PinLayout
+import FlexLayout
 
 class SelectLocationViewController: BaseViewController {
     typealias VM = SelectLocationViewModel
     
     private let vm: VM
     
-    private let searchButton: UIButton = {
+    fileprivate lazy var rootFlexContainer: UIView = UIView()
+    fileprivate lazy var results: [Geocoding] = []
+    
+    private let bottomButton: UIButton = {
         let button = UIButton()
         
-        button.setTitle("찾기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
-        button.layer.cornerRadius = 10
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        button.setTitle("search".localized(), for: .normal)
+        button.backgroundColor = .primeColor2
+        
+        button.layer.cornerRadius = 8
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 1.4, height: 2) // 가로방향으로 1.4만큼 세로방향으로 2만큼 그림자가 이동
+        button.layer.shadowRadius = 2
+        
+        button.flex.paddingVertical(6)
+        button.flex.margin(8)
         
         return button
-    }()
-    
-    private let searchView: UIStackView = {
-        let stackView = UIStackView()
-        
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.spacing = 8
-        return stackView
     }()
     
     private let searchingLabel: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.font = .en14r
         label.textColor = .black
         return label
     }()
     
     private let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "지역 이름"
+        searchController.searchBar.placeholder = ""
+        
         return searchController
     }()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(SelectLocationCell.self, forCellReuseIdentifier: SelectLocationCell.identifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.1))
-        
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))
         return tableView
     }()
-    
-    private let selectButton: UIButton = {
-        let button = UIButton()
-        
-        button.setTitle("추가하기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.red
-        button.layer.cornerRadius = 10
-        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-        
-        return button
-    }()
-    
     
     init(vm: VM) {
         self.vm = vm
         super.init()
         self.bind(to: vm)
+        self.setUpTableView()
+        
+        self.searchController.searchBar.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    fileprivate func setUpTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+    }
+    
+    
     private func bind(to vm: VM) {
-        vm.results.observe(on: self) {[weak self] list in
+        vm.status.observe(on: self) { [weak self] status in
             guard let self = self else { return }
-            self.tableView.reloadData()
-        }
-        
-        vm.isSearching.observe(on: self) {[weak self] isSearching in
-            guard let self = self else { return }
-            if isSearching {
-                self.searchingLabel.text = ""
-            } else {
-                if !vm.name.value.isEmpty {
-                    if vm.results.value.isEmpty {
-                        self.searchingLabel.text = "\'\(vm.name.value)\'에 대한 결과가 없습니다."
+            self.searchingLabel.flex.markDirty()
+            self.bottomButton.flex.markDirty()
+            self.tableView.flex.markDirty()
+            
+            switch status {
+            case .ready:
+                self.searchingLabel.isHidden = true
+                self.bottomButton.isHidden = true
+                
+                self.results.removeAll()
+                self.tableView.reloadData()
+                break
+            case .entering:
+                self.searchingLabel.isHidden = true
+                self.bottomButton.setTitle("search".localized(), for: .normal)
+                self.bottomButton.isHidden = vm.name.value.isEmpty
+                break
+            case .searching:
+                self.searchingLabel.isHidden = true
+                self.bottomButton.isHidden = true
+                break
+            case let .finished(result):
+                self.searchingLabel.isHidden = false
+                self.bottomButton.isHidden = true
+                
+                self.results = result
+                self.tableView.reloadData()
+                
+                if !result.isEmpty {
+                    if result.isEmpty {
+                        self.searchingLabel.text = "search_no_result_text".localized([vm.name.value])
+                        self.searchingLabel.isHidden = true
                     } else {
-                        self.searchingLabel.text = "\'\(vm.name.value)\'에 대한 검색 결과 입니다."
+                        self.searchingLabel.text = "search_result_text".localized([vm.name.value])
+                        self.searchingLabel.isHidden = false
                     }
                 }
+                break
+            case .select(_, _):
+                self.bottomButton.setTitle("add".localized(), for: .normal)
+                self.bottomButton.isHidden = false
+                break
             }
-        }
-        
-        vm.selectedItem.observe(on: self) { [weak self] selectedItem in
-            guard let self = self else { return }
-            self.selectButton.isHidden = selectedItem == nil
+            self.view.setNeedsLayout()
         }
     }
     
@@ -115,25 +135,13 @@ class SelectLocationViewController: BaseViewController {
         print("viewDidLoad")
         super.viewDidLoad()
         vm.viewDidLoad()
-        self.addSubViews()
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        
-        searchView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(12)
-        }
-        
-        selectButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
-        }
-        
-        searchButton.addTarget(self, action: #selector(self.onClickSearchLocation), for: .touchUpInside)
-        selectButton.addTarget(self, action: #selector(self.onClickAddLocation), for: .touchUpInside)
-        
+        self.navigationItem.title = "add_location".localized()
         self.navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
+        self.searchController.searchResultsUpdater = self
+        self.tableView.register(SelectLocationCell.self, forCellReuseIdentifier: SelectLocationCell.identifier)
+        
+        setLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,64 +149,88 @@ class SelectLocationViewController: BaseViewController {
         vm.viewWillAppear()
     }
     
-    private func addSubViews() {
-        [searchView].forEach {
-            self.view.addSubview($0)
-        }
-        [searchButton, searchingLabel, tableView, selectButton].forEach {
-            self.searchView.addArrangedSubview($0)
-        }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        searchingLabel.pin.top().left().right()
+        bottomButton.pin.bottom().left().right()
+        tableView.pin.top().left().right().above(of: bottomButton)
+        
+        self.layout()
     }
     
-    @objc private func onClickSearchLocation() {
-        print("onClickSearchLocation")
-        vm.onClickSearch()
+    private func layout() {
+        rootFlexContainer.flex.layout()
+        tableView.flex.layout()
     }
     
-    @objc private func onClickAddLocation() {
-        print("onClickAddLocation")
-        vm.onClickAddLocation()
+    private func setLayout() {
+        self.view.addSubview(rootFlexContainer)
+        
+        rootFlexContainer.flex
+            .direction(.column)
+            .justifyContent(.spaceBetween)
+            .define { flex in
+                bottomButton.addTarget(self, action: #selector(self.onClickBottomButton), for: .touchUpInside)
+                flex.addItem(searchingLabel).margin(6, 12)
+                flex.addItem(tableView).grow(1)
+                flex.addItem(bottomButton).marginTop(6)
+            }
+    }
+    
+    
+    @objc private func onClickBottomButton() {
+        switch vm.status.value {
+        case .select(_, _):
+            vm.onClickAddLocation()
+            break
+        case .entering:
+            vm.onClickSearch()
+            break
+        default:
+            break
+        }
     }
 }
 
 extension SelectLocationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.results.value.count
+        return self.results.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectLocationCell.identifier, for: indexPath) as! SelectLocationCell
-        cell.name.text = "\(self.vm.results.value[indexPath.row].localName)"
-        cell.country.text = "\(self.vm.results.value[indexPath.row].country)"
-        cell.value = (indexPath.row, vm.results.value[indexPath.row])
-        
-        cell.bind(vm: vm)
-        let background = UIView()
-        background.backgroundColor = .clear
-        cell.selectedBackgroundView = background
+        cell.configure(vm, value: self.results[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cell = SelectLocationCell()
+        cell.configure(vm, value: self.results[indexPath.row])
+        let size = cell.sizeThatFits(CGSize(width: tableView.bounds.width, height: .greatestFiniteMagnitude))
+
+        return size.height
     }
 }
 
 extension SelectLocationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? SelectLocationCell, cell.isExist {
-            print("Exist \(indexPath.row)")
+        guard let _ = tableView.cellForRow(at: indexPath) as? SelectLocationCell else {
             return
         }
-        if let item = vm.selectedItem.value, item.1 == vm.results.value[indexPath.row] {
-            print("DeSelect \(indexPath.row)")
-            vm.selectedItem.value = nil
-        } else {
-            print("Select \(indexPath.row)")
-            vm.selectedItem.value = (indexPath.row, vm.results.value[indexPath.row])
-        }
+        vm.onClickItem(indexPath.row)
     }
 }
 
 extension SelectLocationViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        vm.name.value = searchController.searchBar.text ?? ""
-        //        print("updateSearchResults: \(vm.name.value)")
+        vm.entering(searchController.searchBar.text)
+    }
+}
+
+extension SelectLocationViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        vm.onClickCancel()
     }
 }

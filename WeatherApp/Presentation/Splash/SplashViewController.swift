@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import SwiftUI
 import Combine
-import SnapKit
 
 class SplashViewController: BaseViewController {
     typealias VM = SplashViewModel

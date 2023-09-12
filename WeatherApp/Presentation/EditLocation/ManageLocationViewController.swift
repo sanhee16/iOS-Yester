@@ -20,7 +20,7 @@ class ManageLocationViewController: BaseViewController {
     
     fileprivate lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("추가하기", for: .normal)
+        button.setTitle("add_location".localized(), for: .normal)
         button.backgroundColor = .primeColor2
         
         button.layer.cornerRadius = 8
@@ -40,7 +40,6 @@ class ManageLocationViewController: BaseViewController {
         layout.minimumLineSpacing = 4
         layout.scrollDirection = .vertical
         layout.sectionInset = .zero
-
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
