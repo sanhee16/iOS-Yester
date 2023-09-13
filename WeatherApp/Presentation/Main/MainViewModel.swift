@@ -43,6 +43,7 @@ class DefaultMainViewModel: BaseViewModel {
     var items: [WeatherCardItem] = []
     var isFirstLoad: Bool = true
     var updateStatus: Observable<UpdateStatus> = Observable(.none)
+    var lastUnit: WeatherUnit = C.weatherUnit
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         print("init!")
@@ -66,6 +67,10 @@ extension DefaultMainViewModel: MainViewModel {
         self.isFirstLoad = true
         self.updateStatus.value = .none
         
+        if self.lastUnit != C.weatherUnit {
+            self.items.removeAll()
+            self.lastUnit = C.weatherUnit
+        }
         self.loadLocations()
         
         self.onChangePage(0) {[weak self] in
@@ -149,6 +154,7 @@ extension DefaultMainViewModel: MainViewModel {
                 newItems.append(WeatherCardItem(location: location, daily: [], hourly: [], threeHourly: [], isLoaded: false, yesterday: nil))
             }
         }
+        
         self.items = newItems
         self.updateStatus.value = .reload(self.items)
         self.isLoading.value = false

@@ -29,9 +29,8 @@ class SettingViewController: BaseViewController {
     fileprivate lazy var scrollView: UIScrollView = UIScrollView()
     fileprivate lazy var contentView: UIView = UIView()
     
-    fileprivate lazy var selectUnit: SettingItem2 = SettingItem2()
+    fileprivate lazy var selectUnit: SettingItem1 = SettingItem1()
     fileprivate lazy var appVersion: SettingItem1 = SettingItem1()
-    fileprivate lazy var sample: SettingItem3 = SettingItem3()
     
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
@@ -58,6 +57,11 @@ class SettingViewController: BaseViewController {
                 self?.lottieVC.view.isHidden = !isLoading
             }
         }
+        vm.unitText.observe(on: self) {[weak self] text in
+            guard let self = self else { return }
+            self.selectUnit.configure(vm: self.vm, title: "unit".localized(), descriptionText: text, onClick: onClickUnit)
+            self.layout()
+        }
     }
     
     override func viewDidLoad() {
@@ -65,9 +69,8 @@ class SettingViewController: BaseViewController {
         
         self.navigationItem.title = "setting".localized()
         
-        selectUnit.configure(vm: self.vm, title: "unit".localized())
-        appVersion.configure(vm: self.vm, title: "version".localized(), descriptionText: (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String))
-        sample.configure(vm: self.vm, title: "sample".localized())
+        selectUnit.configure(vm: self.vm, title: "unit".localized(), descriptionText: C.weatherUnit.unitText, onClick: onClickUnit)
+        appVersion.configure(vm: self.vm, title: "app_version".localized(), descriptionText: (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String))
         
         self.setLayout()
         
@@ -83,16 +86,21 @@ class SettingViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         
         rootFlexContainer.pin.all(view.pin.safeArea)
-        rootFlexContainer.flex.layout()
         
         // cardScrollView
         scrollView.pin.all()
         
-        contentView.flex.layout(mode: .adjustHeight)
         scrollView.contentSize = contentView.frame.size
         
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        
+        self.layout()
+    }
+    
+    private func layout() {
+        rootFlexContainer.flex.layout()
+        contentView.flex.layout(mode: .adjustHeight)
     }
     
     private func setLayout() {
@@ -117,10 +125,14 @@ class SettingViewController: BaseViewController {
                                 flex.addItem(SettingTitle(title: "title1", descriptionText: "description"))
                                 flex.addItem(selectUnit).markDirty()
                                 flex.addItem(appVersion).markDirty()
-                                flex.addItem(sample).markDirty()
                             }
                     }
             }
+    }
+    
+    @objc
+    func onClickUnit() {
+        vm.onClickUnit()
     }
     
 }

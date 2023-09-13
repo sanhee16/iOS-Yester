@@ -161,7 +161,7 @@ class WeatherCardViewController: UIViewController {
                                 
                                 let value: UILabel = UILabel()
                                 value.font = .en14r
-                                value.text = String(format: "%.0f %@", current.windSpeed, "Utils.getWindUnitText()")
+                                value.text = String(format: "%.0f %@", current.windSpeed, C.weatherUnit.windUnit)
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)

@@ -17,7 +17,7 @@ class SettingItem1: UIView {
     var title: String = ""
     var subTitle: String? = nil
     var descriptionText: String? = nil
-    var onClick: Selector? = nil
+    var onClick: (()->())? = nil
     var vm: VM? = nil
     
     init() {
@@ -34,7 +34,7 @@ class SettingItem1: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(vm: VM, title: String, subTitle: String? = nil, descriptionText: String? = nil, onClick: Selector? = nil) {
+    func configure(vm: VM, title: String, subTitle: String? = nil, descriptionText: String? = nil, onClick: (()->())? = nil) {
         self.vm = vm
         self.title = title
         self.subTitle = subTitle
@@ -61,9 +61,14 @@ class SettingItem1: UIView {
         self.layout()
     }
     
+    @objc
+    func onTap() {
+        self.onClick?()
+    }
+    
     private func setLayout() {
         self.addSubview(rootFlexContainer)
-        rootFlexContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: onClick))
+        rootFlexContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onTap)))
         rootFlexContainer.flex
             .width(100%)
             .direction(.column)

@@ -16,7 +16,7 @@ class SettingItem3: UIView {
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     var title: String = ""
     var subTitle: String? = nil
-    var onClick: Selector? = nil
+    var onClick: (()->())? = nil
     var vm: VM? = nil
     
     init() {
@@ -33,7 +33,7 @@ class SettingItem3: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(vm: VM, title: String, subTitle: String? = nil, onClick: Selector? = nil) {
+    func configure(vm: VM, title: String, subTitle: String? = nil, onClick: (()->())? = nil) {
         self.vm = vm
         self.title = title
         self.subTitle = subTitle
@@ -59,9 +59,14 @@ class SettingItem3: UIView {
         self.layout()
     }
     
+    @objc
+    func onTap() {
+        self.onClick?()
+    }
+    
     private func setLayout() {
         self.addSubview(rootFlexContainer)
-        rootFlexContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: onClick))
+        rootFlexContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onTap)))
         rootFlexContainer.flex
             .width(100%)
             .direction(.column)
