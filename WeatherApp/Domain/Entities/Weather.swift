@@ -6,6 +6,23 @@
 //
 
 import Foundation
+import UIKit
+
+protocol WeatherIcon {
+    var weather: [Weather] { get }
+}
+
+extension WeatherIcon {
+    func iconImage(_ size: CGFloat) -> UIImage? {
+        guard let icon = self.weather.first?.icon else { return nil }
+        return UIImage(named: icon)?.resized(toWidth: size)
+    }
+    func iconImageSecond(_ size: CGFloat) -> UIImage? {
+        if self.weather.count < 2 { return nil }
+        return UIImage(named: self.weather[1].icon)?.resized(toWidth: size)
+    }
+}
+
 //MARK: Common
 public struct Weather: Codable {
     var id: Int // 날씨 코드
@@ -52,7 +69,7 @@ public struct WeatherResponse: Codable {
 
 
 
-public struct Current: Codable {
+public struct Current: Codable, WeatherIcon {
     var dt: Int // 현재 시간
     var sunrise: Int // 일출 UTC
     var sunset: Int // 일몰 UTC
@@ -115,13 +132,15 @@ public struct Temp: Codable {
     }
 }
 
-public struct DailyWeather: Codable {
+public struct DailyWeather: Codable, WeatherIcon {
     var dt: Int // 시간
     var temp: Temp // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
     var weather: [Weather]
     var pop: Int // 강수확률
     var uvi: Int // 자외선
+    var sunrise: Int
+    var sunset: Int
     
     enum CodingKeys: String, CodingKey {
         case dt
@@ -130,6 +149,8 @@ public struct DailyWeather: Codable {
         case weather
         case pop
         case uvi
+        case sunrise
+        case sunset
     }
     
     public init(from decoder: Decoder) throws {
@@ -140,10 +161,12 @@ public struct DailyWeather: Codable {
         weather = try values.decode([Weather].self, forKey: .weather)
         pop = Int(try values.decode(Double.self, forKey: .pop) * 100)
         uvi = Int(try values.decode(Double.self, forKey: .uvi))
+        sunrise = Int(try values.decode(Int.self, forKey: .sunrise))
+        sunset = Int(try values.decode(Int.self, forKey: .sunset))
     }
 }
 
-public struct HourlyWeather: Codable {
+public struct HourlyWeather: Codable, WeatherIcon {
     var dt: Int // 시간
     var temp: Double // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
@@ -185,7 +208,7 @@ public struct ThreeHourlyResponse: Codable {
     }
 }
 
-public struct ThreeHourly: Codable {
+public struct ThreeHourly: Codable, WeatherIcon {
     var dt: Int // 시간
     var main: ThreeHourlyTemp // 온도 정보
     var wind: ThreeHourlyWind

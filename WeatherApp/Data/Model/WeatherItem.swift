@@ -17,4 +17,6 @@ struct WeatherCardItem: Equatable {
     var hourly: [HourlyWeather]
     var threeHourly: [ThreeHourly]
     var isLoaded: Bool
+    
+    var yesterday: ForecastV2?
 }

@@ -43,6 +43,13 @@ final class Utils {
         return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
     }
     
+    static func intervalSunTime(_ interval: Int) -> String {
+        let date = DateFormatter()
+        date.locale = Locale(identifier: languageCode())
+        date.dateFormat = "a hh:mm"
+        return date.string(from: Date(timeIntervalSince1970: TimeInterval(interval)))
+    }
+    
     static func oneDayBefore() -> String {
         let today = Date()
         let date = DateFormatter()

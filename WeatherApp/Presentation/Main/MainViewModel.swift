@@ -12,8 +12,8 @@ import Combine
 
 enum UpdateStatus {
     case none
-    case reload([WeatherCardItemV2])
-    case load(Int, WeatherCardItemV2)
+    case reload([WeatherCardItem])
+    case load(Int, WeatherCardItem)
 }
 
 protocol MainViewModel: MainViewModelInput, MainViewModelOutput { }
@@ -29,7 +29,7 @@ protocol MainViewModelInput {
 
 protocol MainViewModelOutput {
     var isLoading: Observable<Bool> { get }
-    var items: [WeatherCardItemV2] { get }
+    var items: [WeatherCardItem] { get }
     var updateStatus: Observable<UpdateStatus> { get }
 }
 
@@ -40,7 +40,7 @@ class DefaultMainViewModel: BaseViewModel {
     private let locationService: LocationService
     
     var isLoading: Observable<Bool> = Observable(false)
-    var items: [WeatherCardItemV2] = []
+    var items: [WeatherCardItem] = []
     var isFirstLoad: Bool = true
     var updateStatus: Observable<UpdateStatus> = Observable(.none)
     
@@ -98,22 +98,25 @@ extension DefaultMainViewModel: MainViewModel {
         
         let location = self.items[idx].location
         
-        Publishers.Zip(
-            self.weatherServiceV2.getForecastWeather(location),
+        
+        Publishers.Zip3 (
+            self.weatherService.getOneCallWeather(location),
+            self.weatherService.get3HourlyWeather(location),
             self.weatherServiceV2.getHistoryWeather(location)
         )
-        .run(in: &self.subscription) {[weak self] ( forecastResponse: DataResponse<ForecastResponseV2, NetworkErrorV2>, historyResponse: DataResponse<HistoryResponseV2, NetworkErrorV2>) in
-            guard let self = self, let forecastResponse = forecastResponse.value, let historyResponse = historyResponse.value else {
-                self?.items[idx] = WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: true)
+        .run(in: &self.subscription) {[weak self] (weather, threeHourWeather, historyWeather) in
+            guard let self = self, let weather = weather.value, let threeHourWeather = threeHourWeather.value, let yesterday = historyWeather.value?.forecast.forecastday.first else {
+                self?.items[idx] = WeatherCardItem(location: location, currentWeather: nil, daily: [], hourly: [], threeHourly: [], isLoaded: true, yesterday: nil)
                 self?.isLoading.value = false
                 onDone?()
                 return
             }
-            let current = forecastResponse.current
-            let forecast = forecastResponse.forecast.forecastday
-            let history = historyResponse.forecast.forecastday.first
             
-            self.items[idx] = WeatherCardItemV2(location: location, currentWeather: current, history: history, forecast: forecast, isLoaded: true)
+            let current = weather.current
+            let daily = weather.daily
+            let hourly = weather.hourly
+            
+            self.items[idx] = WeatherCardItem(location: location, currentWeather: current, daily: daily, hourly: hourly, threeHourly: threeHourWeather.list, isLoaded: true, yesterday: yesterday)
             
             if self.isFirstLoad {
                 self.updateStatus.value = .reload(self.items)
@@ -135,7 +138,7 @@ extension DefaultMainViewModel: MainViewModel {
         }
         self.isLoading.value = true
         let previousItems = self.items
-        var newItems: [WeatherCardItemV2] = []
+        var newItems: [WeatherCardItem] = []
         
         Defaults.locations.forEach { location in
             if let idx = previousItems.firstIndex(where: { item in
@@ -143,7 +146,7 @@ extension DefaultMainViewModel: MainViewModel {
             }) {
                 newItems.append(previousItems[idx])
             } else {
-                newItems.append(WeatherCardItemV2(location: location, currentWeather: nil, history: nil, forecast: [], isLoaded: false))
+                newItems.append(WeatherCardItem(location: location, daily: [], hourly: [], threeHourly: [], isLoaded: false, yesterday: nil))
             }
         }
         self.items = newItems

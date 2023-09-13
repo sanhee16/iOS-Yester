@@ -1,8 +1,8 @@
 //
-//  WeatherCardViewController.swift
+//  WeatherCardViewControllerV2.swift
 //  WeatherApp
 //
-//  Created by sandy on 2023/09/13.
+//  Created by sandy on 2023/07/17.
 //
 
 import Foundation
@@ -11,11 +11,11 @@ import SwiftUI
 import PinLayout
 import FlexLayout
 
-class WeatherCardViewController: UIViewController {
+class WeatherCardViewControllerV2: UIViewController {
     typealias VM = MainViewModel
     private let vm: VM
     
-    var item: WeatherCardItem?
+    var item: WeatherCardItemV2?
     var isAddCard: Bool {
         item == nil
     }
@@ -33,7 +33,7 @@ class WeatherCardViewController: UIViewController {
     fileprivate lazy var hourlyView: UIView = UIView()
     
     
-    init(vm: VM, item: WeatherCardItem?) {
+    init(vm: VM, item: WeatherCardItemV2?) {
         self.vm = vm
         self.item = item
         super.init(nibName: nil, bundle: nil)
@@ -83,7 +83,7 @@ class WeatherCardViewController: UIViewController {
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)
         
-        if let item = self.item, let _ = item.currentWeather {
+        if let item = self.item, let current = item.currentWeather {
             rootFlexContainer.flex
                 .marginHorizontal(14)
                 .direction(.column)
@@ -97,14 +97,18 @@ class WeatherCardViewController: UIViewController {
                                 .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
                                 .direction(.column)
                                 .define { flex in
-                                    // HEADER
-                                    drawHeader(flex)
-                                    // 3Hour
-                                    drawHourly(flex)
-                                    // Weekly
-                                    drawWeekly(flex)
-                                    // Extra
-                                    drawExtra(flex)
+                                    if let today = item.forecast.first {
+                                        // HEADER
+                                        drawHeader(flex, location: item.location, current: current, today: today)
+                                        // 3Hour
+                                        drawHourly(flex, current: current, today: today)
+                                        // Weekly
+                                        var forecast = item.forecast
+                                        forecast.removeFirst()
+                                        drawWeekly(flex, item: item, weekly: forecast, yesterday: item.history)
+                                        // Extra
+                                        drawExtra(flex, current: current, today: today)
+                                    }
                                 }
                             
                         }
@@ -131,8 +135,7 @@ class WeatherCardViewController: UIViewController {
         vm.onClickAddLocation()
     }
     
-    private func drawExtra(_ flex: Flex) {
-        guard let current = self.item?.currentWeather, let today = self.item?.daily.first else { return }
+    private func drawExtra(_ flex: Flex, current: CurrentV2, today: ForecastV2) {
         flex.addItem()
             .direction(.column)
             .marginTop(16)
@@ -156,12 +159,12 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "wind_speed")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en18
                                 name.text = String(format: "%@", "wind_speed".localized())
                                 
                                 let value: UILabel = UILabel()
-                                value.font = .en14r
-                                value.text = String(format: "%.0f %@", current.windSpeed, Utils.getWindUnitText())
+                                value.font = .en14
+                                value.text = String(format: "%.0f %@", Utils.getWindUnit() == .kph ? current.wind_kph : current.wind_mph, Utils.getWindUnitText())
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -187,12 +190,12 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "uvi")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en18
                                 name.text = String(format: "%@", "uvi".localized())
                                 
                                 let value: UILabel = UILabel()
-                                value.font = .en14r
-                                value.text = String(format: "%@ (%d)", current.uvi.uviText(), current.uvi)
+                                value.font = .en14
+                                value.text = String(format: "%@ (%d)", current.uv.uviText(), current.uv)
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -218,11 +221,11 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "humidity")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en18
                                 name.text = String(format: "%@", "humidity".localized())
                                 
                                 let value: UILabel = UILabel()
-                                value.font = .en14r
+                                value.font = .en14
                                 value.text = String(format: "%d %%", current.humidity)
                                 
                                 flex.addItem(image)
@@ -253,13 +256,12 @@ class WeatherCardViewController: UIViewController {
                                         image.image = UIImage(named: "sunrise")?.resized(toWidth: 34.0)
                                         
                                         let name: UILabel = UILabel()
-                                        name.font = .en16b
+                                        name.font = .en18
                                         name.text = String(format: "%@", "sunrise".localized())
                                         
                                         let value: UILabel = UILabel()
-                                        value.font = .en14r
-                                        value.text = Utils.intervalSunTime(today.sunrise)
-                                        
+                                        value.font = .en14
+                                        value.text = String(format: "%@", today.astro.sunrise)
                                         
                                         flex.addItem(image)
                                         flex.addItem(name)
@@ -275,12 +277,12 @@ class WeatherCardViewController: UIViewController {
                                         image.image = UIImage(named: "sunset")?.resized(toWidth: 34.0)
                                         
                                         let name: UILabel = UILabel()
-                                        name.font = .en16b
+                                        name.font = .en18
                                         name.text = String(format: "%@", "sunset".localized())
                                         
                                         let value: UILabel = UILabel()
-                                        value.font = .en14r
-                                        value.text = Utils.intervalSunTime(today.sunset)
+                                        value.font = .en14
+                                        value.text = String(format: "%@", today.astro.sunset)
                                         
                                         flex.addItem(image)
                                         flex.addItem(name)
@@ -291,8 +293,7 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawWeekly(_ flex: Flex) {
-        guard let weekly = self.item?.daily else { return }
+    private func drawWeekly(_ flex: Flex, item: WeatherCardItemV2, weekly: [ForecastV2], yesterday: ForecastV2?) {
         flex.addItem()
             .direction(.column)
             .backgroundColor(.white.withAlphaComponent(0.13))
@@ -300,7 +301,7 @@ class WeatherCardViewController: UIViewController {
             .marginTop(16)
             .padding(6, 14, 10, 14)
             .define { flex in
-                if let yesterday = self.item?.yesterday {
+                if let yesterday = yesterday {
                     flex.addItem()
                         .direction(.row)
                         .justifyContent(.spaceBetween)
@@ -312,12 +313,11 @@ class WeatherCardViewController: UIViewController {
                                 minTemp: Utils.getTempUnit() == .celsius ? yesterday.day.mintemp_c : yesterday.day.mintemp_f,
                                 maxTemp: Utils.getTempUnit() == .celsius ? yesterday.day.maxtemp_c : yesterday.day.maxtemp_f,
                                 rainChance: nil,
-                                iconImage: yesterday.day.iconImage()?.resized(toWidth: 30.0)
+                                iconImage: yesterday.day.iconImage()
                             )
                         }
                 }
-                weekly.indices.forEach { idx in
-                    let daily = weekly[idx]
+                weekly.forEach { daily in
                     flex.addItem()
                         .direction(.row)
                         .justifyContent(.spaceBetween)
@@ -325,11 +325,11 @@ class WeatherCardViewController: UIViewController {
                         .define { flex in
                             drawWeeklyItem(
                                 flex,
-                                weekdayText: idx == 0 ? "today".localized() : Utils.intervalToWeekday(daily.dt),
-                                minTemp: daily.temp.min,
-                                maxTemp: daily.temp.max,
-                                rainChance: daily.pop,
-                                iconImage: daily.iconImage(30.0)
+                                weekdayText: Utils.intervalToWeekday(daily.date_epoch),
+                                minTemp: Utils.getTempUnit() == .celsius ? daily.day.mintemp_c : daily.day.mintemp_f,
+                                maxTemp: Utils.getTempUnit() == .celsius ? daily.day.maxtemp_c : daily.day.maxtemp_f,
+                                rainChance: daily.day.daily_chance_of_rain,
+                                iconImage: daily.day.iconImage()
                             )
                         }
                 }
@@ -373,7 +373,7 @@ class WeatherCardViewController: UIViewController {
                 }
                 
                 weatherImage.contentMode = .scaleAspectFit
-                weatherImage.image = iconImage
+                weatherImage.image = iconImage?.resized(toWidth: 30.0)
                 
                 flex.addItem(weatherImage).marginHorizontal(10)
                 flex.addItem().direction(.row).justifyContent(.end).minWidth(60).define { flex in
@@ -383,8 +383,7 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawHourly(_ flex: Flex) {
-        guard let current = self.item?.currentWeather, let hourly = self.item?.hourly else { return }
+    private func drawHourly(_ flex: Flex, current: CurrentV2, today: ForecastV2) {
         flex.addItem(hourlyView)
             .backgroundColor(.white.withAlphaComponent(0.13))
             .cornerRadius(12)
@@ -399,7 +398,8 @@ class WeatherCardViewController: UIViewController {
                             .justifyContent(.start)
                             .alignItems(.center)
                             .define { flex in
-                                hourly.forEach { item in
+                                today.hour.indices.forEach { idx in
+                                    let item = today.hour[idx]
                                     flex.addItem()
                                         .direction(.column)
                                         .justifyContent(.center)
@@ -411,15 +411,14 @@ class WeatherCardViewController: UIViewController {
                                             let temp: UILabel = UILabel()
                                             
                                             time.font = .en14
-                                            time.text = "\(Utils.intervalToHour(item.dt))"
+                                            time.text = "\(Utils.intervalToHour(item.time_epoch))"
                                             
                                             temp.font = .en14
-                                            temp.text = String(format: "%.0f%@", item.temp, Utils.getTempUnitText())
+                                            temp.text = String(format: "%.0f%@", Utils.getTempUnit() == .celsius ? item.temp_c : item.temp_f, Utils.getTempUnitText())
                                             
                                             
                                             image.contentMode = .scaleAspectFit
-                                            image.image = current.iconImage(34.0)
-                                            
+                                            image.image = item.iconImage()?.resized(toWidth: 34.0)
                                             
                                             flex.addItem(time).paddingBottom(8)
                                             flex.addItem(image).paddingBottom(4)
@@ -431,8 +430,16 @@ class WeatherCardViewController: UIViewController {
                                                     let pop: UILabel = UILabel()
                                                     let waterDrop: UIImageView = UIImageView()
                                                     pop.font = .en12
-                                                    pop.text = String(format: "%d%%", item.pop)
-                                                    waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 10)
+                                                    
+                                                    if item.chance_of_snow > 0 {
+                                                        pop.text = String(format: "%d%%", item.chance_of_snow)
+                                                        waterDrop.image = UIImage(named: "13n")?.resized(toWidth: 10)
+                                                    } else {
+                                                        pop.text = String(format: "%d%%", item.chance_of_rain)
+                                                        waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 10)
+                                                    }
+                                                    
+                                                    
                                                     flex.addItem(waterDrop).marginRight(2)
                                                     flex.addItem(pop)
                                                 }
@@ -443,8 +450,7 @@ class WeatherCardViewController: UIViewController {
             }
     }
     
-    private func drawHeader(_ flex: Flex) {
-        guard let location = self.item?.location, let current = self.item?.currentWeather, let today = self.item?.daily.first else { return }
+    private func drawHeader(_ flex: Flex, location: Location, current: CurrentV2, today: ForecastV2) {
         flex.addItem()
             .direction(.column)
             .padding(0)
@@ -455,6 +461,7 @@ class WeatherCardViewController: UIViewController {
                     .padding(0)
                     .define { flex in
                         // Header
+                        let currentWeatherImage: UIImageView = UIImageView()
                         flex.addItem()
                             .shrink(1)
                             .direction(.column)
@@ -463,34 +470,20 @@ class WeatherCardViewController: UIViewController {
                                 let currentDescriptionLabel: UILabel = UILabel()
                                 
                                 currentTempLabel.font = .en48
-                                currentTempLabel.text = String(format: "%.1f%@", current.temp, Utils.getTempUnitText())
+                                currentTempLabel.text = String(format: "%.1f%@", Utils.getTempUnit() == .celsius ? current.temp_c : current.temp_f, Utils.getTempUnitText())
                                 
                                 currentDescriptionLabel.font = .en20
-                                currentDescriptionLabel.text = current.weather.first?.description
+                                currentDescriptionLabel.text = current.condition.text
                                 currentDescriptionLabel.numberOfLines = 0
+                                
+                                currentWeatherImage.contentMode = .scaleAspectFit
+                                currentWeatherImage.image = current.iconImage()?.resized(toWidth: 80.0)
                                 flex.addItem(currentTempLabel)
                                 flex.addItem(currentDescriptionLabel)
                             }
-                        flex.addItem()
-                            .direction(.row)
-                            .define { flex in
-                                let currentWeatherImage1: UIImageView = UIImageView()
-                                let isHasSeveralWeather: Bool = current.weather.count > 1
-                                currentWeatherImage1.contentMode = .scaleAspectFit
-                                currentWeatherImage1.image = current.iconImage(isHasSeveralWeather ? 70.0 : 80.0)
-                                currentWeatherImage1.flex.view?.pin.left()
-                                
-                                flex.addItem(currentWeatherImage1).alignSelf(.start)
-                                
-                                if isHasSeveralWeather {
-                                    let currentWeatherImage2: UIImageView = UIImageView()
-                                    currentWeatherImage2.contentMode = .scaleAspectFit
-                                    currentWeatherImage2.image = current.iconImageSecond(isHasSeveralWeather ? 70.0 : 80.0)
-                                    currentWeatherImage2.flex.view?.pin.left()
-                                    
-                                    flex.addItem(currentWeatherImage2).alignSelf(.start)
-                                }
-                            }
+                        
+                        currentWeatherImage.flex.view?.pin.left()
+                        flex.addItem(currentWeatherImage).alignSelf(.start)
                     }
                 let locationLabel: UILabel = UILabel()
                 let tempDescription: UILabel = UILabel()
@@ -512,12 +505,11 @@ class WeatherCardViewController: UIViewController {
                 
                 tempDescription.font = .en16
                 tempDescription.text = "tempDescription".localized([
-                    today.temp.min, Utils.getTempUnitText(),
-                    today.temp.max, Utils.getTempUnitText(),
-                    current.feels_like, Utils.getTempUnitText()
+                    Utils.getTempUnit() == .celsius ? today.day.mintemp_c : today.day.mintemp_f, Utils.getTempUnitText(),
+                    Utils.getTempUnit() == .celsius ? today.day.maxtemp_c : today.day.maxtemp_f, Utils.getTempUnitText(),
+                    Utils.getTempUnit() == .celsius ? current.feelslike_c : current.feelslike_f, Utils.getTempUnitText()
                 ])
                 flex.addItem(tempDescription).marginTop(2)
             }
     }
 }
-

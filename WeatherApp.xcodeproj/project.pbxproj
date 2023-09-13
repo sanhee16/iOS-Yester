@@ -34,7 +34,8 @@
 		265EFDD02A9496D200655208 /* SelectUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265EFDCF2A9496D200655208 /* SelectUnitViewModel.swift */; };
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
-		2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */; };
+		2663D04B2AB1A6F50043DC56 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663D04A2AB1A6F50043DC56 /* WeatherCardViewController.swift */; };
+		2666BF5D2A6573D4006138C4 /* WeatherCardViewControllerV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewControllerV2.swift */; };
 		266710A72AA894BF00B64DC5 /* ManageLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */; };
 		266710A92AA894C600B64DC5 /* ManageLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */; };
 		266710AD2AA896DD00B64DC5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AC2AA896DD00B64DC5 /* SettingViewController.swift */; };
@@ -115,7 +116,8 @@
 		265EFDCF2A9496D200655208 /* SelectUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUnitViewModel.swift; sourceTree = "<group>"; };
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
-		2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
+		2663D04A2AB1A6F50043DC56 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
+		2666BF5C2A6573D4006138C4 /* WeatherCardViewControllerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewControllerV2.swift; sourceTree = "<group>"; };
 		266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewController.swift; sourceTree = "<group>"; };
 		266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewModel.swift; sourceTree = "<group>"; };
 		266710AC2AA896DD00B64DC5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -241,7 +243,8 @@
 		265DB82A2A7B8334007671B7 /* WeatherCard */ = {
 			isa = PBXGroup;
 			children = (
-				2666BF5C2A6573D4006138C4 /* WeatherCardViewController.swift */,
+				2666BF5C2A6573D4006138C4 /* WeatherCardViewControllerV2.swift */,
+				2663D04A2AB1A6F50043DC56 /* WeatherCardViewController.swift */,
 			);
 			path = WeatherCard;
 			sourceTree = "<group>";
@@ -638,7 +641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666BF5D2A6573D4006138C4 /* WeatherCardViewController.swift in Sources */,
+				2666BF5D2A6573D4006138C4 /* WeatherCardViewControllerV2.swift in Sources */,
 				267391D62A6521EC00F1DC2D /* Observable.swift in Sources */,
 				266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */,
 				26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */,
@@ -655,6 +658,7 @@
 				2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */,
 				267030B62AAB5DAF0026ADC3 /* ManageLocationCell.swift in Sources */,
 				265BF30B2A7D37D00087ADDA /* SplashViewModel.swift in Sources */,
+				2663D04B2AB1A6F50043DC56 /* WeatherCardViewController.swift in Sources */,
 				26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */,
 				26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */,
 				265EFDCE2A9496CA00655208 /* SelectUnitViewController.swift in Sources */,

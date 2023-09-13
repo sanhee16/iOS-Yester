@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol WeatherIcon {
+protocol WeatherIconV2 {
     var condition: ConditionV2 { get }
     var is_day: Bool { get }
 }
@@ -49,7 +49,7 @@ public struct ForecastResponseV2: Codable {
     }
 }
 
-public struct CurrentV2: Codable, WeatherIcon {
+public struct CurrentV2: Codable, WeatherIconV2 {
     var temp_c: Double
     var temp_f: Double
     var condition: ConditionV2
@@ -148,7 +148,7 @@ public struct ForecastV2: Codable {
 }
 
 
-public struct ForecastHourV2: Codable, WeatherIcon {
+public struct ForecastHourV2: Codable, WeatherIconV2 {
     var time_epoch: Int
     var temp_c: Double
     var temp_f: Double
@@ -191,7 +191,7 @@ public struct ForecastHourV2: Codable, WeatherIcon {
     }
 }
 
-public struct ForecastDayV2: Codable, WeatherIcon {
+public struct ForecastDayV2: Codable, WeatherIconV2 {
     var maxtemp_c: Double
     var maxtemp_f: Double
     var mintemp_c: Double
@@ -242,7 +242,7 @@ public struct ForecastAstroV2: Codable {
     }
 }
 
-extension WeatherIcon {
+extension WeatherIconV2 {
     func iconImage() -> UIImage? {
         let code = self.condition.code
         var iconCode = ""
