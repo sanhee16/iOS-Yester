@@ -418,7 +418,7 @@ class WeatherCardViewController: UIViewController {
                                             
                                             
                                             image.contentMode = .scaleAspectFit
-                                            image.image = current.iconImage(34.0)
+                                            image.image = item.iconImage(34.0)
                                             
                                             
                                             flex.addItem(time).paddingBottom(8)

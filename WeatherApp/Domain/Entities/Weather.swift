@@ -17,6 +17,7 @@ extension WeatherIcon {
         guard let icon = self.weather.first?.icon else { return nil }
         return UIImage(named: icon)?.resized(toWidth: size)
     }
+    
     func iconImageSecond(_ size: CGFloat) -> UIImage? {
         if self.weather.count < 2 { return nil }
         return UIImage(named: self.weather[1].icon)?.resized(toWidth: size)
