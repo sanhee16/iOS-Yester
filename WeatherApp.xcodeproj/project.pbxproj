@@ -35,12 +35,15 @@
 		2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */; };
 		2660C4E12A66AB0F00D830E6 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */; };
 		2663D04B2AB1A6F50043DC56 /* WeatherCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663D04A2AB1A6F50043DC56 /* WeatherCardViewController.swift */; };
+		2663D04D2AB1DB000043DC56 /* SettingItem2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663D04C2AB1DB000043DC56 /* SettingItem2.swift */; };
+		2663D04F2AB1DC400043DC56 /* SettingTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663D04E2AB1DC400043DC56 /* SettingTitle.swift */; };
+		2663D0522AB1E08B0043DC56 /* SettingItem3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663D0512AB1E08B0043DC56 /* SettingItem3.swift */; };
 		2666BF5D2A6573D4006138C4 /* WeatherCardViewControllerV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666BF5C2A6573D4006138C4 /* WeatherCardViewControllerV2.swift */; };
 		266710A72AA894BF00B64DC5 /* ManageLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */; };
 		266710A92AA894C600B64DC5 /* ManageLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */; };
 		266710AD2AA896DD00B64DC5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AC2AA896DD00B64DC5 /* SettingViewController.swift */; };
 		266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AE2AA896E200B64DC5 /* SettingViewModel.swift */; };
-		266710B12AA8A65200B64DC5 /* SettingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710B02AA8A65200B64DC5 /* SettingViewCell.swift */; };
+		266710B12AA8A65200B64DC5 /* SettingItem1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710B02AA8A65200B64DC5 /* SettingItem1.swift */; };
 		266AB37D2AB09007009D8340 /* GeocodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266AB37C2AB09007009D8340 /* GeocodingService.swift */; };
 		266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 266C82E82A8DE6C10017AB49 /* Localizable.strings */; };
 		266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26703D312A6161DD007E5717 /* Assets.xcassets */; };
@@ -117,12 +120,15 @@
 		2660C4DE2A66AB0800D830E6 /* SelectLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewModel.swift; sourceTree = "<group>"; };
 		2660C4E02A66AB0F00D830E6 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		2663D04A2AB1A6F50043DC56 /* WeatherCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewController.swift; sourceTree = "<group>"; };
+		2663D04C2AB1DB000043DC56 /* SettingItem2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem2.swift; sourceTree = "<group>"; };
+		2663D04E2AB1DC400043DC56 /* SettingTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTitle.swift; sourceTree = "<group>"; };
+		2663D0512AB1E08B0043DC56 /* SettingItem3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem3.swift; sourceTree = "<group>"; };
 		2666BF5C2A6573D4006138C4 /* WeatherCardViewControllerV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardViewControllerV2.swift; sourceTree = "<group>"; };
 		266710A62AA894BF00B64DC5 /* ManageLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewController.swift; sourceTree = "<group>"; };
 		266710A82AA894C600B64DC5 /* ManageLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewModel.swift; sourceTree = "<group>"; };
 		266710AC2AA896DD00B64DC5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		266710AE2AA896E200B64DC5 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		266710B02AA8A65200B64DC5 /* SettingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewCell.swift; sourceTree = "<group>"; };
+		266710B02AA8A65200B64DC5 /* SettingItem1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem1.swift; sourceTree = "<group>"; };
 		266AB37C2AB09007009D8340 /* GeocodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingService.swift; sourceTree = "<group>"; };
 		266C82E72A8DE6C10017AB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		266C82E92A8DE6E40017AB49 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -268,6 +274,17 @@
 			path = SelectLocation;
 			sourceTree = "<group>";
 		};
+		2663D0502AB1DCA10043DC56 /* SettingItems */ = {
+			isa = PBXGroup;
+			children = (
+				2663D04E2AB1DC400043DC56 /* SettingTitle.swift */,
+				266710B02AA8A65200B64DC5 /* SettingItem1.swift */,
+				2663D04C2AB1DB000043DC56 /* SettingItem2.swift */,
+				2663D0512AB1E08B0043DC56 /* SettingItem3.swift */,
+			);
+			path = SettingItems;
+			sourceTree = "<group>";
+		};
 		266710A52AA894AE00B64DC5 /* EditLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,9 +298,9 @@
 		266710AB2AA896CF00B64DC5 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				2663D0502AB1DCA10043DC56 /* SettingItems */,
 				266710AC2AA896DD00B64DC5 /* SettingViewController.swift */,
 				266710AE2AA896E200B64DC5 /* SettingViewModel.swift */,
-				266710B02AA8A65200B64DC5 /* SettingViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -644,13 +661,15 @@
 				2666BF5D2A6573D4006138C4 /* WeatherCardViewControllerV2.swift in Sources */,
 				267391D62A6521EC00F1DC2D /* Observable.swift in Sources */,
 				266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */,
+				2663D0522AB1E08B0043DC56 /* SettingItem3.swift in Sources */,
 				26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */,
 				2638F7A32A932F500017EED8 /* WeatherItemV2.swift in Sources */,
 				265EFDCB2A94942200655208 /* C.swift in Sources */,
 				265DB8322A7BC1BF007671B7 /* WeatherItem.swift in Sources */,
 				265840762A629B5C009F2CC4 /* SampleViewController.swift in Sources */,
+				2663D04D2AB1DB000043DC56 /* SettingItem2.swift in Sources */,
 				2660C4DF2A66AB0800D830E6 /* SelectLocationViewModel.swift in Sources */,
-				266710B12AA8A65200B64DC5 /* SettingViewCell.swift in Sources */,
+				266710B12AA8A65200B64DC5 /* SettingItem1.swift in Sources */,
 				26703D452A6161DE007E5717 /* ViewControllerRepresentable.swift in Sources */,
 				265C2DC02A71F96F00028A01 /* Utils.swift in Sources */,
 				269216672A67A38E0018D586 /* Geocoding.swift in Sources */,
@@ -676,6 +695,7 @@
 				265BF3092A7D37C80087ADDA /* SplashViewController.swift in Sources */,
 				2638F7A72A932FD60017EED8 /* WeatherDataV2.swift in Sources */,
 				26F9827A2A6CC5BB009FAB48 /* Extensions.swift in Sources */,
+				2663D04F2AB1DC400043DC56 /* SettingTitle.swift in Sources */,
 				265BF3102A7D37EA0087ADDA /* BlueprintViewModel.swift in Sources */,
 				26703D462A6161DE007E5717 /* MainViewController.swift in Sources */,
 				265BF30E2A7D37E10087ADDA /* BlueprintViewController.swift in Sources */,

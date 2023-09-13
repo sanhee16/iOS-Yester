@@ -11,6 +11,12 @@ import Combine
 import PinLayout
 import FlexLayout
 
+/*
+ 단위 변경
+ 
+ 별점
+ 버전 정보
+*/
 
 class SettingViewController: BaseViewController {
     typealias VM = SettingViewModel
@@ -18,6 +24,14 @@ class SettingViewController: BaseViewController {
     private let vm: VM
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
+    
+    // scroll
+    fileprivate lazy var scrollView: UIScrollView = UIScrollView()
+    fileprivate lazy var contentView: UIView = UIView()
+    
+    fileprivate lazy var selectUnit: SettingItem2 = SettingItem2()
+    fileprivate lazy var appVersion: SettingItem1 = SettingItem1()
+    fileprivate lazy var sample: SettingItem3 = SettingItem3()
     
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
@@ -51,6 +65,10 @@ class SettingViewController: BaseViewController {
         
         self.navigationItem.title = "setting".localized()
         
+        selectUnit.configure(vm: self.vm, title: "unit".localized())
+        appVersion.configure(vm: self.vm, title: "version".localized(), descriptionText: (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String))
+        sample.configure(vm: self.vm, title: "sample".localized())
+        
         self.setLayout()
         
         vm.viewDidLoad()
@@ -61,6 +79,21 @@ class SettingViewController: BaseViewController {
         vm.viewWillAppear()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        rootFlexContainer.flex.layout()
+        
+        // cardScrollView
+        scrollView.pin.all()
+        
+        contentView.flex.layout(mode: .adjustHeight)
+        scrollView.contentSize = contentView.frame.size
+        
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+    }
     
     private func setLayout() {
         //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정
@@ -72,10 +105,22 @@ class SettingViewController: BaseViewController {
         view.backgroundColor = .backgroundColor
         
         rootFlexContainer.flex
-            .justifyContent(.center)
+            .justifyContent(.start)
             .alignItems(.center)
             .define { flex in
-                
+                flex.addItem(scrollView)
+                    .width(100%)
+                    .define { flex in
+                        flex.addItem(contentView)
+                            .width(100%)
+                            .define { flex in
+                                flex.addItem(SettingTitle(title: "title1", descriptionText: "description"))
+                                flex.addItem(selectUnit).markDirty()
+                                flex.addItem(appVersion).markDirty()
+                                flex.addItem(sample).markDirty()
+                            }
+                    }
             }
     }
+    
 }

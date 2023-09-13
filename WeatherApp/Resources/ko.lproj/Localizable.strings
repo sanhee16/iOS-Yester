@@ -25,6 +25,7 @@
 "dangerous_uv" = "위험";
 
 "select_unit" = "단위 선택하기";
+"unit" = "단위";
 "temperature" = "온도";
 "precipitation" = "강수량";
 
@@ -41,3 +42,4 @@
 "search" = "찾기";
 "search_no_result_text" = "\'%@\'에 대한 결과가 없습니다.";
 "search_result_text" = "\'%@\'에 대한 검색 결과 입니다.";
+"app_version" = "앱 버전";

@@ -25,6 +25,7 @@
 "dangerous_uv" = "dangerous";
 
 "select_unit" = "Select Units";
+"unit" = "Unit";
 "temperature" = "Temperature";
 "precipitation" = "Precipitation";
 
@@ -41,3 +42,4 @@
 "search" = "Search";
 "search_no_result_text" = "There are no results for the \'%@\'.";
 "search_result_text" = "These are the search results for the \'%@\'.";
+"app_version" = "App Version";
