@@ -104,6 +104,7 @@ class ManageLocationViewController: BaseViewController {
         rootFlexContainer.flex.layout()
         
         collectionView.pin.top().left().right().above(of: addButton)
+        collectionView.backgroundColor = .backgroundColor
     }
     
     private func setLayout() {
