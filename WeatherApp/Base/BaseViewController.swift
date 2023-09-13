@@ -24,7 +24,7 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white // 배경색
+        view.backgroundColor = .backgroundColor // 배경색
         
         // backButton에 text(뒤로) 제거하기
         let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
