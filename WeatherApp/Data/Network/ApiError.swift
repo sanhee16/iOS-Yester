@@ -9,6 +9,16 @@ import Foundation
 import Alamofire
 
 // 1. Error 타입 정의
+struct CommonError: Error {
+    enum ErrorType {
+        case unknown
+        case cancelled
+        case noData
+    }
+    let type: ErrorType
+    let message: String? = nil
+}
+
 struct NetworkError: Error {
     let initialError: AFError
     let weatherError: WeatherError?

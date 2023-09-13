@@ -7,36 +7,30 @@
 
 import Foundation
 
-/*
- [
-     {
-         "name": "Yongin-si",
-         "local_names": {
-             "de": "Yongin",
-             "pt": "Yongin",
-             "ascii": "Yongin",
-             "ja": "竜仁市",
-             "ru": "Йонъин",
-             "en": "Yongin-si",
-             "es": "Yongin",
-             "ca": "Yongin",
-             "feature_name": "Yongin",
-             "et": "Yongin",
-             "fr": "Yongin",
-             "ko": "용인시",
-             "zh": "龍仁市"
-         },
-         "lat": 37.2405741,
-         "lon": 127.1785572,
-         "country": "KR"
-         "state":"England"
- }
- ]
- */
+struct Geocoding: Equatable {
+    static func == (lhs: Geocoding, rhs: Geocoding) -> Bool {
+        return lhs.lat == rhs.lat && lhs.lon == rhs.lon
+    }
+    var name: String
+    var lat: Double
+    var lon: Double
+    var country: String
+    var localName: String
+    var address: String
+    
+    init(geocoding: GeocodingResponse, reverse: ReverseGeocoding) {
+        self.name = geocoding.name
+        self.lat = geocoding.lat
+        self.lon = geocoding.lon
+        self.country = geocoding.country
+        self.localName = geocoding.localName
+        self.address = reverse.getAddress()
+    }
+}
 
 // https://openweathermap.org/api/geocoding-api
-struct Geocoding: Codable, Equatable {
-    static func == (lhs: Geocoding, rhs: Geocoding) -> Bool {
+struct GeocodingResponse: Codable, Equatable {
+    static func == (lhs: GeocodingResponse, rhs: GeocodingResponse) -> Bool {
         return lhs.lat == rhs.lat && lhs.lon == rhs.lon
     }
     var name: String
@@ -68,6 +62,7 @@ struct Geocoding: Codable, Equatable {
     }
 }
 
+
 struct LocalName: Codable {
     var ko: String?
     var en: String?
@@ -84,5 +79,77 @@ struct LocalName: Codable {
         ko = try values.decodeIfPresent(String.self, forKey: .ko)
         en = try values.decodeIfPresent(String.self, forKey: .en)
         ja = try values.decodeIfPresent(String.self, forKey: .ja)
+    }
+}
+
+// https://nominatim.openstreetmap.org/reverse?format=json&lat=38.09902&lon=128.64915
+struct ReverseGeocoding: Codable, Equatable {
+    static func == (lhs: ReverseGeocoding, rhs: ReverseGeocoding) -> Bool {
+        return lhs.lat == rhs.lat && lhs.lon == rhs.lon
+    }
+    var lat: String
+    var lon: String
+    var displayName: String // display_name
+    var reverseGeocodingAddress: ReverseGeocodingAddress
+    var name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case lat
+        case lon
+        case displayName = "display_name"
+        case reverseGeocodingAddress = "address"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        lat = try values.decode(String.self, forKey: .lat)
+        lon = try values.decode(String.self, forKey: .lon)
+        displayName = try values.decode(String.self, forKey: .displayName)
+        reverseGeocodingAddress = try values.decode(ReverseGeocodingAddress.self, forKey: .reverseGeocodingAddress)
+        name = reverseGeocodingAddress.city ?? reverseGeocodingAddress.state ?? reverseGeocodingAddress.county ?? reverseGeocodingAddress.village ?? reverseGeocodingAddress.country
+    }
+    
+    func getAddress() -> String {
+        let displayNameArr = self.displayName.components(separatedBy: ", ")
+        let addressArr = reverseGeocodingAddress.arr
+        var result: String = ""
+        for displayUnit in displayNameArr {
+            if addressArr.contains(where: { str in
+                str == displayUnit
+            }) {
+                result.append(displayUnit + " ")
+            }
+        }
+        return result
+    }
+}
+
+struct ReverseGeocodingAddress: Codable, Equatable {
+    var village: String?
+    var county: String?
+    var province: String?
+    var city: String?
+    var state: String?
+    var country: String //common
+    var arr: [String?]
+    
+    enum CodingKeys: String, CodingKey {
+        case village
+        case county
+        case province
+        case city
+        case state
+        case country
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        village = try values.decodeIfPresent(String.self, forKey: .village)
+        county = try values.decodeIfPresent(String.self, forKey: .county)
+        province = try values.decodeIfPresent(String.self, forKey: .province)
+        city = try values.decodeIfPresent(String.self, forKey: .city)
+        state = try values.decodeIfPresent(String.self, forKey: .state)
+        country = try values.decode(String.self, forKey: .country)
+        arr = [village, county, province, city, state, country]
     }
 }

@@ -14,6 +14,7 @@ final class AppDIContainer {
     let weatherService: WeatherService
     let weatherServiceV2: WeatherServiceV2
     let locationService: LocationService
+    let geocodingService: GeocodingService
     
     private init() {
         self.locationRespository = AnyRepository()
@@ -26,5 +27,6 @@ final class AppDIContainer {
             apiKey: AppConfiguration().WeatherApiKeyV2
         )
         self.locationService = LocationService()
+        self.geocodingService = GeocodingService(geocodingUrl: AppConfiguration().WeatherApiBaseURL, reverseGeocodingUrl: AppConfiguration().ReverseGeocodingBaseURL, apiKey: AppConfiguration().WeatherApiKey)
     }
 }

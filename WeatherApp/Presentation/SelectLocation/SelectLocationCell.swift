@@ -21,7 +21,7 @@ class SelectLocationCell : UITableViewCell {
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate lazy var view: UIView = UIView()
     fileprivate lazy var name: UILabel = UILabel()
-    fileprivate lazy var country: UILabel = UILabel()
+    fileprivate lazy var address: UILabel = UILabel()
     fileprivate lazy var location: UILabel = UILabel()
     private var baseBackgroundColor: UIColor = .clear
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -39,7 +39,7 @@ class SelectLocationCell : UITableViewCell {
         self.value = nil
         
         self.name.text?.removeAll()
-        self.country.text?.removeAll()
+        self.address.text?.removeAll()
         self.location.text?.removeAll()
         
         self.layout()
@@ -49,7 +49,7 @@ class SelectLocationCell : UITableViewCell {
         self.vm = vm
         self.value = value
         self.name.text = self.value?.localName
-        self.country.text = self.value?.country
+        self.address.text = self.value?.address
         self.location.text = "lat: \(self.value?.lat) // lon: \(self.value?.lon)"
         self.isExist = vm.existItems.contains(where: { loc in
             loc.lat == value.lat && loc.lon == value.lon
@@ -111,7 +111,7 @@ class SelectLocationCell : UITableViewCell {
     private func setLayout() {
         self.addSubview(rootFlexContainer)
         name.flex.markDirty()
-        country.flex.markDirty()
+        address.flex.markDirty()
         location.flex.markDirty()
         
         rootFlexContainer.flex
@@ -129,16 +129,16 @@ class SelectLocationCell : UITableViewCell {
                     .cornerRadius(6)
                     .define { flex in
                         name.numberOfLines = 0
-                        country.numberOfLines = 0
+                        address.numberOfLines = 0
                         location.numberOfLines = 0
                         
                         name.font = .en16b
-                        country.font = .en14r
+                        address.font = .en14r
                         location.font = .en12r
                         location.textColor = .gray
                         
                         flex.addItem(name)
-                        flex.addItem(country)
+                        flex.addItem(address)
                         flex.addItem(location)
                     }
             }

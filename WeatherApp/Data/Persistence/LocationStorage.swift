@@ -17,6 +17,7 @@ extension Location: Entity {
         realmLocation.isStar = isStar
         realmLocation.name = name
         realmLocation.isCurrent = isCurrent
+        realmLocation.address = address
         return realmLocation
     }
     
@@ -32,10 +33,11 @@ class LocationStorage: Object, Storable {
     @Persisted var isStar: Bool = false // 즐겨찾기
     @Persisted var isCurrent: Bool = false // 즐겨찾기
     @Persisted var name: String = "" // local 이름
+    @Persisted var address: String = "" // address
     
     var model: Location {
         get {
-            return Location(uuid: uuid, lat: lat, lon: lon, isStar: isStar, isCurrent: isCurrent, name: name)
+            return Location(uuid: uuid, lat: lat, lon: lon, isStar: isStar, isCurrent: isCurrent, name: name, address: address)
         }
     }
 }

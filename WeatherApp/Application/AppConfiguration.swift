@@ -35,4 +35,11 @@ final class AppConfiguration {
         }
         return apiBaseURL
     }()
+    
+    lazy var ReverseGeocodingBaseURL: String = {
+        guard let apiBaseURL = Bundle.main.object(forInfoDictionaryKey: "ReverseGeocodingUrl") as? String else {
+            fatalError("Reverse Geocoding ApiBaseURL must not be empty in plist")
+        }
+        return apiBaseURL
+    }()
 }

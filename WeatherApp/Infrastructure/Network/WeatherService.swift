@@ -24,7 +24,6 @@ class WeatherService: WeatherServiceProtocol {
         self.apiKey = apiKey
     }
     
-    
     private func getData<T: Decodable>(_ url: String, paramters: Parameters? = nil) -> AnyPublisher<DataResponse<T, NetworkError>, Never> {
         let url = URL(string: self.baseUrl + url)!
         var params = paramters
@@ -43,22 +42,22 @@ class WeatherService: WeatherServiceProtocol {
             .eraseToAnyPublisher()
     }
 
-    func getGeocoding(_ name: String) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
-        let params: [String: Any] = [
-            "q": name,
-            "limit": 10
-        ] as Parameters
-        return self.getData("geo/1.0/direct", paramters: params)
-    }
-    
-    func getReverseGeocoding(_ coordinate: CLLocationCoordinate2D) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
-        let params: [String: Any] = [
-            "lat": coordinate.latitude,
-            "lon": coordinate.longitude,
-            "limit": 10
-        ] as Parameters
-        return self.getData("geo/1.0/reverse", paramters: params)
-    }
+//    func getGeocoding(_ name: String) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
+//        let params: [String: Any] = [
+//            "q": name,
+//            "limit": 10
+//        ] as Parameters
+//        return self.getData("geo/1.0/direct", paramters: params)
+//    }
+//    
+//    func getReverseGeocoding(_ coordinate: CLLocationCoordinate2D) -> AnyPublisher<DataResponse<[Geocoding], NetworkError>, Never> {
+//        let params: [String: Any] = [
+//            "lat": coordinate.latitude,
+//            "lon": coordinate.longitude,
+//            "limit": 10
+//        ] as Parameters
+//        return self.getData("geo/1.0/reverse", paramters: params)
+//    }
     
     func getOneCallWeather(_ location: Location) -> AnyPublisher<DataResponse<WeatherResponse, NetworkError>, Never>{
         let params: [String: Any] = [

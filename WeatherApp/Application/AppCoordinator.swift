@@ -31,7 +31,8 @@ final class AppCoordinator {
             self,
             locationRespository: appDIContainer.locationRespository,
             weatherService: appDIContainer.weatherService,
-            locationService: appDIContainer.locationService
+            locationService: appDIContainer.locationService,
+            geocodingService: appDIContainer.geocodingService
         ))
         
         self.navigationController.pushViewController(vc, animated: false)
@@ -74,8 +75,9 @@ final class AppCoordinator {
             locationRespository: appDIContainer.locationRespository,
             weatherService: appDIContainer.weatherService,
             weatherServiceV2: appDIContainer.weatherServiceV2,
-            locationService: appDIContainer.locationService)
-        )
+            locationService: appDIContainer.locationService,
+            geocodingService: appDIContainer.geocodingService
+        ))
         self.navigationController.pushViewController(vc, animated: true)
     }
     

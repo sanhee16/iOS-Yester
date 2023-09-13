@@ -24,7 +24,7 @@ protocol SelectLocationViewModel: SelectLocationViewModelInput, SelectLocationVi
 
 protocol SelectLocationViewModelInput {
     var name: Observable<String> { get }
-//    var selectedItem: Observable<GeocodingItem?> { get }
+    //    var selectedItem: Observable<GeocodingItem?> { get }
     func viewWillAppear()
     func viewDidLoad()
     func onClickSearch()
@@ -35,8 +35,8 @@ protocol SelectLocationViewModelInput {
 }
 
 protocol SelectLocationViewModelOutput {
-//    var results: Observable<[Geocoding]> { get }
-//    var isSearching: Observable<Bool> { get }
+    //    var results: Observable<[Geocoding]> { get }
+    //    var isSearching: Observable<Bool> { get }
     var existItems: [Location] { get }
     var status: Observable<AddLocationStatus> { get }
 }
@@ -46,20 +46,22 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     private let locationService: LocationService
     private let weatherServiceV2: WeatherServiceV2
     private let locationRespository: AnyRepository<Location>
+    private let geocodingService: GeocodingService
     
-//    var results: [Geocoding] = []
+    //    var results: [Geocoding] = []
     var name: Observable<String> = Observable("")
     var isSearching: Bool = false
-//    var selectedItem: Observable<GeocodingItem?> = Observable(nil)
+    //    var selectedItem: Observable<GeocodingItem?> = Observable(nil)
     var existItems: [Location] = []
     var status: Observable<AddLocationStatus> = Observable(.ready)
     
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
+    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService, geocodingService: GeocodingService) {
         self.locationRespository = locationRespository
         self.weatherService = weatherService
         self.weatherServiceV2 = weatherServiceV2
         self.locationService = locationService
+        self.geocodingService = geocodingService
         super.init(coordinator)
     }
     
@@ -78,35 +80,53 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
         
         self.isSearching = true
         self.status.value = .searching
+        var geocodings: [Geocoding] = []
+        var geocodingResponses: [GeocodingResponse] = []
+        var reverseResponses: [ReverseGeocoding] = []
         
-        Publishers.Zip(
-            self.weatherService.getGeocoding("\(name.value),\(Utils.regionCode())"),
-            self.weatherService.getGeocoding(name.value)
-        )
-        .run(in: &self.subscription) {[weak self] (res1, res2) in
-            guard let self = self else { return }
-            var apiResult = res1.value ?? []
-            let result2 = res2.value?.filter({ geo in
-                !apiResult.contains { i in
-                    i.lat == geo.lat && i.lon == geo.lon
+        self.geocodingService.getGeocoding(name.value)
+            .map {responses -> [GeocodingResponse] in
+                geocodingResponses = responses.value ?? []
+                print("[step1] \(geocodingResponses)")
+                return geocodingResponses
+            }
+            .flatMap { (responses: [GeocodingResponse]) in
+                responses.publisher
+                    .flatMap { response in
+                        self.geocodingService.getReverseGeocoding(response).eraseToAnyPublisher()
+                    }
+                    .eraseToAnyPublisher()
+                    .collect()
+            }
+            .eraseToAnyPublisher()
+            .collect()
+            .flatMap({ responses in
+                for response in responses {
+                    for output in response {
+                        if let value = output.value {
+                            reverseResponses.append(value)
+                        }
+                    }
                 }
+                print("[step2] \(reverseResponses)")
+                let publisher1 = geocodingResponses.publisher
+                let publisher2 = reverseResponses.publisher
+                return Publishers.Zip(publisher1, publisher2).eraseToAnyPublisher()
             })
-            
-            apiResult.append(contentsOf: result2 ?? [])
-            self.isSearching = false
-//            self.results = apiResult
-            self.status.value = .finished(result: apiResult)
-        } complete: {[weak self] in
-            guard let self = self else { return }
-            self.isSearching = false
-            print("complete")
-        }
+            .run(in: &self.subscription, next: { output in
+                geocodings.append(Geocoding(geocoding: output.0, reverse: output.1))
+            }, complete: {[weak self] in
+                guard let self = self else { return }
+                print("complete")
+                self.status.value = .finished(result: geocodings)
+                self.isSearching = false
+            })
     }
     
     func onClickAddLocation() {
         guard case let .select(_, item) = self.status.value else { return }
         print(item)
-        let location = Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false, name: item.localName)
+        let location = Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false, name: item.localName, address: item.address)
         try? self.locationRespository.insert(item: location)
         Defaults.locations.append(location)
         self.coordinator.pop()
@@ -148,6 +168,6 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
             }
             return
         }
-
+        
     }
 }

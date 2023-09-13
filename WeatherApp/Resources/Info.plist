@@ -9,6 +9,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>ReverseGeocodingUrl</key>
+	<string>$(REVERSE_GEOCODING_API_URL)</string>
 	<key>WeatherApiUrl</key>
 	<string>$(WEATHER_API_URL)</string>
 	<key>WeatherApiKey</key>
