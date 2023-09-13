@@ -375,8 +375,9 @@ class WeatherCardViewController: UIViewController {
                 weatherImage.contentMode = .scaleAspectFit
                 weatherImage.image = iconImage?.resized(toWidth: 30.0)
                 
-                flex.addItem(weatherImage).marginLeft(10)
-                flex.addItem().direction(.row).justifyContent(.end).width(60).define { flex in
+                flex.addItem(weatherImage).marginHorizontal(10)
+                flex.addItem().direction(.row).justifyContent(.end).minWidth(60).define { flex in
+                    temp.flex.grow(1)
                     flex.addItem(temp)
                 }
             }
