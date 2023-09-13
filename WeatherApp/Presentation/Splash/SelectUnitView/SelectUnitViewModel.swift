@@ -17,8 +17,8 @@ protocol SelectUnitViewModelInput {
     func viewDidLoad()
     func onClickSave()
     
-    func onClickUnit(key: String, value: Int)
-    var units: Observable<[String: Int]> { get }
+    func onClickUnit(unit: WeatherUnit)
+    var unit: Observable<WeatherUnit> { get }
 }
 
 protocol SelectUnitViewModelOutput {
@@ -26,15 +26,12 @@ protocol SelectUnitViewModelOutput {
 }
 
 class DefaultSelectUnitViewModel: BaseViewModel, SelectUnitViewModel {
-    var units: Observable<[String: Int]> = Observable([:])
+    var unit: Observable<WeatherUnit> = Observable(WeatherUnit(rawValue: Defaults.weatherUnit) ?? .metric)
     var onDismiss: ()->()
     
     init(_ coordinator: AppCoordinator, onDismiss: @escaping ()->()) {
         self.onDismiss = onDismiss
         super.init(coordinator)
-        Defaults.units.forEach { (key, value) in
-            units.value[key] = value
-        }
     }
     
     func viewWillAppear() {
@@ -48,18 +45,15 @@ class DefaultSelectUnitViewModel: BaseViewModel, SelectUnitViewModel {
     func bind() {
     }
     
-    func onClickUnit(key: String, value: Int) {
-        units.value[key] = value
+    func onClickUnit(unit: WeatherUnit) {
+        self.unit.value = unit
     }
     
-    func setUnits() {
-        Defaults.units.forEach { (key, value) in
-            C.units[key] = value
-        }
-    }
     
     func onClickSave() {
-        Defaults.units = self.units.value
+        Defaults.weatherUnit = self.unit.value.rawValue
+        C.weatherUnit = self.unit.value
+
         self.coordinator.dismissSelectUnitView(onDismiss)
     }
     

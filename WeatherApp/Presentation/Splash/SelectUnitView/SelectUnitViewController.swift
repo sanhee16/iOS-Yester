@@ -18,13 +18,14 @@ class SelectUnitViewController: BaseViewController {
     private let vm: VM
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
-    fileprivate lazy var tempUnit0: UILabel = drawUnitButton(key: C.UNIT_TEMP, value: 0, text: TemperatureUnitV2(rawValue: 0)?.units)
-    fileprivate lazy var tempUnit1: UILabel = drawUnitButton(key: C.UNIT_TEMP, value: 1, text: TemperatureUnitV2(rawValue: 1)?.units)
-    fileprivate lazy var windUnit0: UILabel = drawUnitButton(key: C.UNIT_WIND, value: 0, text: WindUnitV2(rawValue: 0)?.units)
-    fileprivate lazy var windUnit1: UILabel = drawUnitButton(key: C.UNIT_WIND, value: 1, text: WindUnitV2(rawValue: 1)?.units)
-    fileprivate lazy var precUnit0: UILabel = drawUnitButton(key: C.UNIT_PREC, value: 0, text: PrecipitationUnitV2(rawValue: 0)?.units)
-    fileprivate lazy var precUnit1: UILabel = drawUnitButton(key: C.UNIT_PREC, value: 1, text: PrecipitationUnitV2(rawValue: 1)?.units)
     
+    
+    fileprivate lazy var metricView: UIView = UIView()
+    fileprivate lazy var imperialView: UIView = UIView()
+    
+    fileprivate lazy var metricLabel: UILabel = UILabel()
+    fileprivate lazy var imperialLabel: UILabel = UILabel()
+
     init(vm: VM) {
         print("[UnitView] init")
         self.vm = vm
@@ -37,40 +38,39 @@ class SelectUnitViewController: BaseViewController {
     }
     
     private func bind() {
-        vm.units.observe(on: self) { [weak self] units in
+        vm.unit.observe(on: self) { [weak self] unit in
             guard let self = self else { return }
-            units.forEach { (key: String, value: Int) in
-                switch key {
-                case C.UNIT_TEMP:
-                    value == 0 ? self.changeStatus(selected: self.tempUnit0, unSelected: self.tempUnit1) : self.changeStatus(selected: self.tempUnit1, unSelected: self.tempUnit0)
-                    break
-                case C.UNIT_WIND:
-                    value == 0 ? self.changeStatus(selected: self.windUnit0, unSelected: self.windUnit1) : self.changeStatus(selected: self.windUnit1, unSelected: self.windUnit0)
-                    break
-                case C.UNIT_PREC:
-                    value == 0 ? self.changeStatus(selected: self.precUnit0, unSelected: self.precUnit1) : self.changeStatus(selected: self.precUnit1, unSelected: self.precUnit0)
-                    break
-                default:
-                    break
-                }
+            switch unit {
+            case .metric:
+                self.selected(view: metricView, label: metricLabel)
+                self.unselected(view: imperialView, label: imperialLabel)
+                break
+            case .imperial:
+                self.unselected(view: metricView, label: metricLabel)
+                self.selected(view: imperialView, label: imperialLabel)
+                break
             }
         }
     }
     
-    private func changeStatus(selected: UILabel, unSelected: UILabel) {
-        selected.backgroundColor = .gray
-        selected.layer.borderColor = UIColor.black.cgColor
-        selected.textColor = UIColor.black
+    private func unselected(view: UIView, label: UILabel) {
+        view.backgroundColor = .white
+        view.flex.border(2.0, .black.withAlphaComponent(0.2))
         
-        unSelected.backgroundColor = .clear
-        unSelected.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        unSelected.textColor = UIColor.black.withAlphaComponent(0.2)
+        label.textColor = .black.withAlphaComponent(0.6)
+    }
+    
+    private func selected(view: UIView, label: UILabel) {
+        view.backgroundColor = .primeColor2.withAlphaComponent(0.6)
+        view.flex.border(2.0, .black.withAlphaComponent(0.8))
+        
+        label.textColor = .black
     }
     
     override func viewDidLoad() {
         print("[UnitView] viewDidLoad")
         super.viewDidLoad()
-
+        
         vm.viewDidLoad()
         self.setLayout()
         
@@ -97,7 +97,8 @@ class SelectUnitViewController: BaseViewController {
         print("[UnitView] setLayout")
         view.addSubview(rootFlexContainer)
         
-        rootFlexContainer.flex.backgroundColor(.primeColor1)
+        rootFlexContainer.flex.backgroundColor(.white)
+        rootFlexContainer.flex.border(2.0, .primeColor1)
         rootFlexContainer.flex.cornerRadius(20)
         
         rootFlexContainer.flex
@@ -105,28 +106,98 @@ class SelectUnitViewController: BaseViewController {
             .direction(.column)
             .justifyContent(.spaceAround)
             .define { flex in
-                var title: UILabel = UILabel()
+                let title: UILabel = UILabel()
                 title.font = .en20b
                 title.text = "select_unit".localized()
                 flex.addItem(title)
-                    .paddingBottom(16)
+                    .paddingBottom(8)
                 
-                drawSelectUnits(flex, text: "temperature".localized(), key: C.UNIT_TEMP, unit0: tempUnit0, unit1: tempUnit1)
-                drawSelectUnits(flex, text: "wind_speed".localized(), key: C.UNIT_WIND, unit0: windUnit0, unit1: windUnit1)
-                drawSelectUnits(flex, text: "precipitation".localized(), key: C.UNIT_PREC, unit0: precUnit0, unit1: precUnit1)
+                drawUnit(flex, unit: .metric, label: metricLabel, unitView: metricView)
+                drawUnit(flex, unit: .imperial, label: imperialLabel, unitView: imperialView)
                 
                 drawSaveButton(flex)
             }
+    }
+    
+    private func drawUnit(_ flex: Flex, unit: WeatherUnit, label: UILabel, unitView: UIView) {
+        flex.addItem()
+            .direction(.column)
+            .width(100%)
+            .define { flex in
+                drawUnitTitle(flex, unit: unit, label: label)
+                drawUnitButton(flex, unit: unit, unitView: unitView)
+            }
+    }
+    
+    private func drawUnitTitle(_ flex: Flex, unit: WeatherUnit, label: UILabel) {
+        flex.addItem()
+            .direction(.column)
+            .marginBottom(8)
+            .define { flex in
+                label.font = .en18b
+                label.text = unit.unitText
+                
+                flex.addItem(label)
+                    .paddingBottom(6)
+            }
+    }
+    
+    private func drawUnitButton(_ flex: Flex, unit: WeatherUnit, unitView: UIView) {
+        flex.addItem(unitView)
+            .direction(.column)
+            .width(100%)
+            .cornerRadius(8.0)
+            .padding(12, 16)
+            .define { flex in
+                flex.addItem()
+                    .direction(.row)
+                    .width(100%)
+                    .justifyContent(.spaceBetween)
+                    .define { flex in
+                        let title: UILabel = UILabel()
+                        let description: UILabel = UILabel()
+                        
+                        title.text = "temperature".localized()
+                        description.text = unit.tempDescription
+                        
+                        title.font = .en16b
+                        description.font = .en16r
+                        
+                        flex.addItem(title)
+                        flex.addItem(description)
+                    }
+                flex.addItem()
+                    .direction(.row)
+                    .width(100%)
+                    .justifyContent(.spaceBetween)
+                    .marginTop(4)
+                    .define { flex in
+                        let title: UILabel = UILabel()
+                        let description: UILabel = UILabel()
+                        
+                        title.text = "wind_speed".localized()
+                        description.text = unit.windDescription
+                        
+                        title.font = .en16b
+                        description.font = .en16r
+                        
+                        flex.addItem(title)
+                        flex.addItem(description)
+                    }
+                
+            }
+        let tapGesture = CustomTapGestureRecognizer(target: self, action: #selector(self.onClickUnit), unit: unit)
+        unitView.addGestureRecognizer(tapGesture)
     }
     
     private func drawSaveButton(_ flex: Flex) {
         flex.addItem()
             .paddingTop(12)
             .define { flex in
-                var saveBtn: UIButton = UIButton()
+                let saveBtn: UIButton = UIButton()
                 
                 saveBtn.layer.cornerRadius = 8.0
-                saveBtn.backgroundColor = .red
+                saveBtn.backgroundColor = .primeColor2
                 saveBtn.setTitle("save".localized(), for: .normal)
                 saveBtn.addTarget(self, action: #selector(self.onClickSave), for: .touchUpInside)
                 
@@ -135,69 +206,19 @@ class SelectUnitViewController: BaseViewController {
             }
     }
     
-    private func drawSelectUnits(_ flex: Flex, text: String, key: String, unit0: UILabel, unit1: UILabel) {
-        flex.addItem()
-            .direction(.column)
-            .define { flex in
-                var subTitle: UILabel = UILabel()
-                subTitle.font = .en18r
-                subTitle.text = text
-                flex.addItem(subTitle)
-                    .paddingBottom(6)
-                flex.addItem()
-                    .direction(.row)
-                    .justifyContent(.spaceBetween)
-                    .alignItems(.center)
-                    .define { flex in
-                        flex.addItem(unit0)
-                            .width(100%)
-                            .shrink(1)
-                        
-                        flex.addItem()
-                            .width(20)
-                        
-                        flex.addItem(unit1)
-                            .width(100%)
-                            .shrink(1)
-                    }
-            }
-    }
-    
-    private func drawUnitButton(key: String, value: Int, text: String?) -> UILabel {
-        var unit: UILabel = UILabel()
-        unit.font = .en16r
-        unit.text = text ?? ""
-        unit.backgroundColor = .gray
-        unit.textAlignment = .center
-        unit.flex.paddingVertical(14)
-        unit.clipsToBounds = true
-        unit.layer.cornerRadius = 8.0
-        unit.layer.borderWidth = 2.0
-        unit.layer.borderColor = UIColor.black.cgColor
-        unit.isUserInteractionEnabled = true
-        
-        
-        let tapGesture = CustomTapGestureRecognizer(target: self, action: #selector(self.onClickUnit), key: key, value: value)
-        unit.addGestureRecognizer(tapGesture)
-        
-        return unit
-    }
-    
     @objc func onClickSave() {
         vm.onClickSave()
     }
     
     @objc func onClickUnit(sender: CustomTapGestureRecognizer) {
-        vm.onClickUnit(key: sender.key, value: sender.value)
+        vm.onClickUnit(unit: sender.unit)
     }
     
     
     class CustomTapGestureRecognizer: UITapGestureRecognizer {
-        let key: String
-        let value: Int
-        init(target: Any?, action: Selector?, key: String, value: Int) {
-            self.key = key
-            self.value = value
+        let unit: WeatherUnit
+        init(target: Any?, action: Selector?, unit: WeatherUnit) {
+            self.unit = unit
             super.init(target: target, action: action)
         }
     }

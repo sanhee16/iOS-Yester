@@ -64,7 +64,7 @@ class WeatherService: WeatherServiceProtocol {
             "lat": location.lat,
             "lon": location.lon,
             "exclude": "minutely", // current, minutely, hourly, daily, alerts
-            "units": "metric", // standard, metric(섭씨), imperial(화씨)
+            "units": C.weatherUnit.apiUnits, // standard, metric(섭씨), imperial(화씨)
             "lang": "en"
         ]as Parameters
         return self.getData("data/3.0/onecall", paramters: params)
@@ -74,7 +74,7 @@ class WeatherService: WeatherServiceProtocol {
         let params: [String: Any] = [
             "lat": location.lat,
             "lon": location.lon,
-            "units": "metric", // standard, metric(섭씨), imperial(화씨)
+            "units": C.weatherUnit.apiUnits, // standard, metric(섭씨), imperial(화씨)
             "lang": "en"
         ]as Parameters
         return self.getData("data/2.5/forecast", paramters: params)

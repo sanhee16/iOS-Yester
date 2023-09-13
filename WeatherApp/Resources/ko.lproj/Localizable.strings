@@ -43,3 +43,11 @@
 "search_no_result_text" = "\'%@\'에 대한 결과가 없습니다.";
 "search_result_text" = "\'%@\'에 대한 검색 결과 입니다.";
 "app_version" = "앱 버전";
+
+"standard" = "표준";
+"metric" = "미터법";
+"imperial" = "야드·파운드법";
+
+"kelvin" = "켈빈 (K)";
+"celsius" = "섭씨 (°C)";
+"fahrenheit" = "화씨 (°F)";

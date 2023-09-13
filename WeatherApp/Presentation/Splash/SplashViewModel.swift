@@ -98,9 +98,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     }
     
     func loadUnits() {
-        Defaults.units.forEach { (key, value) in
-            C.units[key] = value
-        }
+        C.weatherUnit = WeatherUnit(rawValue: Defaults.weatherUnit) ?? .metric
         self.onCompleteThirdTasks.send(true)
     }
     

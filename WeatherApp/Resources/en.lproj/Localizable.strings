@@ -43,3 +43,12 @@
 "search_no_result_text" = "There are no results for the \'%@\'.";
 "search_result_text" = "These are the search results for the \'%@\'.";
 "app_version" = "App Version";
+
+"standard" = "Standard";
+"metric" = "Metric";
+"imperial" = "Imperial";
+
+
+"kelvin" = "Kelvin (K)";
+"celsius" = "Celsius (°C)";
+"fahrenheit" = "Fahrenheit (°F)";

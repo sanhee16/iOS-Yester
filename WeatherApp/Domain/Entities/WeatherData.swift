@@ -85,3 +85,50 @@ extension Int {
         }
     }
 }
+
+enum WeatherUnit: Int {
+    case metric = 0
+    case imperial = 1
+    
+    var apiUnits: String {
+        switch self {
+        case .metric: return "metric"
+        case .imperial: return "imperial"
+        }
+    }
+    
+    var unitText: String {
+        switch self {
+        case .metric: return "metric".localized()
+        case .imperial: return "imperial".localized()
+        }
+    }
+    
+    var tempUnit: String {
+        switch self {
+        case .metric: return "°"
+        case .imperial: return "°"
+        }
+    }
+    
+    var windUnit: String {
+        switch self {
+        case .metric: return "m/s"
+        case .imperial: return "mph"
+        }
+    }
+    
+    var tempDescription: String {
+        switch self {
+        case .metric: return "celsius".localized()
+        case .imperial: return "fahrenheit".localized()
+        }
+    }
+    
+    var windDescription: String {
+        switch self {
+        case .metric: return "meter/sec (m/s)"
+        case .imperial: return "miles/hour (mph)"
+        }
+    }
+}

@@ -61,42 +61,47 @@ final class Utils {
         return date.string(from: modifiedDate)
     }
     
-    private static func getUnitKey(key: String) -> String? {
-        guard let value = C.units[key] else { return nil }
-        switch key {
-        case C.UNIT_TEMP:
-            return TemperatureUnitV2(rawValue: value)?.keys
-        case C.UNIT_WIND:
-            return WindUnitV2(rawValue: value)?.keys
-        case C.UNIT_PREC:
-            return PrecipitationUnitV2(rawValue: value)?.keys
-        default:
-            return nil
-        }
-    }
     
-    private static func getUnitText(key: String) -> String? {
-        guard let value = C.units[key] else { return nil }
-        switch key {
-        case C.UNIT_TEMP:
-            return TemperatureUnitV2(rawValue: value)?.units
-        case C.UNIT_WIND:
-            return WindUnitV2(rawValue: value)?.units
-        case C.UNIT_PREC:
-            return PrecipitationUnitV2(rawValue: value)?.units
-        default:
-            return nil
-        }
-    }
     
-    static func getTempUnit() -> TemperatureUnitV2 { return TemperatureUnitV2(rawValue: C.units[C.UNIT_TEMP] ?? 0) ?? .celsius }
-    static func getWindUnit() -> WindUnitV2 { return WindUnitV2(rawValue: C.units[C.UNIT_WIND] ?? 0) ?? .kph }
-    static func getPrecUnit() -> PrecipitationUnitV2 { return PrecipitationUnitV2(rawValue: C.units[C.UNIT_PREC] ?? 0) ?? .inch }
     
-    static func getTempUnitText() -> String { return "°" } // Self.getUnitText(key: C.UNIT_TEMP) ?? ""
-    static func getWindUnitText() -> String { return Self.getUnitText(key: C.UNIT_WIND) ?? "" }
-    static func getPrecUnitText() -> String { return Self.getUnitText(key: C.UNIT_PREC) ?? "" }
     
+    
+//    private static func getUnitKey(key: String) -> String? {
+//        guard let value = C.units[key] else { return nil }
+//        switch key {
+//        case C.UNIT_TEMP:
+//            return TemperatureUnitV2(rawValue: value)?.keys
+//        case C.UNIT_WIND:
+//            return WindUnitV2(rawValue: value)?.keys
+//        case C.UNIT_PREC:
+//            return PrecipitationUnitV2(rawValue: value)?.keys
+//        default:
+//            return nil
+//        }
+//    }
+//
+//    private static func getUnitText(key: String) -> String? {
+//        guard let value = C.units[key] else { return nil }
+//        switch key {
+//        case C.UNIT_TEMP:
+//            return TemperatureUnitV2(rawValue: value)?.units
+//        case C.UNIT_WIND:
+//            return WindUnitV2(rawValue: value)?.units
+//        case C.UNIT_PREC:
+//            return PrecipitationUnitV2(rawValue: value)?.units
+//        default:
+//            return nil
+//        }
+//    }
+//
+//    static func getTempUnit() -> TemperatureUnitV2 { return TemperatureUnitV2(rawValue: C.units[C.UNIT_TEMP] ?? 0) ?? .celsius }
+//    static func getWindUnit() -> WindUnitV2 { return WindUnitV2(rawValue: C.units[C.UNIT_WIND] ?? 0) ?? .kph }
+//    static func getPrecUnit() -> PrecipitationUnitV2 { return PrecipitationUnitV2(rawValue: C.units[C.UNIT_PREC] ?? 0) ?? .inch }
+//
+//    static func getTempUnitText() -> String { return "°" } // Self.getUnitText(key: C.UNIT_TEMP) ?? ""
+//    static func getWindUnitText() -> String { return Self.getUnitText(key: C.UNIT_WIND) ?? "" }
+//    static func getPrecUnitText() -> String { return Self.getUnitText(key: C.UNIT_PREC) ?? "" }
+//
     static func systemImage(_ systemName: String, weight: UIImage.SymbolWeight = .medium, color: UIColor? = nil, size: CGFloat) -> UIImage? {
         let config = UIImage.SymbolConfiguration(pointSize: size, weight: weight, scale: .large)
         let image = UIImage(systemName: systemName, withConfiguration: config)
