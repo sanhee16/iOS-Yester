@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import Network
+import UIKit
 /*
  https://velog.io/@aurora_97/Combine-UIKit-MVVM-Combine-%EC%98%88%EC%A0%9C
  
@@ -17,6 +19,7 @@ class BaseViewModel {
     var subscription: Set<AnyCancellable> = []
     let coordinator: AppCoordinator
     
+    
     init(_ coordinator: AppCoordinator) {
         self.coordinator = coordinator
     }
@@ -26,4 +29,5 @@ class BaseViewModel {
             $0.cancel()
         }
     }
+    
 }

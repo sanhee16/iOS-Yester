@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Network
 
 
 enum AlertType {
@@ -16,10 +17,36 @@ enum AlertType {
 
 final class AppCoordinator {
     private let navigationController: UINavigationController
+    private let monitor = NWPathMonitor()
     let appDIContainer = AppDIContainer.shared
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.startMonitoring()
+    }
+    
+    private func startMonitoring() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                // 이 곳은 메인 스레드가 아니기 때문에
+                // UI 변화를 하기 위해서는 DispatchQueue.main.async 를 호출해야 한다.
+                DispatchQueue.main.async {
+                    
+                }
+            } else {
+                // 위와 같은 이유로 DispatchQueue.main.async 사용
+                DispatchQueue.main.async {
+                    self.presentAlertView(.ok(onClickOk: {
+                        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            exit(0)
+                        }
+                    }), title: "network_disconnection_title".localized(), message: "network_disconnection_description".localized())
+                }
+            }
+        }
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
     }
     
     func pop(_ animated: Bool = true) {

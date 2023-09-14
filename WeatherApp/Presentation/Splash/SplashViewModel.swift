@@ -119,6 +119,9 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                 .run(in: &self.subscription) {[weak self] response in
                     guard let self = self, let res = response.value else {
                         print("[SPLASH] requestLocation ERR")
+                        self?.coordinator.presentAlertView(.ok(onClickOk: {
+                            
+                        }), title: "load_location_fail_title".localized(), message: "load_location_fail_description".localized())
                         return
                     }
                     print("[SPLASH] getReverseGeocoding")
