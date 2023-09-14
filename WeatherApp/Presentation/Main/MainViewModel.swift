@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 import Combine
-
+import UIKit
 
 enum UpdateStatus {
     case none
@@ -24,14 +24,15 @@ protocol MainViewModelInput {
     func onClickAddLocation()
     func onClickManageLocation()
     func onClickSetting()
-    func onChangePage(_ idx: Int, onDone: (()->())?)
     func updateWeather(_ idx: Int, onDone: ((WeatherCardItem?)->())?)
+    func updateBackgroundColor(_ color: UIColor)
 }
 
 protocol MainViewModelOutput {
     var isLoading: Observable<Bool> { get }
     var items: [WeatherCardItem] { get }
     var updateStatus: Observable<UpdateStatus> { get }
+    var backgroundColor: Observable<UIColor> { get }
 }
 
 class DefaultMainViewModel: BaseViewModel {
@@ -45,6 +46,7 @@ class DefaultMainViewModel: BaseViewModel {
     var isFirstLoad: Bool = true
     var updateStatus: Observable<UpdateStatus> = Observable(.none)
     var lastUnit: WeatherUnit = C.weatherUnit
+    var backgroundColor: Observable<UIColor> = Observable(.backgroundColor)
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         print("init!")
@@ -73,24 +75,14 @@ extension DefaultMainViewModel: MainViewModel {
             self.lastUnit = C.weatherUnit
         }
         self.loadLocations()
-        
-        self.onChangePage(0) {[weak self] in
-            self?.onChangePage(1, onDone: nil)
-        }
     }
     
     func onClickAddLocation() {
         coordinator.presentSelectLocation()
     }
     
-    func onChangePage(_ idx: Int, onDone: (()->())?) {
-//        if idx >= self.items.count {
-//            return
-//        }
-//        if self.items[idx].isLoaded {
-//            return
-//        }
-//        self.updateWeather(idx, onDone: onDone)
+    func updateBackgroundColor(_ color: UIColor) {
+        self.backgroundColor.value = color
     }
     
     func updateWeather(_ idx: Int, onDone: ((WeatherCardItem?)->())? = nil) {

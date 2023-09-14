@@ -95,7 +95,6 @@ class WeatherCardViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("[CARD] viewDidAppear")
         guard let item = self.item, let idx = self.idx else { return }
         if !item.isLoaded {
             vm.updateWeather(idx) {[weak self] item in
@@ -108,8 +107,16 @@ class WeatherCardViewController: UIViewController {
                 self.setLayout()
                 
                 self.layout()
+                if let color = self.item?.currentWeather?.getWeatherBackground(0) {
+                    vm.updateBackgroundColor(color)
+                }
+            }
+        } else {
+            if let color = self.item?.currentWeather?.getWeatherBackground(0) {
+                vm.updateBackgroundColor(color)
             }
         }
+        
     }
     
     private func layout() {
@@ -123,7 +130,7 @@ class WeatherCardViewController: UIViewController {
         
         view.addSubview(rootFlexContainer)
         
-        rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
+        rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.23))
         rootFlexContainer.flex.cornerRadius(20)
         
         if let item = self.item, let _ = item.currentWeather {
@@ -427,7 +434,7 @@ class WeatherCardViewController: UIViewController {
     }
     
     private func drawHourly(_ flex: Flex) {
-        guard let current = self.item?.currentWeather, let hourly = self.item?.hourly else { return }
+        guard let _ = self.item?.currentWeather, let hourly = self.item?.hourly else { return }
         flex.addItem(hourlyView)
             .backgroundColor(.white.withAlphaComponent(0.13))
             .cornerRadius(12)

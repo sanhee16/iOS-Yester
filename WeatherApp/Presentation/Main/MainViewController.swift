@@ -45,6 +45,10 @@ class MainViewController: BaseViewController {
     }
     
     private func bind() {
+        vm.backgroundColor.observe(on: self) {[weak self] color in
+            self?.view.backgroundColor = color
+        }
+        
         vm.updateStatus.observe(on: self) { [weak self] status in
             guard let self = self else { return }
             switch status {
@@ -124,7 +128,6 @@ class MainViewController: BaseViewController {
         
         //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
         view.addSubview(rootFlexContainer)
-        view.backgroundColor = .primeColor2
         
         rootFlexContainer.flex
             .justifyContent(.center)

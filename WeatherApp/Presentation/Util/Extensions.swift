@@ -74,6 +74,16 @@ extension UIColor {
         )
     }
     
+    //MARK: WeatherColor
+    public static let thunderstorm: UIColor = UIColor(hex: "#5F6165", opacity: 1)
+    public static let drizzle: UIColor = UIColor(hex: "#A8D8E3", opacity: 1)
+    public static let rain: UIColor = UIColor(hex: "#0A8DF9", opacity: 1)
+    public static let snow: UIColor = UIColor(hex: "#DCDCDC", opacity: 1)
+    public static let atmosphere: UIColor = UIColor(hex: "#7A8B8C", opacity: 1)
+    public static let clearSky: UIColor = UIColor(hex: "#FFE766", opacity: 1)
+    public static let clouds: UIColor = UIColor(hex: "#B0C4DE", opacity: 1)
+
+    
     //MARK: primeColor
     public static let backgroundColor: UIColor = UIColor(hex: "#F3F6FB")
     public static let inputBoxColor: UIColor = UIColor(hex: "#DADADA")
@@ -87,16 +97,16 @@ extension UIColor {
     
 
     //MARK: Weather
-    public static let clearSky60: UIColor = UIColor(hex: "#78D7FF", opacity: 0.4)
-    public static let fewClouds60: UIColor = UIColor(hex: "#76A5FF", opacity: 0.4)
-    public static let scatteredClouds60: UIColor = UIColor(hex: "#4971FF", opacity: 0.4)
-    public static let brokenClouds60: UIColor = UIColor(hex: "#42339B", opacity: 0.4)
-    public static let showerRain60: UIColor = UIColor(hex: "#53FFC1", opacity: 0.4)
-    public static let rain60: UIColor = UIColor(hex: "#FFB629", opacity: 0.4)
-    public static let thunderStorm60: UIColor = UIColor(hex: "#907DFF", opacity: 0.4)
-    public static let snow60: UIColor = UIColor(hex: "#FFFFFF", opacity: 0.4)
-    public static let mist60: UIColor = UIColor(hex: "#B9B9B9", opacity: 0.4)
-    public static let unknown60: UIColor = UIColor(hex: "#76A5FF", opacity: 0.4)
+//    public static let clearSky60: UIColor = UIColor(hex: "#78D7FF", opacity: 0.4)
+//    public static let fewClouds60: UIColor = UIColor(hex: "#76A5FF", opacity: 0.4)
+//    public static let scatteredClouds60: UIColor = UIColor(hex: "#4971FF", opacity: 0.4)
+//    public static let brokenClouds60: UIColor = UIColor(hex: "#42339B", opacity: 0.4)
+//    public static let showerRain60: UIColor = UIColor(hex: "#53FFC1", opacity: 0.4)
+//    public static let rain60: UIColor = UIColor(hex: "#FFB629", opacity: 0.4)
+//    public static let thunderStorm60: UIColor = UIColor(hex: "#907DFF", opacity: 0.4)
+//    public static let snow60: UIColor = UIColor(hex: "#FFFFFF", opacity: 0.4)
+//    public static let mist60: UIColor = UIColor(hex: "#B9B9B9", opacity: 0.4)
+//    public static let unknown60: UIColor = UIColor(hex: "#76A5FF", opacity: 0.4)
 
 }
 
