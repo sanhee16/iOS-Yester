@@ -75,6 +75,7 @@
 		2680B62F2A6BCD46009031AE /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680B62E2A6BCD46009031AE /* WeatherService.swift */; };
 		2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680B6302A6BCEB5009031AE /* ApiError.swift */; };
 		2680B6342A6BD6EA009031AE /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680B6332A6BD6EA009031AE /* AppConfiguration.swift */; };
+		268245A22AB315550028EA77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 268245A12AB315550028EA77 /* GoogleService-Info.plist */; };
 		269216672A67A38E0018D586 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269216662A67A38E0018D586 /* Geocoding.swift */; };
 		26F9827A2A6CC5BB009FAB48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F982792A6CC5BB009FAB48 /* Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -163,6 +164,7 @@
 		2680B6302A6BCEB5009031AE /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		2680B6322A6BD5E1009031AE /* ApiConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApiConfig.xcconfig; sourceTree = "<group>"; };
 		2680B6332A6BD6EA009031AE /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		268245A12AB315550028EA77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		269216662A67A38E0018D586 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		26F982792A6CC5BB009FAB48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -361,6 +363,7 @@
 			children = (
 				266C82E82A8DE6C10017AB49 /* Localizable.strings */,
 				265BF3132A7D3BB60087ADDA /* splash.json */,
+				268245A12AB315550028EA77 /* GoogleService-Info.plist */,
 				2671F8DF2A7CA1A800171F52 /* progressing.json */,
 				26703D312A6161DD007E5717 /* Assets.xcassets */,
 				26703D322A6161DD007E5717 /* LaunchScreen.storyboard */,
@@ -632,6 +635,7 @@
 			files = (
 				265BF3142A7D3BB60087ADDA /* splash.json in Resources */,
 				266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */,
+				268245A22AB315550028EA77 /* GoogleService-Info.plist in Resources */,
 				266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */,
 				2671F8E02A7CA1A800171F52 /* progressing.json in Resources */,
 			);
