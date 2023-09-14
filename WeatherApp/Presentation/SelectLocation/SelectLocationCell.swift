@@ -22,7 +22,7 @@ class SelectLocationCell : UITableViewCell {
     fileprivate lazy var view: UIView = UIView()
     fileprivate lazy var name: UILabel = UILabel()
     fileprivate lazy var address: UILabel = UILabel()
-    fileprivate lazy var location: UILabel = UILabel()
+
     private var baseBackgroundColor: UIColor = .clear
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.value = nil
@@ -40,7 +40,6 @@ class SelectLocationCell : UITableViewCell {
         
         self.name.text?.removeAll()
         self.address.text?.removeAll()
-        self.location.text?.removeAll()
         
         self.layout()
     }
@@ -50,7 +49,6 @@ class SelectLocationCell : UITableViewCell {
         self.value = value
         self.name.text = self.value?.localName
         self.address.text = self.value?.address
-        self.location.text = "lat: \(self.value?.lat) // lon: \(self.value?.lon)"
         self.isExist = vm.existItems.contains(where: { loc in
             loc.lat == value.lat && loc.lon == value.lon
         })
@@ -112,7 +110,6 @@ class SelectLocationCell : UITableViewCell {
         self.addSubview(rootFlexContainer)
         name.flex.markDirty()
         address.flex.markDirty()
-        location.flex.markDirty()
         
         rootFlexContainer.flex
             .width(100%)
@@ -130,16 +127,13 @@ class SelectLocationCell : UITableViewCell {
                     .define { flex in
                         name.numberOfLines = 0
                         address.numberOfLines = 0
-                        location.numberOfLines = 0
                         
                         name.font = .en16b
                         address.font = .en14r
                         location.font = .en12r
-                        location.textColor = .gray
                         
                         flex.addItem(name)
                         flex.addItem(address)
-                        flex.addItem(location)
                     }
             }
     }

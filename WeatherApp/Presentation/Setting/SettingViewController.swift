@@ -122,7 +122,6 @@ class SettingViewController: BaseViewController {
                         flex.addItem(contentView)
                             .width(100%)
                             .define { flex in
-                                flex.addItem(SettingTitle(title: "title1", descriptionText: "description"))
                                 flex.addItem(selectUnit).markDirty()
                                 flex.addItem(appVersion).markDirty()
                             }
