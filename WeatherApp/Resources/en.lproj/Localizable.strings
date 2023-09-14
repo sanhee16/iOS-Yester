@@ -55,6 +55,7 @@
 "celsius" = "Celsius (°C)";
 "fahrenheit" = "Fahrenheit (°F)";
 
+"last_update" = "Last Update";
 
 //Weather Description
 "thunderstorm with light rain" = "thunderstorm with light rain";

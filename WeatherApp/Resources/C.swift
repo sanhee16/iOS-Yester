@@ -9,4 +9,5 @@ import Foundation
 
 final class C {
     static var weatherUnit: WeatherUnit = .metric
+    static var lastUpdate: Int? = nil
 }

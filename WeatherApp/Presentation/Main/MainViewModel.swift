@@ -22,6 +22,7 @@ protocol MainViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickAddLocation()
+    func onClickRefresh()
     func onClickManageLocation()
     func onClickSetting()
     func updateWeather(_ idx: Int, onDone: ((WeatherCardItem?)->())?)
@@ -33,6 +34,7 @@ protocol MainViewModelOutput {
     var items: [WeatherCardItem] { get }
     var updateStatus: Observable<UpdateStatus> { get }
     var backgroundColor: Observable<UIColor> { get }
+    var lastUpdateText: Observable<String> { get }
 }
 
 class DefaultMainViewModel: BaseViewModel {
@@ -47,6 +49,8 @@ class DefaultMainViewModel: BaseViewModel {
     var updateStatus: Observable<UpdateStatus> = Observable(.none)
     var lastUnit: WeatherUnit = C.weatherUnit
     var backgroundColor: Observable<UIColor> = Observable(.backgroundColor)
+    var lastUpdateText: Observable<String> = Observable("")
+    
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         print("init!")
@@ -75,6 +79,33 @@ extension DefaultMainViewModel: MainViewModel {
             self.lastUnit = C.weatherUnit
         }
         self.loadLocations()
+    }
+    
+    func onClickRefresh() {
+        let current = Date()
+        let updated = Date(timeIntervalSince1970: TimeInterval(C.lastUpdate ?? Int(current.timeIntervalSince1970)))
+        
+        let calendar = Calendar.current
+        let currentComponents = calendar.dateComponents([.hour, .minute], from: current)
+        let updatedComponents = calendar.dateComponents([.hour, .minute], from: updated)
+
+        let difference = calendar.dateComponents([.minute], from: updatedComponents, to: currentComponents).minute!
+        print("differnence: \(difference)")
+        if difference <= 10 {
+            // 마지막 업데이트로부터 10분 이내이면 시간만 업데이트하기!
+            self.isLoading.value = true
+
+            C.lastUpdate = Int(Date().timeIntervalSince1970)
+            if let lastUpdate = C.lastUpdate {
+                self.lastUpdateText.value = Utils.intervalToHourMin(lastUpdate)
+            }
+            self.isLoading.value = false
+            self.updateStatus.value = .reload(self.items)
+        } else {
+            self.items.removeAll()
+            self.loadLocations()
+        }
+        
     }
     
     func onClickAddLocation() {
@@ -142,7 +173,11 @@ extension DefaultMainViewModel: MainViewModel {
         }
         
         self.items = newItems
-        self.updateStatus.value = .reload(self.items)
+        
+        C.lastUpdate = Int(Date().timeIntervalSince1970)
+        if let lastUpdate = C.lastUpdate {
+            self.lastUpdateText.value = Utils.intervalToHourMin(lastUpdate)
+        }
         self.isLoading.value = false
         
         self.updateStatus.value = .reload(self.items)

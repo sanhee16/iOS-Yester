@@ -54,6 +54,9 @@
 "celsius" = "섭씨 (°C)";
 "fahrenheit" = "화씨 (°F)";
 
+"last_update" = "마지막 업데이트";
+
+
 //Weather Description
 "thunderstorm with light rain" = "약한 비를 동반한 천둥번개";
 "thunderstorm with rain" = "비를 동반한 천둥번개";

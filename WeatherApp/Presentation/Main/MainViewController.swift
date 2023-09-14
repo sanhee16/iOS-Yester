@@ -20,7 +20,13 @@ class MainViewController: BaseViewController {
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var pageVC: UIPageViewController
     fileprivate var pages: [WeatherCardViewController]
-    
+    fileprivate var lastUpdatedTime: UIBarButtonItem = {
+        let label: UILabel = UILabel()
+        label.font = .en10r
+        label.text = ""
+        
+        return UIBarButtonItem(customView: label)
+    }()
     
     var currentIdx: Int {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
@@ -70,10 +76,31 @@ class MainViewController: BaseViewController {
                 break
             }
         }
+        
+        vm.lastUpdateText.observe(on: self) { [weak self] text in
+            guard let self = self else { return }
+            if text.isEmpty { return }
+            let label: UILabel = UILabel()
+            label.font = .en8r
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            label.text = "last_update".localized() + "\n\(text)"
+            
+            self.lastUpdatedTime = UIBarButtonItem(customView: label)
+            self.makeNavigationBarButtons()
+        }
     }
     
-    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        self.makeNavigationBarButtons()
+        
+        self.setLayout()
+        
+        vm.viewDidLoad()
+    }
+    
+    private func makeNavigationBarButtons() {
         func navigationButtonItem(_ systemName: String, action: Selector) -> UIBarButtonItem {
             let btn: UIButton = UIButton()
             let image = Utils.systemImage(systemName, weight: .medium, color: .black, size: 16)
@@ -84,17 +111,18 @@ class MainViewController: BaseViewController {
             
             return UIBarButtonItem(customView: btn)
         }
-
-        super.viewDidLoad()
         
+        let refreshBtn: UIBarButtonItem = navigationButtonItem("arrow.triangle.2.circlepath", action: #selector(self.didTapRefresh))
         let listBtn: UIBarButtonItem = navigationButtonItem("list.bullet", action: #selector(self.didTapListButton))
         let settingBtn: UIBarButtonItem = navigationButtonItem("gearshape", action: #selector(self.didTapSettingButton))
         
-        self.navigationItem.hidesBackButton = true
-        self.navigationItem.rightBarButtonItems = [settingBtn, listBtn]
-        self.setLayout()
         
-        vm.viewDidLoad()
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.rightBarButtonItems = [settingBtn, listBtn, refreshBtn, lastUpdatedTime]
+    }
+    
+    @objc func didTapRefresh(sender: AnyObject) {
+        vm.onClickRefresh()
     }
     
     @objc func didTapListButton(sender: AnyObject) {
