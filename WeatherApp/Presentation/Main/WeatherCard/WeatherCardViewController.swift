@@ -127,7 +127,6 @@ class WeatherCardViewController: UIViewController {
         self.addChild(self.lottieVC)
         view.addSubview(self.lottieVC.view)
         
-        
         view.addSubview(rootFlexContainer)
         
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.23))

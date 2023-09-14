@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import PinLayout
 import FlexLayout
+import GoogleMobileAds
 
 // https://marlonjames.medium.com/uipageviewcontroller-with-dynamic-data-d5eedadccce6
 class MainViewController: BaseViewController {
@@ -27,6 +28,8 @@ class MainViewController: BaseViewController {
         
         return UIBarButtonItem(customView: label)
     }()
+    
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
     
     var currentIdx: Int {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
@@ -151,9 +154,9 @@ class MainViewController: BaseViewController {
     
     private func setLayout() {
         //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정
-//        self.addChild(self.lottieVC)
+        //        self.addChild(self.lottieVC)
         self.addChild(self.pageVC)
-        
+        self.addChild(self.bannerVC)
         //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
         view.addSubview(rootFlexContainer)
         
@@ -161,13 +164,16 @@ class MainViewController: BaseViewController {
             .justifyContent(.center)
             .alignItems(.center)
             .define { flex in
-                flex.addItem(self.pageVC.view)
+                flex.addItem(self.pageVC.view).grow(1).shrink(1)
+                
+                flex.addItem(bannerVC.view)
+                    .size(GADAdSizeBanner.size)
             }
     }
     
     private func cardViewControllerAtIndex(_ index: Int) -> WeatherCardViewController? {
         if self.pages.count <= index { return nil }
-//        vm.onChangePage(index, onDone: nil)
+        //        vm.onChangePage(index, onDone: nil)
         return self.pages[index]
     }
     
@@ -178,6 +184,8 @@ class MainViewController: BaseViewController {
         rootFlexContainer.pin.all(view.pin.safeArea)
         
         // 2. flexbox child를 layout한다(child의 layout을 잡아준다).
+        self.bannerVC.view.pin.left().right().bottom()
+        
         // default is '.fitContainer'. 자식뷰들이 컨테이너의 크기 안에 배치(child는 container의 크기(width, height)내에 배치된다).
         rootFlexContainer.flex.layout()
     }

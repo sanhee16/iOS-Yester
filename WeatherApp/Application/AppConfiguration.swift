@@ -42,4 +42,12 @@ final class AppConfiguration {
         }
         return apiBaseURL
     }()
+    
+    lazy var GADBannerID: String = {
+        guard let bannerID = Bundle.main.object(forInfoDictionaryKey: "GADBannerID") as? String else {
+            fatalError("Reverse Geocoding ApiBaseURL must not be empty in plist")
+        }
+        // testID: ca-app-pub-3940256099942544/2934735716
+        return C.devMode == .develop ? "ca-app-pub-3940256099942544/2934735716" : bannerID
+    }()
 }
