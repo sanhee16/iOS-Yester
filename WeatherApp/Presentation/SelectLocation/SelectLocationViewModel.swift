@@ -124,7 +124,14 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     
     func onClickAddLocation() {
         guard case let .select(_, item) = self.status.value else { return }
-        print(item)
+        if Defaults.locations.count >= C.LOCATION_LIMMIT {
+            self.coordinator.presentAlertView(.ok(onClickOk: {
+                
+            }), title: "location_limit_title".localized(), message: "location_limit_description".localized([String(C.LOCATION_LIMMIT)]))
+            return
+        }
+        
+        
         let location = Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false, name: item.localName, address: item.address)
         try? self.locationRespository.insert(item: location)
         Defaults.locations.append(location)

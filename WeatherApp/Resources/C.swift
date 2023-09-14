@@ -15,6 +15,8 @@ enum DevMode {
 final class C {
     static var weatherUnit: WeatherUnit = .metric
     static var lastUpdate: Int? = nil
+    static let LOCATION_LIMMIT: Int = 3
     
     static var devMode: DevMode = .develop
+    
 }

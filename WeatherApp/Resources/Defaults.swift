@@ -50,7 +50,4 @@ class Defaults {
     
     @UserDefault<Int>(key: "INTERSTITIAL_COUNT", defaultValue: 0)
     public static var interstitialCount
-    
-    @UserDefault<Int>(key: "LOCATION_LIST_COUNT", defaultValue: 0)
-    public static var locationListCount
 }

@@ -56,13 +56,15 @@
 
 "last_update" = "마지막 업데이트";
 
+// MARK: Alert
 "load_location_fail_title" = "오류";
 "load_location_fail_description" = "현재 위치를 받아오는데 문제가 발생했습니다. 앱 종료후 다시 실행해 주세요.";
 "network_disconnection_title" = "네트워크 연결 오류";
 "network_disconnection_description" = "날씨 정보를 받아오기 위해서는 네트워크 연결이 필요합니다. 네트워크 연결 후 다시 실행해 주세요.";
+"location_limit_title" = "장소 추가 제한";
+"location_limit_description" = "장소 추가는 %@개까지 가능합니다. 불필요한 장소를 삭제 후 추가해 주세요.";
 
-
-//Weather Description
+// MARK: Weather Description
 "thunderstorm with light rain" = "약한 비를 동반한 천둥번개";
 "thunderstorm with rain" = "비를 동반한 천둥번개";
 "thunderstorm with heavy rain" = "폭우를 동반한 천둥번개";
