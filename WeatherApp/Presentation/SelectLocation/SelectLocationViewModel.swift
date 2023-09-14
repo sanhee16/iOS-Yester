@@ -35,8 +35,7 @@ protocol SelectLocationViewModelInput {
 }
 
 protocol SelectLocationViewModelOutput {
-    //    var results: Observable<[Geocoding]> { get }
-    //    var isSearching: Observable<Bool> { get }
+    var isLoading: Observable<Bool> { get }
     var existItems: [Location] { get }
     var status: Observable<AddLocationStatus> { get }
 }
@@ -50,7 +49,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     
     //    var results: [Geocoding] = []
     var name: Observable<String> = Observable("")
-    var isSearching: Bool = false
+    var isLoading: Observable<Bool> = Observable(false)
     //    var selectedItem: Observable<GeocodingItem?> = Observable(nil)
     var existItems: [Location] = []
     var status: Observable<AddLocationStatus> = Observable(.ready)
@@ -74,11 +73,11 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     }
     
     func onClickSearch() {
-        if self.isSearching || self.name.value.isEmpty || self.name.value == " " {
+        if self.isLoading.value || self.name.value.isEmpty || self.name.value == " " {
             return
         }
         
-        self.isSearching = true
+        self.isLoading.value = true
         self.status.value = .searching
         var geocodings: [Geocoding] = []
         var geocodingResponses: [GeocodingResponse] = []
@@ -119,7 +118,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
                 guard let self = self else { return }
                 print("complete")
                 self.status.value = .finished(result: geocodings)
-                self.isSearching = false
+                self.isLoading.value = false
             })
     }
     

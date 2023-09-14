@@ -20,6 +20,14 @@ class SelectLocationViewController: BaseViewController {
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate lazy var results: [Geocoding] = []
     
+    fileprivate lazy var lottieVC: LottieVC = {
+        let lottieVC = LottieVC(type: .progressing)
+        lottieVC.modalPresentationStyle = .overFullScreen
+        lottieVC.modalTransitionStyle = .crossDissolve
+        lottieVC.view.backgroundColor = .clear
+        return lottieVC
+    }()
+    
     private let bottomButton: UIButton = {
         let button = UIButton()
         
@@ -82,6 +90,12 @@ class SelectLocationViewController: BaseViewController {
     
     
     private func bind(to vm: VM) {
+        vm.isLoading.observe(on: self) {[weak self] isLoading in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
+                self?.lottieVC.view.isHidden = !isLoading
+            }
+        }
+        
         vm.status.observe(on: self) { [weak self] status in
             guard let self = self else { return }
             self.searchingLabel.flex.markDirty()
@@ -166,6 +180,9 @@ class SelectLocationViewController: BaseViewController {
     }
     
     private func setLayout() {
+        self.addChild(self.lottieVC)
+        
+        self.view.addSubview(self.lottieVC.view)
         self.view.addSubview(rootFlexContainer)
         
         rootFlexContainer.flex

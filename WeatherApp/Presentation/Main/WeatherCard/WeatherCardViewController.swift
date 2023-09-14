@@ -56,7 +56,6 @@ class WeatherCardViewController: UIViewController {
     }
     
     private func bind() {
-        print("[CARD] bind")
         vm.isLoading.observe(on: self) {[weak self] isLoading in
             DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
                 self?.lottieVC.view.isHidden = !isLoading
@@ -119,10 +118,10 @@ class WeatherCardViewController: UIViewController {
     
     private func setLayout() {
         self.addChild(self.lottieVC)
+        view.addSubview(self.lottieVC.view)
         
         
         view.addSubview(rootFlexContainer)
-        view.addSubview(self.lottieVC.view)
         
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)

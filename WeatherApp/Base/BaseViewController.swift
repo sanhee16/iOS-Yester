@@ -11,7 +11,7 @@ import UIKit
 
 class BaseViewController: UIViewController {
     var subscription: Set<AnyCancellable> = []
-        
+    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
