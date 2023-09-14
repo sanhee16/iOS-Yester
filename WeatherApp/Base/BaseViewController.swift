@@ -8,9 +8,13 @@
 import Foundation
 import Combine
 import UIKit
+import GoogleMobileAds
+
 
 class BaseViewController: UIViewController {
     var subscription: Set<AnyCancellable> = []
+    private var interstitial: GADInterstitialAd?
+    private var onDismissInterstitial: (()->())? = nil
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -24,6 +28,8 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.loadInterstitialAd()
+        
         view.backgroundColor = .backgroundColor // 배경색
         
         // backButton에 text(뒤로) 제거하기
@@ -38,6 +44,51 @@ class BaseViewController: UIViewController {
     deinit {
         subscription.forEach {
             $0.cancel()
+        }
+    }
+}
+
+extension BaseViewController: GADFullScreenContentDelegate {
+    /// Tells the delegate that the ad failed to present full screen content.
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("Ad did fail to present full screen content.")
+    }
+    
+    /// Tells the delegate that the ad will present full screen content.
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad will present full screen content.")
+    }
+    
+    /// Tells the delegate that the ad dismissed full screen content.
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad did dismiss full screen content.")
+        self.loadInterstitialAd()
+        self.onDismissInterstitial?()
+    }
+    
+    private func loadInterstitialAd() {
+        let request = GADRequest()
+        GADInterstitialAd.load(
+            withAdUnitID: AppConfiguration().GADInterstitialID,
+            request: request,
+            completionHandler: { [weak self] ad, error in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+                    return
+                }
+                print("[전면광고] AD 설정")
+                interstitial = ad
+                interstitial?.fullScreenContentDelegate = self
+            })
+    }
+    
+    func presentInterstitialAd(onDismiss: @escaping ()->()) {
+        if let interstitial = interstitial {
+            self.onDismissInterstitial = onDismiss
+            interstitial.present(fromRootViewController: self)
+        } else {
+            print("Ad wasn't ready")
         }
     }
 }

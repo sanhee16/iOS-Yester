@@ -99,7 +99,6 @@ class MainViewController: BaseViewController {
         self.makeNavigationBarButtons()
         
         self.setLayout()
-        
         vm.viewDidLoad()
     }
     

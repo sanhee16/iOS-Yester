@@ -244,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */,
-				269995E92AB3383400B653BD /* BannerADViewController.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -400,6 +399,7 @@
 		26703D352A6161DD007E5717 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				269995EB2AB3435100B653BD /* ADView */,
 				265058582AA9FB52007821B8 /* CustomView */,
 				266710AB2AA896CF00B64DC5 /* Setting */,
 				266710A52AA894AE00B64DC5 /* EditLocation */,
@@ -528,6 +528,14 @@
 				2638F7A62A932FD60017EED8 /* WeatherDataV2.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		269995EB2AB3435100B653BD /* ADView */ = {
+			isa = PBXGroup;
+			children = (
+				269995E92AB3383400B653BD /* BannerADViewController.swift */,
+			);
+			path = ADView;
 			sourceTree = "<group>";
 		};
 		93A04A75F7A5B08719CBFB43 /* Pods */ = {

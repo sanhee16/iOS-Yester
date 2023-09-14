@@ -153,7 +153,9 @@ class ManageLocationViewController: BaseViewController {
     
     @objc
     func onClickAdd() {
-        vm.onClickAdd()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickAdd()
+        }
     }
     
     @objc
