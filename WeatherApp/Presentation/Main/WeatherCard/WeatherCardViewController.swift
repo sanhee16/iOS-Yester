@@ -133,32 +133,40 @@ class WeatherCardViewController: UIViewController {
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.23))
         rootFlexContainer.flex.cornerRadius(20)
         
-        if let item = self.item, let _ = item.currentWeather {
-            rootFlexContainer.flex
-                .marginHorizontal(14)
-                .direction(.column)
-                .define { flex in
-                    hourlyView.addSubview(hourlyScrollView)
-                    
-                    // CARD
-                    flex.addItem(cardScrollView)
-                        .define { flex in
-                            flex.addItem(cardContentView)
-                                .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
-                                .direction(.column)
-                                .define { flex in
-                                    // HEADER
-                                    drawHeader(flex)
-                                    // 3Hour
-                                    drawHourly(flex)
-                                    // Weekly
-                                    drawWeekly(flex)
-                                    // Extra
-                                    drawExtra(flex)
-                                }
-                            
-                        }
-                }
+        if let item = self.item {
+            if item.isLoaded {
+                rootFlexContainer.flex
+                    .marginHorizontal(14)
+                    .direction(.column)
+                    .define { flex in
+                        hourlyView.addSubview(hourlyScrollView)
+                        
+                        // CARD
+                        flex.addItem(cardScrollView)
+                            .define { flex in
+                                flex.addItem(cardContentView)
+                                    .padding(UIEdgeInsets(top: 20, left: 16, bottom: 40, right: 16))
+                                    .direction(.column)
+                                    .define { flex in
+                                        // HEADER
+                                        drawHeader(flex)
+                                        // 3Hour
+                                        drawHourly(flex)
+                                        // Weekly
+                                        drawWeekly(flex)
+                                        // Extra
+                                        drawExtra(flex)
+                                    }
+                                
+                            }
+                    }
+            } else {
+                rootFlexContainer.flex
+                    .marginHorizontal(14)
+                    .direction(.column)
+                    .define { flex in
+                    }
+            }
         } else {
             rootFlexContainer.flex
                 .margin(0, 16)
