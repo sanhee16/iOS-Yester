@@ -16,6 +16,7 @@ protocol ManageLocationViewModelInput {
     func viewWillAppear()
     func viewDidLoad()
     func onClickDelete(_ location: Location)
+    func onClickDeleteAll()
     func onClickAdd()
 }
 
@@ -70,5 +71,28 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         }, onClickNo: { [weak self] in
             self?.isLoading.value = false
         }), title: nil, message: "check_delete".localized([location.name]))
+    }
+    
+    func onClickDeleteAll() {
+        if self.isLoading.value {
+            return
+        }
+        self.isLoading.value = true
+        self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
+            guard let self = self else { return }
+            
+            let deleteList = self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == false"))
+            for deleteItem in deleteList {
+                try? self.locationRespository.delete(item: deleteItem)
+            }
+            Defaults.locations.removeAll()
+            self.locationRespository.getAll().forEach { location in
+                Defaults.locations.append(location)
+            }
+            self.locations.value = Defaults.locations
+            self.isLoading.value = false
+        }, onClickNo: { [weak self] in
+            self?.isLoading.value = false
+        }), title: nil, message: "check_delete_all".localized())
     }
 }

@@ -36,6 +36,8 @@
 "ok" = "확인";
 "cancel" = "취소";
 "check_delete" = "%@를 정말 삭제하시겠습니까?";
+"check_delete_all" = "전체 지역을 삭제하시겠습니까?";
+"delete_all" = "전체 삭제";
 "add_location" = "장소 추가하기";
 "add" = "추가하기";
 "search_location_placeholder" = "장소 이름";

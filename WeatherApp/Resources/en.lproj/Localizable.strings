@@ -36,6 +36,8 @@
 "ok" = "OK";
 "cancel" = "Cancel";
 "check_delete" = "Are you sure you want to delete %@?";
+"check_delete_all" = "Are you sure you want to delete all?";
+"delete_all" = "Delete All";
 "add_location" = "Add Location";
 "add" = "Add";
 "search_location_placeholder" = "Enter Location Name";

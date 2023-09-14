@@ -34,6 +34,16 @@ class ManageLocationViewController: BaseViewController {
         
         return button
     }()
+    
+    lazy var deleteAll: UILabel = {
+        var label = UILabel()
+        label.font = .en12r
+        label.text = "delete_all".localized()
+        label.textColor = .gray
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onClickDeleteAll)))
+        return label
+    }()
 
     lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -68,7 +78,7 @@ class ManageLocationViewController: BaseViewController {
     
     private func bind() {
         vm.isLoading.observe(on: self) {[weak self] isLoading in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.3) ) { [weak self] in
                 self?.lottieVC.view.isHidden = !isLoading
             }
         }
@@ -88,7 +98,6 @@ class ManageLocationViewController: BaseViewController {
         self.navigationItem.title = "manage_locations".localized()
         
         setLayout()
-        
         vm.viewDidLoad()
     }
     
@@ -103,18 +112,26 @@ class ManageLocationViewController: BaseViewController {
         rootFlexContainer.pin.all(view.pin.safeArea)
         rootFlexContainer.flex.layout()
         
-        collectionView.pin.top().left().right().above(of: addButton)
+        collectionView.pin.below(of: deleteAll).left().right().above(of: addButton)
         collectionView.backgroundColor = .backgroundColor
     }
     
     private func setLayout() {
+        self.addChild(self.lottieVC)
         self.view.addSubview(rootFlexContainer)
-        
+        self.view.addSubview(self.lottieVC.view)
         rootFlexContainer.flex
             .direction(.column)
             .justifyContent(.spaceBetween)
             .define { flex in
-                flex.addItem(collectionView)
+                flex
+                    .direction(.column)
+                    .define { flex in
+                        deleteAll.flex.padding(4, 8)
+                        
+                        flex.addItem(deleteAll).alignSelf(.end)
+                        flex.addItem(collectionView)
+                    }
                 addButton.addTarget(self, action: #selector(self.onClickAdd), for: .touchUpInside)
                 
                 flex.addItem(addButton)
@@ -130,6 +147,12 @@ class ManageLocationViewController: BaseViewController {
     @objc
     func onClickAdd() {
         vm.onClickAdd()
+    }
+    
+    @objc
+    func onClickDeleteAll() {
+        print("onClickDeleteAll")
+        vm.onClickDeleteAll()
     }
 }
 
