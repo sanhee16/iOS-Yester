@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import PinLayout
 import FlexLayout
+import GoogleMobileAds
 
 class ManageLocationViewController: BaseViewController {
     typealias VM = ManageLocationViewModel
@@ -17,6 +18,7 @@ class ManageLocationViewController: BaseViewController {
     
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var cellTemplate = ManageLocationCell()
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
     
     fileprivate lazy var addButton: UIButton = {
         let button = UIButton()
@@ -124,8 +126,9 @@ class ManageLocationViewController: BaseViewController {
             .direction(.column)
             .justifyContent(.spaceBetween)
             .define { flex in
-                flex
+                flex.addItem()
                     .direction(.column)
+                    .grow(1).shrink(1)
                     .define { flex in
                         deleteAll.flex.padding(4, 8)
                         
@@ -135,6 +138,10 @@ class ManageLocationViewController: BaseViewController {
                 addButton.addTarget(self, action: #selector(self.onClickAdd), for: .touchUpInside)
                 
                 flex.addItem(addButton)
+                
+                flex.addItem(bannerVC.view)
+                    .size(GADAdSizeBanner.size)
+                    .alignSelf(.center)
             }
     }
     

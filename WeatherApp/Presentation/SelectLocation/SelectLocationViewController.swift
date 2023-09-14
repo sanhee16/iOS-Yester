@@ -11,6 +11,7 @@ import SwiftUI
 import Combine
 import PinLayout
 import FlexLayout
+import GoogleMobileAds
 
 class SelectLocationViewController: BaseViewController {
     typealias VM = SelectLocationViewModel
@@ -27,6 +28,7 @@ class SelectLocationViewController: BaseViewController {
         lottieVC.view.backgroundColor = .clear
         return lottieVC
     }()
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
     
     private let bottomButton: UIButton = {
         let button = UIButton()
@@ -168,7 +170,6 @@ class SelectLocationViewController: BaseViewController {
         
         rootFlexContainer.pin.all(view.pin.safeArea)
         searchingLabel.pin.top().left().right()
-        bottomButton.pin.bottom().left().right()
         tableView.pin.top().left().right().above(of: bottomButton)
         
         self.layout()
@@ -181,6 +182,7 @@ class SelectLocationViewController: BaseViewController {
     
     private func setLayout() {
         self.addChild(self.lottieVC)
+        self.addChild(self.bannerVC)
         
         self.view.addSubview(self.lottieVC.view)
         self.view.addSubview(rootFlexContainer)
@@ -191,8 +193,12 @@ class SelectLocationViewController: BaseViewController {
             .define { flex in
                 bottomButton.addTarget(self, action: #selector(self.onClickBottomButton), for: .touchUpInside)
                 flex.addItem(searchingLabel).margin(6, 12)
-                flex.addItem(tableView).grow(1)
+                flex.addItem(tableView).grow(1).shrink(1)
                 flex.addItem(bottomButton).marginTop(6)
+                
+                flex.addItem(bannerVC.view)
+                    .size(GADAdSizeBanner.size)
+                    .alignSelf(.center)
             }
     }
     

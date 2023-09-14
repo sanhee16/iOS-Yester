@@ -183,9 +183,6 @@ class MainViewController: BaseViewController {
         // 1. container의 Layout을 먼저 잡아줌
         rootFlexContainer.pin.all(view.pin.safeArea)
         
-        // 2. flexbox child를 layout한다(child의 layout을 잡아준다).
-        self.bannerVC.view.pin.left().right().bottom()
-        
         // default is '.fitContainer'. 자식뷰들이 컨테이너의 크기 안에 배치(child는 container의 크기(width, height)내에 배치된다).
         rootFlexContainer.flex.layout()
     }
