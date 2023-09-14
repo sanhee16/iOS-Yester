@@ -8,20 +8,8 @@
 import Foundation
 import UIKit
 
-protocol WeatherIcon {
+protocol WeatherInfo {
     var weather: [Weather] { get }
-}
-
-extension WeatherIcon {
-    func iconImage(_ size: CGFloat) -> UIImage? {
-        guard let icon = self.weather.first?.icon else { return nil }
-        return UIImage(named: icon)?.resized(toWidth: size)
-    }
-    
-    func iconImageSecond(_ size: CGFloat) -> UIImage? {
-        if self.weather.count < 2 { return nil }
-        return UIImage(named: self.weather[1].icon)?.resized(toWidth: size)
-    }
 }
 
 //MARK: Common
@@ -70,7 +58,7 @@ public struct WeatherResponse: Codable {
 
 
 
-public struct Current: Codable, WeatherIcon {
+public struct Current: Codable, WeatherInfo {
     var dt: Int // 현재 시간
     var sunrise: Int // 일출 UTC
     var sunset: Int // 일몰 UTC
@@ -133,7 +121,7 @@ public struct Temp: Codable {
     }
 }
 
-public struct DailyWeather: Codable, WeatherIcon {
+public struct DailyWeather: Codable, WeatherInfo {
     var dt: Int // 시간
     var temp: Temp // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
@@ -167,7 +155,7 @@ public struct DailyWeather: Codable, WeatherIcon {
     }
 }
 
-public struct HourlyWeather: Codable, WeatherIcon {
+public struct HourlyWeather: Codable, WeatherInfo {
     var dt: Int // 시간
     var temp: Double // 온도 정보
     var windSpeed: Double // 바람의 속도. 단위 – 기본값: 미터/초
@@ -209,7 +197,7 @@ public struct ThreeHourlyResponse: Codable {
     }
 }
 
-public struct ThreeHourly: Codable, WeatherIcon {
+public struct ThreeHourly: Codable, WeatherInfo {
     var dt: Int // 시간
     var main: ThreeHourlyTemp // 온도 정보
     var wind: ThreeHourlyWind

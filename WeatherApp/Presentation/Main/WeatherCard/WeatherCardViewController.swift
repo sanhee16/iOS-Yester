@@ -509,7 +509,7 @@ class WeatherCardViewController: UIViewController {
                                 currentTempLabel.text = String(format: "%.1f%@", current.temp, C.weatherUnit.tempUnit)
                                 
                                 currentDescriptionLabel.font = .en20
-                                currentDescriptionLabel.text = current.weather.first?.description
+                                currentDescriptionLabel.text = current.getDescription(0)
                                 currentDescriptionLabel.numberOfLines = 0
                                 flex.addItem(currentTempLabel)
                                 flex.addItem(currentDescriptionLabel)

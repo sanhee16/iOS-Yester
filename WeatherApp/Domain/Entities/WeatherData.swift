@@ -132,3 +132,79 @@ enum WeatherUnit: Int {
         }
     }
 }
+
+
+
+extension WeatherInfo {
+    func iconImage(_ size: CGFloat) -> UIImage? {
+        guard let icon = self.weather.first?.icon else { return nil }
+        return UIImage(named: icon)?.resized(toWidth: size)
+    }
+    
+    func iconImageSecond(_ size: CGFloat) -> UIImage? {
+        if self.weather.count < 2 { return nil }
+        return UIImage(named: self.weather[1].icon)?.resized(toWidth: size)
+    }
+    
+    func getDescription(_ idx: Int) -> String {
+        if self.weather.count <= idx { return "" }
+        switch self.weather[idx].id {
+        case 200: return "thunderstorm with light rain".localized()
+        case 201: return "thunderstorm with rain".localized()
+        case 202: return "thunderstorm with heavy rain".localized()
+        case 210: return "light thunderstorm".localized()
+        case 211: return "thunderstorm".localized()
+        case 212: return "heavy thunderstorm".localized()
+        case 221: return "ragged thunderstorm".localized()
+        case 230: return "thunderstorm with light drizzle".localized()
+        case 231: return "thunderstorm with drizzle".localized()
+        case 232: return "thunderstorm with heavy drizzle".localized()
+        case 300: return "light intensity drizzle".localized()
+        case 301: return "drizzle".localized()
+        case 302: return "heavy intensity drizzle".localized()
+        case 310: return "light intensity drizzle rain".localized()
+        case 311: return "drizzle rain".localized()
+        case 312: return "heavy intensity drizzle rain".localized()
+        case 313: return "shower rain and drizzle".localized()
+        case 314: return "heavy shower rain and drizzle".localized()
+        case 321: return "shower drizzle".localized()
+        case 500: return "light rain".localized()
+        case 501: return "moderate rain".localized()
+        case 502: return "heavy intensity rain".localized()
+        case 503: return "very heavy rain".localized()
+        case 504: return "extreme rain".localized()
+        case 511: return "freezing rain".localized()
+        case 520: return "light intensity shower rain".localized()
+        case 521: return "shower rain".localized()
+        case 522: return "heavy intensity shower rain".localized()
+        case 531: return "ragged shower rain".localized()
+        case 600: return "light snow".localized()
+        case 601: return "snow".localized()
+        case 602: return "heavy snow".localized()
+        case 611: return "sleet".localized()
+        case 612: return "light shower sleet".localized()
+        case 613: return "shower sleet".localized()
+        case 615: return "light rain and snow".localized()
+        case 616: return "rain and snow".localized()
+        case 620: return "light shower snow".localized()
+        case 621: return "shower snow".localized()
+        case 622: return "heavy shower snow".localized()
+        case 701: return "mist".localized()
+        case 711: return "smoke".localized()
+        case 721: return "haze".localized()
+        case 731: return "sand/dust whirls".localized()
+        case 741: return "fog".localized()
+        case 751: return "sand".localized()
+        case 761: return "dust".localized()
+        case 762: return "volcanic ash".localized()
+        case 771: return "squalls".localized()
+        case 781: return "tornado".localized()
+        case 800: return "clear sky".localized()
+        case 801: return "few clouds".localized()
+        case 802: return "scattered clouds".localized()
+        case 803: return "broken clouds".localized()
+        case 804: return "overcast clouds".localized()
+        default: return ""
+        }
+    }
+}
