@@ -124,15 +124,21 @@ class MainViewController: BaseViewController {
     }
     
     @objc func didTapRefresh(sender: AnyObject) {
-        vm.onClickRefresh()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickRefresh()
+        }
     }
     
     @objc func didTapListButton(sender: AnyObject) {
-        vm.onClickManageLocation()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickManageLocation()
+        }
     }
     
     @objc func didTapSettingButton(sender: AnyObject) {
-        vm.onClickSetting()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickSetting()
+        }
     }
     
     private func loadPages(_ status: UpdateStatus) {

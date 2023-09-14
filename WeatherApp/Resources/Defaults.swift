@@ -47,4 +47,7 @@ class Defaults {
     
     @UserDefault<Int>(key: "WEATHER_UNIT", defaultValue: WeatherUnit.metric.rawValue)
     public static var weatherUnit
+    
+    @UserDefault<Int>(key: "INTERSTITIAL_COUNT", defaultValue: 0)
+    public static var interstitialCount
 }

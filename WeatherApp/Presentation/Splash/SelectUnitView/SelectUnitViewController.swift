@@ -207,7 +207,9 @@ class SelectUnitViewController: BaseViewController {
     }
     
     @objc func onClickSave() {
-        vm.onClickSave()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickSave()
+        }
     }
     
     @objc func onClickUnit(sender: CustomTapGestureRecognizer) {

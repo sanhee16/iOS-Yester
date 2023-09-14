@@ -62,6 +62,7 @@ extension BaseViewController: GADFullScreenContentDelegate {
     /// Tells the delegate that the ad dismissed full screen content.
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
+        Defaults.interstitialCount += 1
         self.loadInterstitialAd()
         self.onDismissInterstitial?()
     }
@@ -84,11 +85,18 @@ extension BaseViewController: GADFullScreenContentDelegate {
     }
     
     func presentInterstitialAd(onDismiss: @escaping ()->()) {
+        self.onDismissInterstitial = onDismiss
         if let interstitial = interstitial {
-            self.onDismissInterstitial = onDismiss
-            interstitial.present(fromRootViewController: self)
+            if (Defaults.interstitialCount % 10) == 10 {
+                interstitial.present(fromRootViewController: self)
+            } else {
+                Defaults.interstitialCount += 1
+                self.onDismissInterstitial?()
+            }
         } else {
             print("Ad wasn't ready")
+            self.loadInterstitialAd()
+            self.onDismissInterstitial?()
         }
     }
 }

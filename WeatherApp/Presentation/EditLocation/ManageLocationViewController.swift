@@ -160,8 +160,9 @@ class ManageLocationViewController: BaseViewController {
     
     @objc
     func onClickDeleteAll() {
-        print("onClickDeleteAll")
-        vm.onClickDeleteAll()
+        self.presentInterstitialAd {[weak self] in
+            self?.vm.onClickDeleteAll()
+        }
     }
 }
 

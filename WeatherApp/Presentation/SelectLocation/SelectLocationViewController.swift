@@ -206,10 +206,14 @@ class SelectLocationViewController: BaseViewController {
     @objc private func onClickBottomButton() {
         switch vm.status.value {
         case .select(_, _):
-            vm.onClickAddLocation()
+            self.presentInterstitialAd {[weak self] in
+                self?.vm.onClickAddLocation()
+            }
             break
         case .entering:
-            vm.onClickSearch()
+            self.presentInterstitialAd {[weak self] in
+                self?.vm.onClickSearch()
+            }
             break
         default:
             break
