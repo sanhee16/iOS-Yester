@@ -25,6 +25,7 @@ protocol MainViewModelInput {
     func onClickManageLocation()
     func onClickSetting()
     func onChangePage(_ idx: Int, onDone: (()->())?)
+    func updateWeather(_ idx: Int, onDone: ((WeatherCardItem?)->())?)
 }
 
 protocol MainViewModelOutput {
@@ -83,18 +84,18 @@ extension DefaultMainViewModel: MainViewModel {
     }
     
     func onChangePage(_ idx: Int, onDone: (()->())?) {
-        if idx >= self.items.count {
-            return
-        }
-        if self.items[idx].isLoaded {
-            return
-        }
-        self.updateWeather(idx, onDone: onDone)
+//        if idx >= self.items.count {
+//            return
+//        }
+//        if self.items[idx].isLoaded {
+//            return
+//        }
+//        self.updateWeather(idx, onDone: onDone)
     }
     
-    func updateWeather(_ idx: Int, onDone: (()->())? = nil) {
+    func updateWeather(_ idx: Int, onDone: ((WeatherCardItem?)->())? = nil) {
         if self.isLoading.value || self.items[idx].isLoaded {
-            onDone?()
+            onDone?(self.items[idx])
             return
         }
         
@@ -113,7 +114,7 @@ extension DefaultMainViewModel: MainViewModel {
             guard let self = self, let weather = weather.value, let threeHourWeather = threeHourWeather.value, let yesterday = historyWeather.value?.forecast.forecastday.first else {
                 self?.items[idx] = WeatherCardItem(location: location, currentWeather: nil, daily: [], hourly: [], threeHourly: [], isLoaded: true, yesterday: nil)
                 self?.isLoading.value = false
-                onDone?()
+                onDone?(self?.items[idx])
                 return
             }
             
@@ -123,15 +124,8 @@ extension DefaultMainViewModel: MainViewModel {
             
             self.items[idx] = WeatherCardItem(location: location, currentWeather: current, daily: daily, hourly: hourly, threeHourly: threeHourWeather.list, isLoaded: true, yesterday: yesterday)
             
-            if self.isFirstLoad {
-                self.updateStatus.value = .reload(self.items)
-                self.isFirstLoad = false
-            } else {
-                self.updateStatus.value = .load(idx, self.items[idx])
-            }
-            
             self.isLoading.value = false
-            onDone?()
+            onDone?(self.items[idx])
         } complete: {
             
         }
@@ -158,6 +152,8 @@ extension DefaultMainViewModel: MainViewModel {
         self.items = newItems
         self.updateStatus.value = .reload(self.items)
         self.isLoading.value = false
+        
+        self.updateStatus.value = .reload(self.items)
     }
     
     func onClickManageLocation() {

@@ -16,6 +16,7 @@ class WeatherCardViewController: UIViewController {
     private let vm: VM
     
     var item: WeatherCardItem?
+    var idx: Int?
     var isAddCard: Bool {
         item == nil
     }
@@ -32,15 +33,35 @@ class WeatherCardViewController: UIViewController {
     fileprivate lazy var hourlyContentView: UIView = UIView()
     fileprivate lazy var hourlyView: UIView = UIView()
     
+    fileprivate lazy var lottieVC: LottieVC = {
+        let lottieVC = LottieVC(type: .progressing)
+        lottieVC.modalPresentationStyle = .overFullScreen
+        lottieVC.modalTransitionStyle = .crossDissolve
+        lottieVC.view.backgroundColor = .clear
+        return lottieVC
+    }()
     
-    init(vm: VM, item: WeatherCardItem?) {
+    
+    init(vm: VM, item: WeatherCardItem?, idx: Int) {
         self.vm = vm
         self.item = item
+        self.idx = idx
         super.init(nibName: nil, bundle: nil)
+        
+        self.bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func bind() {
+        print("[CARD] bind")
+        vm.isLoading.observe(on: self) {[weak self] isLoading in
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
+                self?.lottieVC.view.isHidden = !isLoading
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -75,10 +96,33 @@ class WeatherCardViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("[CARD] viewDidAppear")
+        guard let item = self.item, let idx = self.idx else { return }
+        if !item.isLoaded {
+            vm.updateWeather(idx) {[weak self] item in
+                guard let self = self, let item = item else { return }
+                self.item = item
+                for subview in self.view.subviews {
+                    subview.removeFromSuperview()
+                }
+                self.rootFlexContainer = UIView()
+                self.setLayout()
+                
+                self.layout()
+            }
+        }
+    }
+    
+    private func layout() {
+        rootFlexContainer.flex.layout()
     }
     
     private func setLayout() {
+        self.addChild(self.lottieVC)
+        
+        
         view.addSubview(rootFlexContainer)
+        view.addSubview(self.lottieVC.view)
         
         rootFlexContainer.flex.backgroundColor(.white.withAlphaComponent(0.13))
         rootFlexContainer.flex.cornerRadius(20)
@@ -156,7 +200,7 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "wind_speed")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en16r
                                 name.text = String(format: "%@", "wind_speed".localized())
                                 
                                 let value: UILabel = UILabel()
@@ -187,7 +231,7 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "uvi")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en16r
                                 name.text = String(format: "%@", "uvi".localized())
                                 
                                 let value: UILabel = UILabel()
@@ -218,7 +262,7 @@ class WeatherCardViewController: UIViewController {
                                 image.image = UIImage(named: "humidity")?.resized(toWidth: 34.0)
                                 
                                 let name: UILabel = UILabel()
-                                name.font = .en16b
+                                name.font = .en16r
                                 name.text = String(format: "%@", "humidity".localized())
                                 
                                 let value: UILabel = UILabel()
@@ -253,7 +297,7 @@ class WeatherCardViewController: UIViewController {
                                         image.image = UIImage(named: "sunrise")?.resized(toWidth: 34.0)
                                         
                                         let name: UILabel = UILabel()
-                                        name.font = .en16b
+                                        name.font = .en16r
                                         name.text = String(format: "%@", "sunrise".localized())
                                         
                                         let value: UILabel = UILabel()
@@ -275,7 +319,7 @@ class WeatherCardViewController: UIViewController {
                                         image.image = UIImage(named: "sunset")?.resized(toWidth: 34.0)
                                         
                                         let name: UILabel = UILabel()
-                                        name.font = .en16b
+                                        name.font = .en16r
                                         name.text = String(format: "%@", "sunset".localized())
                                         
                                         let value: UILabel = UILabel()

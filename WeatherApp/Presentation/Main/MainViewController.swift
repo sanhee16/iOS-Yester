@@ -27,14 +27,6 @@ class MainViewController: BaseViewController {
         return pages.firstIndex(of: vc as! WeatherCardViewController) ?? 0
     }
     
-    var lottieVC: LottieVC = {
-        let lottieVC = LottieVC(type: .progressing)
-        lottieVC.modalPresentationStyle = .overFullScreen
-        lottieVC.modalTransitionStyle = .crossDissolve
-        lottieVC.view.backgroundColor = .clear
-        return lottieVC
-    }()
-    
     init(vm: VM) {
         self.vm = vm
         self.pages = []
@@ -59,24 +51,19 @@ class MainViewController: BaseViewController {
             case .none:
                 break
             case .load(let idx, let item):
-                self.pages[idx] = WeatherCardViewController(vm: self.vm, item: item)
+                self.pages[idx] = WeatherCardViewController(vm: self.vm, item: item, idx: idx)
                 self.loadPages(status)
                 break
             case .reload(let items):
                 self.pages.removeAll()
-                for item in items {
-                    self.pages.append(WeatherCardViewController(vm: self.vm, item: item))
+                for idx in items.indices {
+                    let item = items[idx]
+                    self.pages.append(WeatherCardViewController(vm: self.vm, item: item, idx: idx))
                 }
-                self.pages.append(WeatherCardViewController(vm: self.vm, item: nil))
+                self.pages.append(WeatherCardViewController(vm: self.vm, item: nil, idx: items.count))
                 
                 self.loadPages(status)
                 break
-            }
-        }
-        
-        vm.isLoading.observe(on: self) {[weak self] isLoading in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (isLoading ? 0.0 : 0.6) ) { [weak self] in
-                self?.lottieVC.view.isHidden = !isLoading
             }
         }
     }
@@ -132,12 +119,11 @@ class MainViewController: BaseViewController {
     
     private func setLayout() {
         //addChild: self.lottieVC(VC)를 현재 VC(MainVC)의 자식으로 설정
-        self.addChild(self.lottieVC)
+//        self.addChild(self.lottieVC)
         self.addChild(self.pageVC)
         
         //addSubview: 추가된 childVC의 View가 보일 수 있도록 맨 앞으로 등장하게 하는 것
         view.addSubview(rootFlexContainer)
-        view.addSubview(self.lottieVC.view)
         view.backgroundColor = .primeColor2
         
         rootFlexContainer.flex
@@ -150,7 +136,7 @@ class MainViewController: BaseViewController {
     
     private func cardViewControllerAtIndex(_ index: Int) -> WeatherCardViewController? {
         if self.pages.count <= index { return nil }
-        vm.onChangePage(index, onDone: nil)
+//        vm.onChangePage(index, onDone: nil)
         return self.pages[index]
     }
     
