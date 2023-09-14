@@ -130,7 +130,6 @@ class SelectLocationCell : UITableViewCell {
                         
                         name.font = .en16b
                         address.font = .en14r
-                        location.font = .en12r
                         
                         flex.addItem(name)
                         flex.addItem(address)
