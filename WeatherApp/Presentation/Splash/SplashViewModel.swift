@@ -8,6 +8,7 @@ import Foundation
 import Combine
 import Alamofire
 import CoreLocation
+import UIKit
 
 protocol SplashViewModel: SplashViewModelInput, SplashViewModelOutput { }
 
@@ -39,19 +40,24 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
         super.init(coordinator)
     }
     
-    func viewWillAppear() {
-        
-    }
-    
+    func viewWillAppear() { }
     func viewDidLoad() {
         self.bind()
         self.locationService.authorStauts.observe(on: self) {[weak self] status in
+            guard let self = self else { return }
             switch status {
             case .denied:
-                print("TODO: 거절 alert 만든 후 앱 종료 or 권한 창 다시 띄우기")
+                self.coordinator.presentAlertView(.yesOrNo(onClickYes: {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                }, onClickNo: {
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(0)
+                    }
+                }), title: "permission_denied_title".localized(), message: "permission_denied_description".localized())
                 break
             case .authorizedAlways, .authorizedWhenInUse:
-                self?.setCurrentLocation()
+                self.setCurrentLocation()
                 break
             default:
                 break

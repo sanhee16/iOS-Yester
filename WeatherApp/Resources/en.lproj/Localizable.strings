@@ -64,7 +64,8 @@
 "network_disconnection_description" = "A network connection is required to fetch weather information. Please reconnect to the network and try again.";
 "location_limit_title" = "Location Addition Limit";
 "location_limit_description" = "You can add up to %@ locations. Please delete unnecessary locations before adding more.";
-
+"permission_denied_title" = "Location Permission Required";
+"permission_denied_description" = "Location and related information are not being collected. Please allow permission in settings and restart (Pressing the confirm button will take you to the app settings).";
 
 // MARK: Weather Description
 "thunderstorm with light rain" = "thunderstorm with light rain";
