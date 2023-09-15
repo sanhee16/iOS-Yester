@@ -77,7 +77,7 @@ extension UIColor {
     //MARK: WeatherColor
     public static let thunderstorm: UIColor = UIColor(hex: "#5F6165", opacity: 1)
     public static let drizzle: UIColor = UIColor(hex: "#A8D8E3", opacity: 1)
-    public static let rain: UIColor = UIColor(hex: "#0A8DF9", opacity: 1)
+    public static let rain: UIColor = UIColor(hex: "#64B9FF", opacity: 1)
     public static let snow: UIColor = UIColor(hex: "#DCDCDC", opacity: 1)
     public static let atmosphere: UIColor = UIColor(hex: "#7A8B8C", opacity: 1)
     public static let clearSky: UIColor = UIColor(hex: "#FFE766", opacity: 1)
