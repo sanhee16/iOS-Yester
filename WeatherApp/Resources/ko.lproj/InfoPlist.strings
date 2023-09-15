@@ -6,5 +6,5 @@
   
 */
 
-CFBundleDisplayName = "날씨"; // 앱이름
+CFBundleDisplayName = "Yester"; // 앱이름
 NSLocationWhenInUseUsageDescription = "현재 위치의 날씨정보를 받아오기 위해 위치 정보 접근 권한이 필요합니다."; // 위치 정보 권한

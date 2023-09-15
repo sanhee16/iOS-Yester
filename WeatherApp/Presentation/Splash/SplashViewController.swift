@@ -6,24 +6,18 @@
 //
 
 import Foundation
-import UIKit
+import PinLayout
+import FlexLayout
 import SwiftUI
 import Combine
+
 
 class SplashViewController: BaseViewController {
     typealias VM = SplashViewModel
     
     private let vm: VM
     
-    private let searchButton: UIButton = {
-        let button = UIButton()
-        return button
-    }()
-    
-    var lottieVC: LottieVC = {
-        let lottieVC = LottieVC(type: .splash)
-        return lottieVC
-    }()
+    fileprivate lazy var rootFlexContainer: UIView = UIView()
     
     init(vm: VM) {
         self.vm = vm
@@ -43,11 +37,10 @@ class SplashViewController: BaseViewController {
         print("viewDidLoad")
         super.viewDidLoad()
         vm.viewDidLoad()
-        self.addSubViews()
         
-        self.lottieVC.view.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
+        
+        
+        setLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,11 +48,32 @@ class SplashViewController: BaseViewController {
         vm.viewWillAppear()
     }
     
-    private func addSubViews() {
-        self.addChild(self.lottieVC)
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        [self.lottieVC.view].forEach {
-            self.view.addSubview($0)
-        }
+        rootFlexContainer.pin.all(view.pin.safeArea)
+        
+        self.layout()
     }
+    
+    private func layout() {
+        rootFlexContainer.flex.layout()
+    }
+    
+    private func setLayout() {
+        self.view.addSubview(rootFlexContainer)
+        
+        rootFlexContainer.flex
+            .direction(.column)
+            .justifyContent(.center)
+            .define { flex in
+                let imageView: UIImageView = UIImageView()
+                imageView.contentMode = .scaleAspectFit
+                imageView.image = UIImage(named: "splashIcon")?.resized(toWidth: 100)
+                
+                flex.addItem(imageView)
+            }
+    }
+    
 }
