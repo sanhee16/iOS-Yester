@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 import Network
-
+import PinLayout
+import FlexLayout
 
 enum AlertType {
     case ok(onClickOk: ()->())
@@ -111,10 +112,10 @@ final class AppCoordinator {
     func presentSelectUnitView(_ onDismiss: @escaping ()->()) {
         let lastVC = self.navigationController.viewControllers.last
         let vc = SelectUnitViewController(vm: DefaultSelectUnitViewModel(self, onDismiss: onDismiss))
+        
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-        vc.view.backgroundColor = .clear
-        
+        vc.view.backgroundColor = .black.withAlphaComponent(0.4)
         lastVC?.present(vc, animated: true)
     }
     

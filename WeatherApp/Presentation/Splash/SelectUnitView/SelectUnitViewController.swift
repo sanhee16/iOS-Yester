@@ -55,14 +55,14 @@ class SelectUnitViewController: BaseViewController {
     
     private func unselected(view: UIView, label: UILabel) {
         view.backgroundColor = .white
-        view.flex.border(2.0, .black.withAlphaComponent(0.2))
+        view.flex.border(1.6, .black.withAlphaComponent(0.15))
         
         label.textColor = .black.withAlphaComponent(0.6)
     }
     
     private func selected(view: UIView, label: UILabel) {
         view.backgroundColor = .primeColor2.withAlphaComponent(0.6)
-        view.flex.border(2.0, .black.withAlphaComponent(0.8))
+        view.flex.border(1.6, .black.withAlphaComponent(0.7))
         
         label.textColor = .black
     }
@@ -82,9 +82,7 @@ class SelectUnitViewController: BaseViewController {
         rootFlexContainer.pin
             .vCenter()
             .hCenter()
-            .width(80%)
-            .height(70%)
-        
+            .width(80%).height(470)
         rootFlexContainer.flex.layout()
     }
     
@@ -98,7 +96,6 @@ class SelectUnitViewController: BaseViewController {
         view.addSubview(rootFlexContainer)
         
         rootFlexContainer.flex.backgroundColor(.white)
-        rootFlexContainer.flex.border(2.0, .primeColor1)
         rootFlexContainer.flex.cornerRadius(20)
         
         rootFlexContainer.flex
@@ -109,8 +106,7 @@ class SelectUnitViewController: BaseViewController {
                 let title: UILabel = UILabel()
                 title.font = .en20b
                 title.text = "select_unit".localized()
-                flex.addItem(title)
-                    .paddingBottom(8)
+                flex.addItem(title).margin(16, 0, 30)
                 
                 drawUnit(flex, unit: .metric, label: metricLabel, unitView: metricView)
                 drawUnit(flex, unit: .imperial, label: imperialLabel, unitView: imperialView)
@@ -123,6 +119,7 @@ class SelectUnitViewController: BaseViewController {
         flex.addItem()
             .direction(.column)
             .width(100%)
+            .marginBottom(20)
             .define { flex in
                 drawUnitTitle(flex, unit: unit, label: label)
                 drawUnitButton(flex, unit: unit, unitView: unitView)
@@ -132,7 +129,7 @@ class SelectUnitViewController: BaseViewController {
     private func drawUnitTitle(_ flex: Flex, unit: WeatherUnit, label: UILabel) {
         flex.addItem()
             .direction(.column)
-            .marginBottom(8)
+            .marginBottom(10)
             .define { flex in
                 label.font = .en18b
                 label.text = unit.unitText
@@ -161,7 +158,7 @@ class SelectUnitViewController: BaseViewController {
                         description.text = unit.tempDescription
                         
                         title.font = .en16b
-                        description.font = .en16r
+                        description.font = .en14r
                         
                         flex.addItem(title)
                         flex.addItem(description)
@@ -179,7 +176,7 @@ class SelectUnitViewController: BaseViewController {
                         description.text = unit.windDescription
                         
                         title.font = .en16b
-                        description.font = .en16r
+                        description.font = .en14r
                         
                         flex.addItem(title)
                         flex.addItem(description)
@@ -192,7 +189,7 @@ class SelectUnitViewController: BaseViewController {
     
     private func drawSaveButton(_ flex: Flex) {
         flex.addItem()
-            .paddingTop(12)
+            .margin(UIEdgeInsets(top: 40, left: 0, bottom: 16, right: 0))
             .define { flex in
                 let saveBtn: UIButton = UIButton()
                 
@@ -202,7 +199,7 @@ class SelectUnitViewController: BaseViewController {
                 saveBtn.addTarget(self, action: #selector(self.onClickSave), for: .touchUpInside)
                 
                 flex.addItem(saveBtn)
-                    .paddingVertical(10)
+                    .paddingVertical(6)
             }
     }
     
