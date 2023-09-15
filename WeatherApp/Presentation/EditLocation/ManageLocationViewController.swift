@@ -138,7 +138,7 @@ class ManageLocationViewController: BaseViewController {
                 
                 flex.addItem(addButton)
                 
-                if (Remote.shared.remoteConfigList[.isShowBannerAds] as? Bool) == true {
+                if Remote.shared.isShowBannerAds == true {
                     flex.addItem(bannerVC.view)
                         .size(GADAdSizeBanner.size)
                         .alignSelf(.center)

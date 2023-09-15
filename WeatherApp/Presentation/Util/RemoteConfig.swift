@@ -16,8 +16,10 @@ enum RemoteConfigKey: String {
 
 class Remote {
     static let shared: Remote = Remote()
-    var remoteConfigList: [RemoteConfigKey: Any] = [:]
     private let remoteConfig: RemoteConfig
+    var isShowBannerAds: Bool = false
+    var isShowInterstitialAds: Bool = false
+    var isShowMainBannerAds: Bool = false
     
     private init() {
         remoteConfig = RemoteConfig.remoteConfig()
@@ -32,12 +34,17 @@ class Remote {
     }
     
     private func getValues() {
-        let keys: [RemoteConfigKey] = [.isShowBannerAds, .isShowInterstitialAds, .isShowMainBannerAds]
-        for key in keys {
-            getRemoteBoolValue(key.rawValue) {[weak self]value in
-                print("[RemoteConfig] \(key.rawValue): \(value)")
-                self?.remoteConfigList[key] = value
-            }
+        getRemoteBoolValue("isShowBannerAds") {[weak self]value in
+            print("[RemoteConfig] \("isShowBannerAds"): \(value)")
+            self?.isShowBannerAds = value
+        }
+        getRemoteBoolValue("isShowInterstitialAds") {[weak self]value in
+            print("[RemoteConfig] \("isShowInterstitialAds"): \(value)")
+            self?.isShowInterstitialAds = value
+        }
+        getRemoteBoolValue("isShowMainBannerAds") {[weak self]value in
+            print("[RemoteConfig] \("isShowMainBannerAds"): \(value)")
+            self?.isShowMainBannerAds = value
         }
     }
     

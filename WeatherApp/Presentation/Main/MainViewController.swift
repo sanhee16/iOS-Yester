@@ -171,7 +171,7 @@ class MainViewController: BaseViewController {
             .define { flex in
                 flex.addItem(self.pageVC.view).grow(1).shrink(1)
                 
-                if (Remote.shared.remoteConfigList[.isShowMainBannerAds] as? Bool) == true {
+                if Remote.shared.isShowBannerAds == true {
                     flex.addItem(bannerVC.view)
                         .size(GADAdSizeBanner.size)
                         .alignSelf(.center)

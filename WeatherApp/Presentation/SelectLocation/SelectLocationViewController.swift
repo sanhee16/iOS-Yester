@@ -196,7 +196,7 @@ class SelectLocationViewController: BaseViewController {
                 flex.addItem(tableView).grow(1).shrink(1)
                 flex.addItem(bottomButton).marginTop(6)
                 
-                if (Remote.shared.remoteConfigList[.isShowBannerAds] as? Bool) == true {
+                if Remote.shared.isShowBannerAds == true {
                     flex.addItem(bannerVC.view)
                         .size(GADAdSizeBanner.size)
                         .alignSelf(.center)
