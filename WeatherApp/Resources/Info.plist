@@ -11,7 +11,7 @@
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-6824209004972578~2874976479</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>현재 위치를 불러옵니다</string>
+	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

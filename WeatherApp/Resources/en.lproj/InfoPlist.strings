@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  WeatherApp
+
+  Created by sandy on 2023/09/15.
+  
+*/
+
+CFBundleDisplayName = "Weather"; // 앱이름
+NSLocationWhenInUseUsageDescription = "To retrieve current weather information for your location, location access permission is required."; // 위치 정보 권한
