@@ -17,7 +17,7 @@ class ManageLocationViewController: BaseViewController {
     private let vm: VM
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var cellTemplate = ManageLocationCell()
-    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController(.subPage)
     
     fileprivate lazy var addButton: UIButton = {
         let button = UIButton()

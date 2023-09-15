@@ -29,7 +29,7 @@ class MainViewController: BaseViewController {
         return UIBarButtonItem(customView: label)
     }()
     
-    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController(.mainPage)
     
     var currentIdx: Int {
         guard let vc = pageVC.viewControllers?.first else { return 0 }
@@ -171,7 +171,7 @@ class MainViewController: BaseViewController {
             .define { flex in
                 flex.addItem(self.pageVC.view).grow(1).shrink(1)
                 
-                if (Remote.shared.remoteConfigList[.isShowBannerAds] as? Bool) == true {
+                if (Remote.shared.remoteConfigList[.isShowMainBannerAds] as? Bool) == true {
                     flex.addItem(bannerVC.view)
                         .size(GADAdSizeBanner.size)
                         .alignSelf(.center)

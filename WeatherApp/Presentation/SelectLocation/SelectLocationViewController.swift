@@ -28,7 +28,7 @@ class SelectLocationViewController: BaseViewController {
         lottieVC.view.backgroundColor = .clear
         return lottieVC
     }()
-    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
+    fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController(.subPage)
     
     private let bottomButton: UIButton = {
         let button = UIButton()

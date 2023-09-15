@@ -11,11 +11,25 @@ import UIKit
 import PinLayout
 import FlexLayout
 
+enum BannerType {
+    case subPage
+    case mainPage
+    
+    var id: String {
+        switch self {
+        case .subPage: return AppConfiguration().GADBannerID
+        case .mainPage: return AppConfiguration().GADMainBannerID
+        }
+    }
+}
+
 class BannerADViewController: UIViewController {
     var bannerView: GADBannerView!
+    let bannerType: BannerType
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     
-    init() {
+    init(_ bannerType: BannerType) {
+        self.bannerType = bannerType
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,7 +42,7 @@ class BannerADViewController: UIViewController {
         
         self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
         self.bannerView.delegate = self
-        self.bannerView.adUnitID = AppConfiguration().GADBannerID
+        self.bannerView.adUnitID = bannerType.id
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
         

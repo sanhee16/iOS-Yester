@@ -11,6 +11,7 @@ import FirebaseRemoteConfig
 enum RemoteConfigKey: String {
     case isShowBannerAds = "isShowBannerAds"
     case isShowInterstitialAds = "isShowInterstitialAds"
+    case isShowMainBannerAds = "isShowMainBannerAds"
 }
 
 class Remote {
@@ -31,11 +32,12 @@ class Remote {
     }
     
     private func getValues() {
-        self.isShowBannerAds {[weak self] value in
-            self?.remoteConfigList[.isShowBannerAds] = value
-        }
-        self.isShowInterstitialAds {[weak self] value in
-            self?.remoteConfigList[.isShowInterstitialAds] = value
+        let keys: [RemoteConfigKey] = [.isShowBannerAds, .isShowInterstitialAds, .isShowMainBannerAds]
+        for key in keys {
+            getRemoteBoolValue(key.rawValue) {[weak self]value in
+                print("[RemoteConfig] \(key.rawValue): \(value)")
+                self?.remoteConfigList[key] = value
+            }
         }
     }
     
@@ -51,20 +53,6 @@ class Remote {
                 print("Error: \(error?.localizedDescription ?? "No error available.")")
                 callback(false)
             }
-        }
-    }
-    
-    private func isShowBannerAds(_ callback: @escaping (Bool)->()) {
-        getRemoteBoolValue("isShowBannerAds") { value in
-            print("[RemoteConfig] isShowBannerAds: \(value)")
-            callback(value)
-        }
-    }
-    
-    private func isShowInterstitialAds(_ callback: @escaping (Bool)->()) {
-        getRemoteBoolValue("isShowInterstitialAds") { value in
-            print("[RemoteConfig] isShowInterstitialAds: \(value)")
-            callback(value)
         }
     }
     
