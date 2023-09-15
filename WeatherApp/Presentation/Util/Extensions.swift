@@ -87,12 +87,12 @@ extension UIColor {
     //MARK: primeColor
     public static let backgroundColor: UIColor = UIColor(hex: "#F3F6FB")
     public static let inputBoxColor: UIColor = UIColor(hex: "#DADADA")
-    public static let primeColor1: UIColor = UIColor(hex: "#F07167")
-    public static let primeColor2: UIColor = UIColor(hex: "#F3968F")
-    public static let primeColor3: UIColor = UIColor(hex: "#FECCB7")
-    public static let primeColor4: UIColor = UIColor(hex: "#FFE8D2")
-    public static let primeColor5: UIColor = UIColor(hex: "#FFEAE1")
-    public static let primeColor6: UIColor = UIColor(hex: "#FFF9F9")
+    public static let primeColor1: UIColor = UIColor(hex: "#67AEF0")
+    public static let primeColor2: UIColor = UIColor(hex: "#8FC9F3")
+    public static let primeColor3: UIColor = UIColor(hex: "#B7E9FE")
+    public static let primeColor4: UIColor = UIColor(hex: "#D2F7FF")
+    public static let primeColor5: UIColor = UIColor(hex: "#E1FDFF")
+    public static let primeColor6: UIColor = UIColor(hex: "#F9FFFD")
     
     
 

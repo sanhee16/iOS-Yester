@@ -22,7 +22,6 @@
 		265BF30E2A7D37E10087ADDA /* BlueprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF30D2A7D37E10087ADDA /* BlueprintViewController.swift */; };
 		265BF3102A7D37EA0087ADDA /* BlueprintViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF30F2A7D37EA0087ADDA /* BlueprintViewModel.swift */; };
 		265BF3122A7D38CD0087ADDA /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265BF3112A7D38CD0087ADDA /* Defaults.swift */; };
-		265BF3142A7D3BB60087ADDA /* splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 265BF3132A7D3BB60087ADDA /* splash.json */; };
 		265C2DBC2A71ED9300028A01 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 265C2DBB2A71ED9300028A01 /* SnapKit */; };
 		265C2DC02A71F96F00028A01 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C2DBF2A71F96F00028A01 /* Utils.swift */; };
 		265DB82E2A7BA12E007671B7 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DB82D2A7BA12E007671B7 /* Weather.swift */; };
@@ -58,7 +57,6 @@
 		26703D4A2A6161DE007E5717 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3E2A6161DD007E5717 /* AppDelegate.swift */; };
 		26703D4B2A6161DE007E5717 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26703D3F2A6161DD007E5717 /* SceneDelegate.swift */; };
 		2671F8DE2A7CA12400171F52 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2671F8DD2A7CA12400171F52 /* Lottie */; };
-		2671F8E02A7CA1A800171F52 /* progressing.json in Resources */ = {isa = PBXBuildFile; fileRef = 2671F8DF2A7CA1A800171F52 /* progressing.json */; };
 		2671F8E22A7CA1FF00171F52 /* LottieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */; };
 		26727CE12A7A1E610056DED2 /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */; };
 		26727CE42A7A4DB60056DED2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26727CE32A7A4DB60056DED2 /* LocationService.swift */; };
@@ -87,6 +85,7 @@
 		26E926342AB4234A00959A6D /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E926332AB4234A00959A6D /* RemoteConfig.swift */; };
 		26E926382AB4279200959A6D /* remote_config_defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26E926372AB4279200959A6D /* remote_config_defaults.plist */; };
 		26E9263D2AB480D300959A6D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26E9263F2AB480D300959A6D /* InfoPlist.strings */; };
+		26E926422AB4A7FC00959A6D /* progressing.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E926412AB4A7FC00959A6D /* progressing.json */; };
 		26F9827A2A6CC5BB009FAB48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F982792A6CC5BB009FAB48 /* Extensions.swift */; };
 		6F6EA9C21601FBBFA2067D09 /* Pods_WeatherApp_WeatherAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C66CE6AE91E6C5C22810BC /* Pods_WeatherApp_WeatherAppUITests.framework */; };
 		F75B67FDE01698AA077D5FE5 /* Pods_WeatherAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA31EAE021DEC5001C9FB9E7 /* Pods_WeatherAppTests.framework */; };
@@ -122,7 +121,6 @@
 		265BF30D2A7D37E10087ADDA /* BlueprintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintViewController.swift; sourceTree = "<group>"; };
 		265BF30F2A7D37EA0087ADDA /* BlueprintViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintViewModel.swift; sourceTree = "<group>"; };
 		265BF3112A7D38CD0087ADDA /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
-		265BF3132A7D3BB60087ADDA /* splash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash.json; sourceTree = "<group>"; };
 		265C2DBF2A71F96F00028A01 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		265DB82D2A7BA12E007671B7 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		265DB82F2A7BA332007671B7 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 		26703D3E2A6161DD007E5717 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26703D3F2A6161DD007E5717 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26703D502A6162D0007E5717 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2671F8DF2A7CA1A800171F52 /* progressing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = progressing.json; sourceTree = "<group>"; };
 		2671F8E12A7CA1FE00171F52 /* LottieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieViewController.swift; sourceTree = "<group>"; };
 		26727CE02A7A1E610056DED2 /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		26727CE32A7A4DB60056DED2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -183,6 +180,7 @@
 		26E926372AB4279200959A6D /* remote_config_defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = remote_config_defaults.plist; sourceTree = "<group>"; };
 		26E9263E2AB480D300959A6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		26E926402AB480D700959A6D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		26E926412AB4A7FC00959A6D /* progressing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = progressing.json; sourceTree = "<group>"; };
 		26F982792A6CC5BB009FAB48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		35C66CE6AE91E6C5C22810BC /* Pods_WeatherApp_WeatherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherApp_WeatherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		530D8220111DD78C0CB0ED9E /* Pods-WeatherApp-WeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherApp-WeatherAppUITests/Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -390,9 +388,8 @@
 			children = (
 				26E9263F2AB480D300959A6D /* InfoPlist.strings */,
 				266C82E82A8DE6C10017AB49 /* Localizable.strings */,
-				265BF3132A7D3BB60087ADDA /* splash.json */,
 				268245A12AB315550028EA77 /* GoogleService-Info.plist */,
-				2671F8DF2A7CA1A800171F52 /* progressing.json */,
+				26E926412AB4A7FC00959A6D /* progressing.json */,
 				26703D312A6161DD007E5717 /* Assets.xcassets */,
 				26703D322A6161DD007E5717 /* LaunchScreen.storyboard */,
 				26703D502A6162D0007E5717 /* Info.plist */,
@@ -708,11 +705,10 @@
 			files = (
 				26E926382AB4279200959A6D /* remote_config_defaults.plist in Resources */,
 				26E9263D2AB480D300959A6D /* InfoPlist.strings in Resources */,
-				265BF3142A7D3BB60087ADDA /* splash.json in Resources */,
+				26E926422AB4A7FC00959A6D /* progressing.json in Resources */,
 				266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */,
 				268245A22AB315550028EA77 /* GoogleService-Info.plist in Resources */,
 				266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */,
-				2671F8E02A7CA1A800171F52 /* progressing.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
