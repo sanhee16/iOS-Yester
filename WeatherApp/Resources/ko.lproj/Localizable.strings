@@ -64,7 +64,7 @@
 "location_limit_title" = "장소 추가 제한";
 "location_limit_description" = "장소 추가는 %@개까지 가능합니다. 불필요한 장소를 삭제 후 추가해 주세요.";
 "permission_denied_title" = "현재 위치 정보가 필요합니다.";
-"permission_denied_description" = "장소 정보 및 관련 정보는 수집되지 않습니다. 설정에서 권한 설정 허용 후, 재실행 해주세요(확인 버튼을 누르면 앱 설정으로 이동합니다).";
+"permission_denied_description" = "현재 위치의 날씨를 불러오기 위해 위치 권한이 필요합니다. 설정에서 권한 설정 허용 후, 재실행 해주세요(확인 버튼을 누르면 앱 설정으로 이동합니다).";
 
 // MARK: Weather Description
 "thunderstorm with light rain" = "약한 비를 동반한 천둥번개";
