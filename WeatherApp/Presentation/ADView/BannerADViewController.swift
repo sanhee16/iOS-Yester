@@ -26,11 +26,11 @@ class BannerADViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bannerView = GADBannerView(adSize: GADAdSizeBanner)
-        bannerView.delegate = self
-        bannerView.adUnitID = AppConfiguration().GADBannerID
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+        self.bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        self.bannerView.delegate = self
+        self.bannerView.adUnitID = AppConfiguration().GADBannerID
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
         
         self.setLayout()
     }

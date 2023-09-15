@@ -84,6 +84,8 @@
 		269216672A67A38E0018D586 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269216662A67A38E0018D586 /* Geocoding.swift */; };
 		269995E32AB31A9700B653BD /* GoogleMobileAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 269995E22AB31A9700B653BD /* GoogleMobileAds.xcframework */; };
 		269995EA2AB3383400B653BD /* BannerADViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269995E92AB3383400B653BD /* BannerADViewController.swift */; };
+		26E926342AB4234A00959A6D /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E926332AB4234A00959A6D /* RemoteConfig.swift */; };
+		26E926382AB4279200959A6D /* remote_config_defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26E926372AB4279200959A6D /* remote_config_defaults.plist */; };
 		26F9827A2A6CC5BB009FAB48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F982792A6CC5BB009FAB48 /* Extensions.swift */; };
 		6F6EA9C21601FBBFA2067D09 /* Pods_WeatherApp_WeatherAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C66CE6AE91E6C5C22810BC /* Pods_WeatherApp_WeatherAppUITests.framework */; };
 		F75B67FDE01698AA077D5FE5 /* Pods_WeatherAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA31EAE021DEC5001C9FB9E7 /* Pods_WeatherAppTests.framework */; };
@@ -177,6 +179,8 @@
 		269216662A67A38E0018D586 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		269995E22AB31A9700B653BD /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		269995E92AB3383400B653BD /* BannerADViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerADViewController.swift; sourceTree = "<group>"; };
+		26E926332AB4234A00959A6D /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
+		26E926372AB4279200959A6D /* remote_config_defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = remote_config_defaults.plist; sourceTree = "<group>"; };
 		26F982792A6CC5BB009FAB48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		35C66CE6AE91E6C5C22810BC /* Pods_WeatherApp_WeatherAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherApp_WeatherAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		530D8220111DD78C0CB0ED9E /* Pods-WeatherApp-WeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeatherApp-WeatherAppUITests/Pods-WeatherApp-WeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 				2680B6322A6BD5E1009031AE /* ApiConfig.xcconfig */,
 				265BF3112A7D38CD0087ADDA /* Defaults.swift */,
 				265EFDCA2A94942200655208 /* C.swift */,
+				26E926372AB4279200959A6D /* remote_config_defaults.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -419,6 +424,7 @@
 				267391D52A6521EC00F1DC2D /* Observable.swift */,
 				26F982792A6CC5BB009FAB48 /* Extensions.swift */,
 				265C2DBF2A71F96F00028A01 /* Utils.swift */,
+				26E926332AB4234A00959A6D /* RemoteConfig.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -698,6 +704,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26E926382AB4279200959A6D /* remote_config_defaults.plist in Resources */,
 				265BF3142A7D3BB60087ADDA /* splash.json in Resources */,
 				266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */,
 				268245A22AB315550028EA77 /* GoogleService-Info.plist in Resources */,
@@ -831,6 +838,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2666BF5D2A6573D4006138C4 /* WeatherCardViewControllerV2.swift in Sources */,
+				26E926342AB4234A00959A6D /* RemoteConfig.swift in Sources */,
 				267391D62A6521EC00F1DC2D /* Observable.swift in Sources */,
 				266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */,
 				2663D0522AB1E08B0043DC56 /* SettingItem3.swift in Sources */,

@@ -15,7 +15,6 @@ class ManageLocationViewController: BaseViewController {
     typealias VM = ManageLocationViewModel
     
     private let vm: VM
-    
     fileprivate lazy var rootFlexContainer: UIView = UIView()
     fileprivate var cellTemplate = ManageLocationCell()
     fileprivate lazy var bannerVC: BannerADViewController = BannerADViewController()
@@ -139,9 +138,11 @@ class ManageLocationViewController: BaseViewController {
                 
                 flex.addItem(addButton)
                 
-                flex.addItem(bannerVC.view)
-                    .size(GADAdSizeBanner.size)
-                    .alignSelf(.center)
+                if (Remote.shared.remoteConfigList[.isShowBannerAds] as? Bool) == true {
+                    flex.addItem(bannerVC.view)
+                        .size(GADAdSizeBanner.size)
+                        .alignSelf(.center)
+                }
             }
     }
     

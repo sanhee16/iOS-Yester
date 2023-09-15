@@ -86,17 +86,21 @@ extension BaseViewController: GADFullScreenContentDelegate {
     
     func presentInterstitialAd(onDismiss: @escaping ()->()) {
         self.onDismissInterstitial = onDismiss
-        print("[전면광고] \(Defaults.interstitialCount)")
-        if let interstitial = interstitial {
-            if (Defaults.interstitialCount % (C.INTERSTITIAL_AD_LIMIT)) == (C.INTERSTITIAL_AD_LIMIT - 1) {
-                interstitial.present(fromRootViewController: self)
+        if (Remote.shared.remoteConfigList[.isShowInterstitialAds] as? Bool) == true {
+            print("[전면광고] \(Defaults.interstitialCount)")
+            if let interstitial = interstitial {
+                if (Defaults.interstitialCount % (C.INTERSTITIAL_AD_LIMIT)) == (C.INTERSTITIAL_AD_LIMIT - 1) {
+                    interstitial.present(fromRootViewController: self)
+                } else {
+                    Defaults.interstitialCount += 1
+                    self.onDismissInterstitial?()
+                }
             } else {
-                Defaults.interstitialCount += 1
+                print("Ad wasn't ready")
+                self.loadInterstitialAd()
                 self.onDismissInterstitial?()
             }
         } else {
-            print("Ad wasn't ready")
-            self.loadInterstitialAd()
             self.onDismissInterstitial?()
         }
     }

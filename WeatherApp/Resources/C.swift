@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import GoogleMobileAds
+
 
 enum DevMode {
     case release
