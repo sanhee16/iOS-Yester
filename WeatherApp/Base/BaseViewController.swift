@@ -88,7 +88,7 @@ extension BaseViewController: GADFullScreenContentDelegate {
         self.onDismissInterstitial = onDismiss
         print("[전면광고] \(Defaults.interstitialCount)")
         if let interstitial = interstitial {
-            if (Defaults.interstitialCount % 10) == 9 {
+            if (Defaults.interstitialCount % (C.INTERSTITIAL_AD_LIMIT)) == (C.INTERSTITIAL_AD_LIMIT - 1) {
                 interstitial.present(fromRootViewController: self)
             } else {
                 Defaults.interstitialCount += 1
