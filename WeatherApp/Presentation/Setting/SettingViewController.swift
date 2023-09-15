@@ -31,7 +31,16 @@ class SettingViewController: BaseViewController {
     
     fileprivate lazy var selectUnit: SettingItem1 = SettingItem1()
     fileprivate lazy var appVersion: SettingItem1 = SettingItem1()
-    
+    fileprivate lazy var licenseLabel: UILabel = {
+        let label: UILabel = UILabel()
+        // <a target="_blank" href="https://icons8.com/icon/uEV36IijHymM/weather">Weather</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+        label.text = "icon by icons8"
+        label.font = .en8r
+        label.textColor = .gray
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onClickIcon8)))
+        return label
+    }()
     var lottieVC: LottieVC = {
         let lottieVC = LottieVC(type: .progressing)
         lottieVC.modalPresentationStyle = .overFullScreen
@@ -95,6 +104,8 @@ class SettingViewController: BaseViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         
+        // icons8 label
+        licenseLabel.pin.horizontally().bottom()
         self.layout()
     }
     
@@ -118,6 +129,7 @@ class SettingViewController: BaseViewController {
             .define { flex in
                 flex.addItem(scrollView)
                     .width(100%)
+                    .grow(1).shrink(1)
                     .define { flex in
                         flex.addItem(contentView)
                             .width(100%)
@@ -126,6 +138,7 @@ class SettingViewController: BaseViewController {
                                 flex.addItem(appVersion).markDirty()
                             }
                     }
+                flex.addItem(licenseLabel).alignSelf(.center)
             }
     }
     
@@ -134,4 +147,8 @@ class SettingViewController: BaseViewController {
         vm.onClickUnit()
     }
     
+    @objc
+    func onClickIcon8() {
+        vm.onClickIcon8()
+    }
 }

@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 import Combine
-
+import UIKit
 
 protocol SettingViewModel: SettingViewModelInput, SettingViewModelOutput { }
 
@@ -17,6 +17,7 @@ protocol SettingViewModelInput {
     func viewDidLoad()
     
     func onClickUnit()
+    func onClickIcon8()
 }
 
 protocol SettingViewModelOutput {
@@ -44,6 +45,13 @@ extension DefaultSettingViewModel: SettingViewModel {
         self.coordinator.presentSelectUnitView { [weak self] in
             guard let self = self else { return }
             self.unitText.value = C.weatherUnit.unitText
+        }
+    }
+    
+    func onClickIcon8() {
+        print("onclickicons8")
+        if let url = URL(string: "https://icons8.kr") {
+            UIApplication.shared.open(url, options: [:])
         }
     }
 }
