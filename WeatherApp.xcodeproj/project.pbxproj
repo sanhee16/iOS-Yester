@@ -173,7 +173,6 @@
 		267391D52A6521EC00F1DC2D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		2680B62E2A6BCD46009031AE /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		2680B6302A6BCEB5009031AE /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
-		2680B6322A6BD5E1009031AE /* ApiConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApiConfig.xcconfig; sourceTree = "<group>"; };
 		2680B6332A6BD6EA009031AE /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		268245A12AB315550028EA77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		269216662A67A38E0018D586 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
@@ -393,7 +392,6 @@
 				26703D312A6161DD007E5717 /* Assets.xcassets */,
 				26703D322A6161DD007E5717 /* LaunchScreen.storyboard */,
 				26703D502A6162D0007E5717 /* Info.plist */,
-				2680B6322A6BD5E1009031AE /* ApiConfig.xcconfig */,
 				265BF3112A7D38CD0087ADDA /* Defaults.swift */,
 				265EFDCA2A94942200655208 /* C.swift */,
 				26E926372AB4279200959A6D /* remote_config_defaults.plist */,

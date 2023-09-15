@@ -48,7 +48,7 @@ final class AppConfiguration {
             fatalError("Reverse Geocoding GADBannerID must not be empty in plist")
         }
         // testID: ca-app-pub-3940256099942544/2934735716
-        return C.devMode == .develop ? "ca-app-pub-3940256099942544/2934735716" : bannerID
+        return bannerID
     }()
     
     lazy var GADInterstitialID: String = {
@@ -56,7 +56,7 @@ final class AppConfiguration {
             fatalError("Reverse Geocoding GADInterstitialID must not be empty in plist")
         }
         // testID: ca-app-pub-3940256099942544/2934735716
-        return C.devMode == .develop ? "ca-app-pub-3940256099942544/4411468910" : interstitialID
+        return interstitialID
     }()
     
     lazy var GADMainBannerID: String = {
@@ -64,7 +64,7 @@ final class AppConfiguration {
             fatalError("Reverse Geocoding GADMainBannerID must not be empty in plist")
         }
         // testID: ca-app-pub-3940256099942544/2934735716
-        return C.devMode == .develop ? "ca-app-pub-3940256099942544/2934735716" : bannerID
+        return bannerID
     }()
     
 }
