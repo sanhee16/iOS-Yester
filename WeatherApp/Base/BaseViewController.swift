@@ -70,7 +70,7 @@ extension BaseViewController: GADFullScreenContentDelegate {
     private func loadInterstitialAd() {
         let request = GADRequest()
         GADInterstitialAd.load(
-            withAdUnitID: AppConfiguration().GADInterstitialID,
+            withAdUnitID: AppConfiguration.shared.GADInterstitialID,
             request: request,
             completionHandler: { [weak self] ad, error in
                 guard let self = self else { return }

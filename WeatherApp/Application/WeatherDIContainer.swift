@@ -19,14 +19,14 @@ final class AppDIContainer {
     private init() {
         self.locationRespository = AnyRepository()
         self.weatherService = WeatherService(
-            baseUrl: AppConfiguration().WeatherApiBaseURL,
-            apiKey: AppConfiguration().WeatherApiKey
+            baseUrl: AppConfiguration.shared.WeatherApiBaseURL,
+            apiKey: AppConfiguration.shared.WeatherApiKey
         )
         self.weatherServiceV2 = WeatherServiceV2(
-            baseUrl: AppConfiguration().WeatherApiBaseURLV2,
-            apiKey: AppConfiguration().WeatherApiKeyV2
+            baseUrl: AppConfiguration.shared.WeatherApiBaseURLV2,
+            apiKey: AppConfiguration.shared.WeatherApiKeyV2
         )
         self.locationService = LocationService()
-        self.geocodingService = GeocodingService(geocodingUrl: AppConfiguration().WeatherApiBaseURL, reverseGeocodingUrl: AppConfiguration().ReverseGeocodingBaseURL, apiKey: AppConfiguration().WeatherApiKey)
+        self.geocodingService = GeocodingService(geocodingUrl: AppConfiguration.shared.WeatherApiBaseURL, reverseGeocodingUrl: AppConfiguration.shared.ReverseGeocodingBaseURL, apiKey: AppConfiguration.shared.WeatherApiKey)
     }
 }

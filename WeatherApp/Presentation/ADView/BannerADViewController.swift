@@ -17,8 +17,8 @@ enum BannerType {
     
     var id: String {
         switch self {
-        case .subPage: return AppConfiguration().GADBannerID
-        case .mainPage: return AppConfiguration().GADMainBannerID
+        case .subPage: return AppConfiguration.shared.GADBannerID
+        case .mainPage: return AppConfiguration.shared.GADMainBannerID
         }
     }
 }

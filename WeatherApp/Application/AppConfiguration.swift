@@ -8,10 +8,19 @@
 import Foundation
 
 final class AppConfiguration {
+    static let shared: AppConfiguration = AppConfiguration()
+    private init() { }
     lazy var WeatherApiKey: String = {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "WeatherApiKey") as? String else {
-            fatalError("Weather ApiKey must not be empty in plist")
+        guard let apiKey1 = Bundle.main.object(forInfoDictionaryKey: "WeatherApiKey1") as? String else {
+            fatalError("Weather ApiKey1 must not be empty in plist")
         }
+        guard let apiKey2 = Bundle.main.object(forInfoDictionaryKey: "WeatherApiKey2") as? String else {
+            fatalError("Weather ApiKey2 must not be empty in plist")
+        }
+        let keys: [String] = [apiKey1, apiKey2]
+        let apiKey = keys[Defaults.lastCallApiIdx % (keys.count)]
+        Defaults.lastCallApiIdx += 1
+        print("[API KEY] \(apiKey)")
         return apiKey
     }()
     
