@@ -2,16 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GADMainBannerID</key>
-	<string>$(MAIN_BANNER_ID)</string>
-	<key>GADInterstitialID</key>
-	<string>$(INTERSTITIAL_ID)</string>
-	<key>GADBannerID</key>
-	<string>$(BANNER_ID)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-6824209004972578~2874976479</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>GADBannerID</key>
+	<string>$(BANNER_ID)</string>
+	<key>GADInterstitialID</key>
+	<string>$(INTERSTITIAL_ID)</string>
+	<key>GADMainBannerID</key>
+	<string>$(MAIN_BANNER_ID)</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string></string>
+	</dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -19,16 +22,6 @@
 	</dict>
 	<key>ReverseGeocodingUrl</key>
 	<string>$(REVERSE_GEOCODING_API_URL)</string>
-	<key>WeatherApiUrl</key>
-	<string>$(WEATHER_API_URL)</string>
-	<key>WeatherApiKey1</key>
-	<string>$(WEATHER_API_KEY)</string>
-	<key>WeatherApiKey2</key>
-	<string>$(WEATHER_API_KEY2)</string>
-	<key>WeatherApiUrlV2</key>
-	<string>$(WEATHER_API_URL_V2)</string>
-	<key>WeatherApiKeyV2</key>
-	<string>$(WEATHER_API_KEY_V2)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -46,5 +39,15 @@
 			</array>
 		</dict>
 	</dict>
+	<key>WeatherApiKey1</key>
+	<string>$(WEATHER_API_KEY)</string>
+	<key>WeatherApiKey2</key>
+	<string>$(WEATHER_API_KEY2)</string>
+	<key>WeatherApiKeyV2</key>
+	<string>$(WEATHER_API_KEY_V2)</string>
+	<key>WeatherApiUrl</key>
+	<string>$(WEATHER_API_URL)</string>
+	<key>WeatherApiUrlV2</key>
+	<string>$(WEATHER_API_URL_V2)</string>
 </dict>
 </plist>
