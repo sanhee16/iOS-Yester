@@ -50,4 +50,7 @@ class Defaults {
     
     @UserDefault<Int>(key: "INTERSTITIAL_COUNT", defaultValue: 0)
     public static var interstitialCount
+    
+    @UserDefault<Int>(key: "LAST_CALL_API_IDX", defaultValue: 0)
+    public static var lastCallApiIdx
 }

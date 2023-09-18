@@ -21,8 +21,10 @@
 	<string>$(REVERSE_GEOCODING_API_URL)</string>
 	<key>WeatherApiUrl</key>
 	<string>$(WEATHER_API_URL)</string>
-	<key>WeatherApiKey</key>
+	<key>WeatherApiKey1</key>
 	<string>$(WEATHER_API_KEY)</string>
+	<key>WeatherApiKey2</key>
+	<string>$(WEATHER_API_KEY2)</string>
 	<key>WeatherApiUrlV2</key>
 	<string>$(WEATHER_API_URL_V2)</string>
 	<key>WeatherApiKeyV2</key>
