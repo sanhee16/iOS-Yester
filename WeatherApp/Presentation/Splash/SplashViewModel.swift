@@ -11,6 +11,7 @@ import CoreLocation
 import UIKit
 import AppTrackingTransparency
 import AdSupport
+import UserNotifications
 
 protocol SplashViewModel: SplashViewModelInput, SplashViewModelOutput { }
 
@@ -29,10 +30,10 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let locationRespository: AnyRepository<Location>
     let geocodingService: GeocodingService
     
-    var onCompleteFirstTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
-    var onCompleteSecondTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
-    var onCompleteThirdTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
-    var onCompleteFourthTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteTask1: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteTask2: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteTask3: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteTask4: PassthroughSubject<Bool, Error> = PassthroughSubject()
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService, geocodingService: GeocodingService) {
         self.locationRespository = locationRespository
@@ -45,7 +46,10 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     func viewWillAppear() { }
     func viewDidLoad() {
-        self.bind()
+        self.doTask()
+    }
+    
+    func doTask() {
         self.locationService.authorStauts.observe(on: self) {[weak self] status in
             guard let self = self else { return }
             switch status {
@@ -66,34 +70,33 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                 break
             }
         }
-    }
-    
-    func bind() {
-        self.onCompleteFirstTasks.sink { completion in
+        
+        self.onCompleteTask1.sink { completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+                self?.askTrackingPermission()
+            }
+        }.store(in: &self.subscription)
+        
+        self.onCompleteTask2.sink {  completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+                self?.askNotificationPermission()
+            }
+        }.store(in: &self.subscription)
+        
+        self.onCompleteTask3.sink {  completion in
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
                 self?.getDefaultsLocations()
-            }
-        }.store(in: &self.subscription)
-        
-        self.onCompleteSecondTasks.sink { completion in
-            print("[SPLASH] error!: \(completion)")
-        } receiveValue: {[weak self] isComplete in
-            if isComplete {
-                self?.checkTrackingPermission()
-            }
-        }.store(in: &self.subscription)
-        
-        self.onCompleteThirdTasks.sink { completion in
-            print("[SPLASH] error!: \(completion)")
-        } receiveValue: {[weak self] isComplete in
-            if isComplete {
                 self?.setUnits()
             }
         }.store(in: &self.subscription)
         
-        self.onCompleteFourthTasks.sink { completion in
+        self.onCompleteTask4.sink {  completion in
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
@@ -116,7 +119,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     func loadUnits() {
         C.weatherUnit = WeatherUnit(rawValue: Defaults.weatherUnit) ?? .metric
-        self.onCompleteFourthTasks.send(true)
+        self.onCompleteTask4.send(true)
     }
     
     func getDefaultsLocations() {
@@ -124,7 +127,6 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
         self.locationRespository.getAll().forEach { location in
             Defaults.locations.append(location)
         }
-        self.onCompleteSecondTasks.send(true)
     }
     
     func setCurrentLocation() {
@@ -153,21 +155,42 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                         let location = Location(lat: coordinate.latitude, lon: coordinate.longitude, isStar: false, isCurrent: true, name: res.name, address: res.getAddress())
                         try? self.locationRespository.insert(item: location)
                     }
-                    self.onCompleteFirstTasks.send(true)
+                    self.onCompleteTask1.send(true)
                 } complete: {
                     print("[SPLASH] requestLocation complete")
                 }
         } error: {[weak self] err in
             guard let self = self else { return }
             print("[SPLASH] err!!: \(err)")
-            self.onCompleteFirstTasks.send(completion: .failure(err))
+            self.onCompleteTask1.send(false)
         }
     }
     
-    func checkTrackingPermission() {
+    func askTrackingPermission() {
         ATTrackingManager.requestTrackingAuthorization {[weak self] _ in
             DispatchQueue.main.async {
-                self?.onCompleteThirdTasks.send(true)
+                self?.onCompleteTask2.send(true)
+            }
+        }
+    }
+    
+    func askNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings {[weak self] status in
+            print(status.alertSetting)
+            print(status.authorizationStatus)
+            
+            switch status.authorizationStatus {
+            case .notDetermined:
+                DispatchQueue.main.async {
+                    self?.onCompleteTask3.send(true)
+                }
+                break
+            default:
+                DispatchQueue.main.async {
+                    self?.onCompleteTask3.send(true)
+                }
+                return
             }
         }
     }
