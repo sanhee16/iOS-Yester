@@ -8,3 +8,5 @@
 
 CFBundleDisplayName = "Yester"; // 앱이름
 NSLocationWhenInUseUsageDescription = "To retrieve current weather information for your location, location access permission is required."; // 위치 정보 권한
+NSUserTrackingUsageDescription = "We would like to collect information in order to provide personalized advertisements to users.";
+

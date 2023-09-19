@@ -9,6 +9,8 @@ import Combine
 import Alamofire
 import CoreLocation
 import UIKit
+import AppTrackingTransparency
+import AdSupport
 
 protocol SplashViewModel: SplashViewModelInput, SplashViewModelOutput { }
 
@@ -30,6 +32,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     var onCompleteFirstTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     var onCompleteSecondTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     var onCompleteThirdTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
+    var onCompleteFourthTasks: PassthroughSubject<Bool, Error> = PassthroughSubject()
     
     init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService, geocodingService: GeocodingService) {
         self.locationRespository = locationRespository
@@ -78,11 +81,19 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
-                self?.setUnits()
+                self?.checkTrackingPermission()
             }
         }.store(in: &self.subscription)
         
         self.onCompleteThirdTasks.sink { completion in
+            print("[SPLASH] error!: \(completion)")
+        } receiveValue: {[weak self] isComplete in
+            if isComplete {
+                self?.setUnits()
+            }
+        }.store(in: &self.subscription)
+        
+        self.onCompleteFourthTasks.sink { completion in
             print("[SPLASH] error!: \(completion)")
         } receiveValue: {[weak self] isComplete in
             if isComplete {
@@ -105,7 +116,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     func loadUnits() {
         C.weatherUnit = WeatherUnit(rawValue: Defaults.weatherUnit) ?? .metric
-        self.onCompleteThirdTasks.send(true)
+        self.onCompleteFourthTasks.send(true)
     }
     
     func getDefaultsLocations() {
@@ -150,6 +161,14 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
             guard let self = self else { return }
             print("[SPLASH] err!!: \(err)")
             self.onCompleteFirstTasks.send(completion: .failure(err))
+        }
+    }
+    
+    func checkTrackingPermission() {
+        ATTrackingManager.requestTrackingAuthorization {[weak self] _ in
+            DispatchQueue.main.async {
+                self?.onCompleteThirdTasks.send(true)
+            }
         }
     }
 }
