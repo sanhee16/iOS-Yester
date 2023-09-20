@@ -87,6 +87,7 @@ class MainViewController: BaseViewController {
             label.font = .en8r
             label.numberOfLines = 0
             label.textAlignment = .center
+            label.textColor = .black
             label.text = "last_update".localized() + "\n\(text)"
             
             self.lastUpdatedTime = UIBarButtonItem(customView: label)

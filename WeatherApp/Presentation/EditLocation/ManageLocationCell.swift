@@ -109,6 +109,7 @@ class ManageLocationCell: UICollectionViewCell {
             .define { flex in
                 name.numberOfLines = 0
                 name.text = location.name
+                name.textColor = .black
                 name.font = .en16r
                 name.flex.paddingVertical(10)
                 name.flex.shrink(1)

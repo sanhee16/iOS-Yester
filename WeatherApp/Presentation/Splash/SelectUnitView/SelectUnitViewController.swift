@@ -106,6 +106,7 @@ class SelectUnitViewController: BaseViewController {
                 let title: UILabel = UILabel()
                 title.font = .en20b
                 title.text = "select_unit".localized()
+                title.textColor = .black
                 flex.addItem(title).margin(16, 0, 30)
                 
                 drawUnit(flex, unit: .metric, label: metricLabel, unitView: metricView)
@@ -133,6 +134,7 @@ class SelectUnitViewController: BaseViewController {
             .define { flex in
                 label.font = .en18b
                 label.text = unit.unitText
+                label.textColor = .black
                 
                 flex.addItem(label)
                     .paddingBottom(6)
@@ -158,7 +160,9 @@ class SelectUnitViewController: BaseViewController {
                         description.text = unit.tempDescription
                         
                         title.font = .en16b
+                        title.textColor = .black
                         description.font = .en14r
+                        description.textColor = .black
                         
                         flex.addItem(title)
                         flex.addItem(description)
@@ -176,7 +180,9 @@ class SelectUnitViewController: BaseViewController {
                         description.text = unit.windDescription
                         
                         title.font = .en16b
+                        title.textColor = .black
                         description.font = .en14r
+                        description.textColor = .black
                         
                         flex.addItem(title)
                         flex.addItem(description)

@@ -215,10 +215,12 @@ class WeatherCardViewController: UIViewController {
                                 let name: UILabel = UILabel()
                                 name.font = .en16r
                                 name.text = String(format: "%@", "wind_speed".localized())
+                                name.textColor = .black
                                 
                                 let value: UILabel = UILabel()
                                 value.font = .en14r
                                 value.text = String(format: "%.0f %@", current.windSpeed, C.weatherUnit.windUnit)
+                                value.textColor = .black
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -246,10 +248,12 @@ class WeatherCardViewController: UIViewController {
                                 let name: UILabel = UILabel()
                                 name.font = .en16r
                                 name.text = String(format: "%@", "uvi".localized())
+                                name.textColor = .black
                                 
                                 let value: UILabel = UILabel()
                                 value.font = .en14r
                                 value.text = String(format: "%@ (%d)", current.uvi.uviText(), current.uvi)
+                                value.textColor = .black
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -277,10 +281,12 @@ class WeatherCardViewController: UIViewController {
                                 let name: UILabel = UILabel()
                                 name.font = .en16r
                                 name.text = String(format: "%@", "humidity".localized())
+                                name.textColor = .black
                                 
                                 let value: UILabel = UILabel()
                                 value.font = .en14r
                                 value.text = String(format: "%d %%", current.humidity)
+                                value.textColor = .black
                                 
                                 flex.addItem(image)
                                 flex.addItem(name)
@@ -312,10 +318,12 @@ class WeatherCardViewController: UIViewController {
                                         let name: UILabel = UILabel()
                                         name.font = .en16r
                                         name.text = String(format: "%@", "sunrise".localized())
+                                        name.textColor = .black
                                         
                                         let value: UILabel = UILabel()
                                         value.font = .en14r
                                         value.text = Utils.intervalSunTime(today.sunrise)
+                                        value.textColor = .black
                                         
                                         
                                         flex.addItem(image)
@@ -334,10 +342,12 @@ class WeatherCardViewController: UIViewController {
                                         let name: UILabel = UILabel()
                                         name.font = .en16r
                                         name.text = String(format: "%@", "sunset".localized())
+                                        name.textColor = .black
                                         
                                         let value: UILabel = UILabel()
                                         value.font = .en14r
                                         value.text = Utils.intervalSunTime(today.sunset)
+                                        value.textColor = .black
                                         
                                         flex.addItem(image)
                                         flex.addItem(name)
@@ -396,6 +406,7 @@ class WeatherCardViewController: UIViewController {
     private func drawWeeklyItem(_ flex: Flex, weekdayText: String, minTemp: Double, maxTemp: Double, rainChance: Int?, iconImage: UIImage?) {
         let weekday: UILabel = UILabel()
         weekday.font = .en14
+        weekday.textColor = .black
         weekday.text = weekdayText
         flex.addItem(weekday)
         
@@ -408,6 +419,7 @@ class WeatherCardViewController: UIViewController {
                 let temp: UILabel = UILabel()
                 
                 temp.font = .en14
+                temp.textColor = .black
                 temp.text = String(format: "%.0f%@  %.0f%@", minTemp, C.weatherUnit.tempUnit, maxTemp, C.weatherUnit.tempUnit)
                 
                 if let rainChance = rainChance {
@@ -420,6 +432,7 @@ class WeatherCardViewController: UIViewController {
                             let pop: UILabel = UILabel()
                             pop.font = .en12
                             pop.text = String(format: "%d%%", rainChance)
+                            pop.textColor = .black
                             pop.textColor = .black.withAlphaComponent(0.82)
                             
                             let waterDrop: UIImageView = UIImageView()
@@ -469,9 +482,11 @@ class WeatherCardViewController: UIViewController {
                                             
                                             time.font = .en14
                                             time.text = "\(Utils.intervalToHour(item.dt))"
+                                            time.textColor = .black
                                             
                                             temp.font = .en14
                                             temp.text = String(format: "%.0f%@", item.temp, C.weatherUnit.tempUnit)
+                                            temp.textColor = .black
                                             
                                             
                                             image.contentMode = .scaleAspectFit
@@ -489,6 +504,7 @@ class WeatherCardViewController: UIViewController {
                                                     let waterDrop: UIImageView = UIImageView()
                                                     pop.font = .en12
                                                     pop.text = String(format: "%d%%", item.pop)
+                                                    pop.textColor = .black
                                                     waterDrop.image = UIImage(named: "water_drop")?.resized(toWidth: 10)
                                                     flex.addItem(waterDrop).marginRight(2)
                                                     flex.addItem(pop)
@@ -520,9 +536,11 @@ class WeatherCardViewController: UIViewController {
                                 let currentDescriptionLabel: UILabel = UILabel()
                                 
                                 currentTempLabel.font = .en48
+                                currentTempLabel.textColor = .black
                                 currentTempLabel.text = String(format: "%.1f%@", current.temp, C.weatherUnit.tempUnit)
                                 
                                 currentDescriptionLabel.font = .en20
+                                currentDescriptionLabel.textColor = .black
                                 currentDescriptionLabel.text = current.getDescription(0)
                                 currentDescriptionLabel.numberOfLines = 0
                                 flex.addItem(currentTempLabel)
@@ -552,6 +570,7 @@ class WeatherCardViewController: UIViewController {
                 let locationLabel: UILabel = UILabel()
                 let tempDescription: UILabel = UILabel()
                 locationLabel.font = .en16
+                locationLabel.textColor = .black
                 locationLabel.text = location.name
                 
                 flex.addItem()
@@ -568,6 +587,7 @@ class WeatherCardViewController: UIViewController {
                     }
                 
                 tempDescription.font = .en16
+                tempDescription.textColor = .black
                 tempDescription.text = "tempDescription".localized([
                     today.temp.min, C.weatherUnit.tempUnit,
                     today.temp.max, C.weatherUnit.tempUnit,

@@ -86,6 +86,7 @@ class SettingItem2: UIView {
                                 
                                 titleLabel.font = .en18
                                 titleLabel.text = title
+                                titleLabel.textColor = .black
                                 
                                 flex.addItem(titleLabel)
                                 if let subTitle = subTitle {
