@@ -8,6 +8,29 @@
 import XCTest
 @testable import WeatherApp
 
+/*
+ TODO: 테스트할 항목
+ - API 호출 테스트
+    - 파싱잘 되는지
+    - 언어
+    - Geocoding -> ReverseGeocoding 잘 되는지?
+        - ReverseGeocoding 실패시 어떻게 되는지
+ - DB 테스트
+    - 저장 잘 되는지
+    - 삭제 잘 되는지
+    - 불러오기 잘 되는지
+    - 필터링 잘 되는지
+ - UserDefaults
+ - Local 검색
+    - 빈 값 검색
+    - 값 검색 후 다른 값 검색
+ - Local 편집 / 추가
+    - 삭제
+    - 추가시 4개 이상 불가능한지
+ - Splash 에서 현재 DB의 isCurrent가 잘 업데이트 되는지
+ 
+ */
+
 final class WeatherAppTests: XCTestCase {
 
     override func setUpWithError() throws {

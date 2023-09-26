@@ -40,7 +40,7 @@ class AnyRepository<RepositoryObject>: Repository
             realm.add(item.toStorable(), update: .modified)
         }
     }
-
+    
     func delete(item: RepositoryObject) throws {
         try realm.write {
             let predicate = NSPredicate(format: "uuid == %@", item.toStorable().uuid)
@@ -48,6 +48,12 @@ class AnyRepository<RepositoryObject>: Repository
                 .filter(predicate).first {
                 realm.delete(productToDelete)
             }
+        }
+    }
+    
+    func deleteAll() throws {
+        try realm.write {
+            realm.deleteAll()
         }
     }
 }
