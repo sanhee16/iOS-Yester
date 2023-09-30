@@ -44,7 +44,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     private let weatherService: WeatherService
     private let locationService: LocationService
     private let weatherServiceV2: WeatherServiceV2
-    private let locationRespository: AnyRepository<Location>
+    private let locationRepository: LocationRepository
     private let geocodingService: GeocodingService
     
     //    var results: [Geocoding] = []
@@ -55,8 +55,8 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     var status: Observable<AddLocationStatus> = Observable(.ready)
     
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService, geocodingService: GeocodingService) {
-        self.locationRespository = locationRespository
+    init(_ coordinator: AppCoordinator, locationRepository: LocationRepository, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService, geocodingService: GeocodingService) {
+        self.locationRepository = locationRepository
         self.weatherService = weatherService
         self.weatherServiceV2 = weatherServiceV2
         self.locationService = locationService
@@ -133,7 +133,7 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
         
         
         let location = Location(lat: item.lat, lon: item.lon, isStar: false, isCurrent: false, name: item.localName, address: item.address)
-        try? self.locationRespository.insert(item: location)
+        try? self.locationRepository.insert(item: location)
         Defaults.locations.append(location)
         self.coordinator.pop()
     }

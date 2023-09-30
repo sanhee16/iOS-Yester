@@ -10,14 +10,14 @@ import UIKit
 
 final class AppDIContainer {
     static let shared: AppDIContainer = AppDIContainer()
-    let locationRespository: AnyRepository<Location>
+    let locationRepository: LocationRepository
     let weatherService: WeatherService
     let weatherServiceV2: WeatherServiceV2
     let locationService: LocationService
     let geocodingService: GeocodingService
     
     private init() {
-        self.locationRespository = AnyRepository()
+        self.locationRepository = LocationRepository()
         self.weatherService = WeatherService(
             baseUrl: AppConfiguration.shared.WeatherApiBaseURL,
             apiKey: AppConfiguration.shared.WeatherApiKey

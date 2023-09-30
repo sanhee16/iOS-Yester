@@ -38,7 +38,7 @@ protocol MainViewModelOutput {
 }
 
 class DefaultMainViewModel: BaseViewModel {
-    private let locationRespository: AnyRepository<Location>
+    private let locationRepository: LocationRepository
     private let weatherService: `WeatherService`
     private let weatherServiceV2: WeatherServiceV2
     private let locationService: LocationService
@@ -52,9 +52,9 @@ class DefaultMainViewModel: BaseViewModel {
     var lastUpdateText: Observable<String> = Observable("")
     
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
+    init(_ coordinator: AppCoordinator, locationRepository: LocationRepository, weatherService: WeatherService, weatherServiceV2: WeatherServiceV2, locationService: LocationService) {
         print("init!")
-        self.locationRespository = locationRespository
+        self.locationRepository = locationRepository
         self.weatherService = weatherService
         self.weatherServiceV2 = weatherServiceV2
         self.locationService = locationService

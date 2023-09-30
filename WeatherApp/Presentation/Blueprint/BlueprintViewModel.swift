@@ -25,13 +25,13 @@ protocol BlueprintViewModelOutput {
 class DefaultBlueprintViewModel: BaseViewModel, BlueprintViewModel {
     let weatherService: WeatherService
     let locationService: LocationService
-    let locationRespository: AnyRepository<Location>
+    let locationRepository: LocationRepository
     
     var sample: Observable<[String]> = Observable([])
     var name: Observable<String> = Observable("")
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService) {
-        self.locationRespository = locationRespository
+    init(_ coordinator: AppCoordinator, locationRepository: LocationRepository, weatherService: WeatherService, locationService: LocationService) {
+        self.locationRepository = locationRepository
         self.weatherService = weatherService
         self.locationService = locationService
         super.init(coordinator)

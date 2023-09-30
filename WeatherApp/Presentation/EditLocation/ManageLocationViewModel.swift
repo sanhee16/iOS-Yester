@@ -26,14 +26,14 @@ protocol ManageLocationViewModelOutput {
 }
 
 class DefaultManageLocationViewModel: BaseViewModel {
-    private let locationRespository: AnyRepository<Location>
+    private let locationRepository: LocationRepository
     private let locationService: LocationService
     
     var locations: Observable<[Location]> = Observable([])
     var isLoading: Observable<Bool> = Observable(false)
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, locationService: LocationService) {
-        self.locationRespository = locationRespository
+    init(_ coordinator: AppCoordinator, locationRepository: LocationRepository, locationService: LocationService) {
+        self.locationRepository = locationRepository
         self.locationService = locationService
         super.init(coordinator)
     }
@@ -61,9 +61,9 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
             guard let self = self else { return }
             
-            try? self.locationRespository.delete(item: location)
+            try? self.locationRepository.delete(item: location)
             Defaults.locations.removeAll()
-            self.locationRespository.getAll().forEach { location in
+            self.locationRepository.getAll().forEach { location in
                 Defaults.locations.append(location)
             }
             self.locations.value = Defaults.locations
@@ -81,12 +81,12 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
             guard let self = self else { return }
             
-            let deleteList = self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == false"))
+            let deleteList = self.locationRepository.getAll(where: NSPredicate(format: "isCurrent == false"))
             for deleteItem in deleteList {
-                try? self.locationRespository.delete(item: deleteItem)
+                try? self.locationRepository.delete(item: deleteItem)
             }
             Defaults.locations.removeAll()
-            self.locationRespository.getAll().forEach { location in
+            self.locationRepository.getAll().forEach { location in
                 Defaults.locations.append(location)
             }
             self.locations.value = Defaults.locations

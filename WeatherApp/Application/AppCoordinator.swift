@@ -57,7 +57,7 @@ final class AppCoordinator {
     func start() {
         let vc = SplashViewController(vm: DefaultSplashViewModel(
             self,
-            locationRespository: appDIContainer.locationRespository,
+            locationRepository: appDIContainer.locationRepository,
             weatherService: appDIContainer.weatherService,
             locationService: appDIContainer.locationService,
             geocodingService: appDIContainer.geocodingService
@@ -69,7 +69,7 @@ final class AppCoordinator {
     func presentMainView() {
         let vc = MainViewController(vm: DefaultMainViewModel(
             self,
-            locationRespository: appDIContainer.locationRespository,
+            locationRepository: appDIContainer.locationRepository,
             weatherService: appDIContainer.weatherService,
             weatherServiceV2: appDIContainer.weatherServiceV2,
             locationService: appDIContainer.locationService
@@ -80,7 +80,7 @@ final class AppCoordinator {
     func presentManageLocation() {
         let vc = ManageLocationViewController(vm: DefaultManageLocationViewModel(
             self,
-            locationRespository: appDIContainer.locationRespository,
+            locationRepository: appDIContainer.locationRepository,
             locationService: appDIContainer.locationService
         ))
         
@@ -100,7 +100,7 @@ final class AppCoordinator {
     func presentSelectLocation() {
         let vc = SelectLocationViewController(vm: DefaultSelectLocationViewModel(
             self,
-            locationRespository: appDIContainer.locationRespository,
+            locationRepository: appDIContainer.locationRepository,
             weatherService: appDIContainer.weatherService,
             weatherServiceV2: appDIContainer.weatherServiceV2,
             locationService: appDIContainer.locationService,

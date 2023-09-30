@@ -27,7 +27,7 @@ protocol SplashViewModelOutput {
 class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     let weatherService: WeatherService
     let locationService: LocationService
-    let locationRespository: AnyRepository<Location>
+    let locationRepository: LocationRepository
     let geocodingService: GeocodingService
     
     var onCompleteTask1: PassthroughSubject<Bool, Error> = PassthroughSubject()
@@ -35,8 +35,8 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     var onCompleteTask3: PassthroughSubject<Bool, Error> = PassthroughSubject()
     var onCompleteTask4: PassthroughSubject<Bool, Error> = PassthroughSubject()
     
-    init(_ coordinator: AppCoordinator, locationRespository: AnyRepository<Location>, weatherService: WeatherService, locationService: LocationService, geocodingService: GeocodingService) {
-        self.locationRespository = locationRespository
+    init(_ coordinator: AppCoordinator, locationRepository: LocationRepository, weatherService: WeatherService, locationService: LocationService, geocodingService: GeocodingService) {
+        self.locationRepository = locationRepository
         self.weatherService = weatherService
         self.locationService = locationService
         self.geocodingService = geocodingService
@@ -124,7 +124,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
     
     func getDefaultsLocations() {
         Defaults.locations.removeAll()
-        self.locationRespository.getAll().forEach { location in
+        self.locationRepository.getAll().forEach { location in
             Defaults.locations.append(location)
         }
     }
@@ -144,17 +144,7 @@ class DefaultSplashViewModel: BaseViewModel, SplashViewModel {
                         return
                     }
                     print("[SPLASH] getReverseGeocoding")
-                    if self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == true")).count > 0 {
-                        var currentItem = self.locationRespository.getAll(where: NSPredicate(format: "isCurrent == true")).first!
-                        currentItem.lat = coordinate.latitude
-                        currentItem.lon = coordinate.longitude
-                        currentItem.name = res.name
-                        currentItem.address = res.getAddress()
-                        try? self.locationRespository.update(item: currentItem)
-                    } else {
-                        let location = Location(lat: coordinate.latitude, lon: coordinate.longitude, isStar: false, isCurrent: true, name: res.name, address: res.getAddress())
-                        try? self.locationRespository.insert(item: location)
-                    }
+                    self.locationRepository.updateCurrentLocation(lat: coordinate.latitude, lon: coordinate.longitude, name: res.name, address: res.getAddress())
                     self.onCompleteTask1.send(true)
                 } complete: {
                     print("[SPLASH] requestLocation complete")
