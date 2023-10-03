@@ -26,8 +26,8 @@ protocol ManageLocationViewModelOutput {
 }
 
 class DefaultManageLocationViewModel: BaseViewModel {
-    private let locationRepository: LocationRepository
-    private let locationService: LocationService
+    let locationRepository: LocationRepository
+    let locationService: LocationService
     
     var locations: Observable<[Location]> = Observable([])
     var isLoading: Observable<Bool> = Observable(false)
@@ -60,13 +60,7 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         self.isLoading.value = true
         self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
             guard let self = self else { return }
-            
-            try? self.locationRepository.delete(item: location)
-            Defaults.locations.removeAll()
-            self.locationRepository.getAll().forEach { location in
-                Defaults.locations.append(location)
-            }
-            self.locations.value = Defaults.locations
+            self.deleteListAndUpdateDefaults([location])
             self.isLoading.value = false
         }, onClickNo: { [weak self] in
             self?.isLoading.value = false
@@ -80,19 +74,23 @@ extension DefaultManageLocationViewModel: ManageLocationViewModel {
         self.isLoading.value = true
         self.coordinator.presentAlertView(.yesOrNo(onClickYes: {[weak self] in
             guard let self = self else { return }
-            
             let deleteList = self.locationRepository.getAll(where: NSPredicate(format: "isCurrent == false"))
-            for deleteItem in deleteList {
-                try? self.locationRepository.delete(item: deleteItem)
-            }
-            Defaults.locations.removeAll()
-            self.locationRepository.getAll().forEach { location in
-                Defaults.locations.append(location)
-            }
-            self.locations.value = Defaults.locations
+            self.deleteListAndUpdateDefaults(deleteList)
             self.isLoading.value = false
+            
         }, onClickNo: { [weak self] in
             self?.isLoading.value = false
         }), title: nil, message: "check_delete_all".localized())
+    }
+    
+    func deleteListAndUpdateDefaults(_ deleteList: [Location]) {
+        for deleteItem in deleteList {
+            try? self.locationRepository.delete(item: deleteItem)
+        }
+        Defaults.locations.removeAll()
+        self.locationRepository.getAll().forEach { location in
+            Defaults.locations.append(location)
+        }
+        self.locations.value = Defaults.locations
     }
 }

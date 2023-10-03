@@ -43,6 +43,8 @@
 		266710AF2AA896E200B64DC5 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710AE2AA896E200B64DC5 /* SettingViewModel.swift */; };
 		266710B12AA8A65200B64DC5 /* SettingItem1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266710B02AA8A65200B64DC5 /* SettingItem1.swift */; };
 		266AB37D2AB09007009D8340 /* GeocodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266AB37C2AB09007009D8340 /* GeocodingService.swift */; };
+		266B92242ACBCAE60021D33C /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B66A2ACAC2BA002235FA /* SnapKit-Dynamic */; };
+		266B92262ACBD0770021D33C /* ManageLocationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266B92252ACBD0770021D33C /* ManageLocationViewModelTests.swift */; };
 		266C82E62A8DE6C10017AB49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 266C82E82A8DE6C10017AB49 /* Localizable.strings */; };
 		266E9D592A7E2D21006C162E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26703D312A6161DD007E5717 /* Assets.xcassets */; };
 		267030B62AAB5DAF0026ADC3 /* ManageLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267030B52AAB5DAF0026ADC3 /* ManageLocationCell.swift */; };
@@ -163,6 +165,7 @@
 		266710AE2AA896E200B64DC5 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		266710B02AA8A65200B64DC5 /* SettingItem1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem1.swift; sourceTree = "<group>"; };
 		266AB37C2AB09007009D8340 /* GeocodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodingService.swift; sourceTree = "<group>"; };
+		266B92252ACBD0770021D33C /* ManageLocationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationViewModelTests.swift; sourceTree = "<group>"; };
 		266C82E72A8DE6C10017AB49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		266C82E92A8DE6E40017AB49 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		267030B52AAB5DAF0026ADC3 /* ManageLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageLocationCell.swift; sourceTree = "<group>"; };
@@ -239,6 +242,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266B92242ACBCAE60021D33C /* SnapKit-Dynamic in Frameworks */,
 				2674B6652ACAC2BA002235FA /* RealmSwift in Frameworks */,
 				2674B66F2ACAC2BA002235FA /* Lottie in Frameworks */,
 				2674B67F2ACAC4DB002235FA /* FlexLayoutYogaKit in Frameworks */,
@@ -400,6 +404,7 @@
 			children = (
 				26703D172A6160E5007E5717 /* WeatherAppTests.swift */,
 				2674B6602ACAC0FC002235FA /* LocationRepositoryTests.swift */,
+				266B92252ACBD0770021D33C /* ManageLocationViewModelTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -918,6 +923,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266B92262ACBD0770021D33C /* ManageLocationViewModelTests.swift in Sources */,
 				2674B6612ACAC0FC002235FA /* LocationRepositoryTests.swift in Sources */,
 				26703D182A6160E5007E5717 /* WeatherAppTests.swift in Sources */,
 			);
