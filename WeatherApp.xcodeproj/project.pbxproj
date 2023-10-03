@@ -68,6 +68,18 @@
 		267391D22A650E9400F1DC2D /* LocationStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267391D12A650E9400F1DC2D /* LocationStorage.swift */; };
 		267391D42A65117600F1DC2D /* WeatherDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267391D32A65117600F1DC2D /* WeatherDIContainer.swift */; };
 		267391D62A6521EC00F1DC2D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267391D52A6521EC00F1DC2D /* Observable.swift */; };
+		2674B6612ACAC0FC002235FA /* LocationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2674B6602ACAC0FC002235FA /* LocationRepositoryTests.swift */; };
+		2674B6632ACAC2BA002235FA /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B6622ACAC2BA002235FA /* Realm */; };
+		2674B6652ACAC2BA002235FA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B6642ACAC2BA002235FA /* RealmSwift */; };
+		2674B6672ACAC2BA002235FA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B6662ACAC2BA002235FA /* Alamofire */; };
+		2674B66D2ACAC2BA002235FA /* SnapKit-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2674B66A2ACAC2BA002235FA /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2674B66F2ACAC2BA002235FA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B66E2ACAC2BA002235FA /* Lottie */; };
+		2674B6712ACAC2BA002235FA /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B6702ACAC2BA002235FA /* PinLayout */; };
+		2674B6752ACAC2BA002235FA /* FlexLayoutYoga in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B6742ACAC2BA002235FA /* FlexLayoutYoga */; };
+		2674B6792ACAC2CE002235FA /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2674B6782ACAC2CE002235FA /* FirebaseCore.framework */; };
+		2674B67B2ACAC2CE002235FA /* FirebaseRemoteConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2674B67A2ACAC2CE002235FA /* FirebaseRemoteConfig.framework */; };
+		2674B67D2ACAC4DB002235FA /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B67C2ACAC4DB002235FA /* FlexLayout */; };
+		2674B67F2ACAC4DB002235FA /* FlexLayoutYogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2674B67E2ACAC4DB002235FA /* FlexLayoutYogaKit */; };
 		2680B62A2A6BCC8A009031AE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2680B6292A6BCC8A009031AE /* Alamofire */; };
 		2680B62F2A6BCD46009031AE /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680B62E2A6BCD46009031AE /* WeatherService.swift */; };
 		2680B6312A6BCEB5009031AE /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2680B6302A6BCEB5009031AE /* ApiError.swift */; };
@@ -102,6 +114,20 @@
 			remoteInfo = WeatherApp;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2674B66C2ACAC2BA002235FA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2674B66D2ACAC2BA002235FA /* SnapKit-Dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0D987685D41B7A82FFC5A7A5 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +191,9 @@
 		267391D12A650E9400F1DC2D /* LocationStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStorage.swift; sourceTree = "<group>"; };
 		267391D32A65117600F1DC2D /* WeatherDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDIContainer.swift; sourceTree = "<group>"; };
 		267391D52A6521EC00F1DC2D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		2674B6602ACAC0FC002235FA /* LocationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepositoryTests.swift; sourceTree = "<group>"; };
+		2674B6782ACAC2CE002235FA /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2674B67A2ACAC2CE002235FA /* FirebaseRemoteConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseRemoteConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2680B62E2A6BCD46009031AE /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		2680B6302A6BCEB5009031AE /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		2680B6332A6BD6EA009031AE /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -210,7 +239,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2674B6652ACAC2BA002235FA /* RealmSwift in Frameworks */,
+				2674B66F2ACAC2BA002235FA /* Lottie in Frameworks */,
+				2674B67F2ACAC4DB002235FA /* FlexLayoutYogaKit in Frameworks */,
+				2674B6672ACAC2BA002235FA /* Alamofire in Frameworks */,
+				2674B6632ACAC2BA002235FA /* Realm in Frameworks */,
+				2674B6752ACAC2BA002235FA /* FlexLayoutYoga in Frameworks */,
 				6CCC7D44201E9C23050FA465 /* Pods_WeatherAppTests.framework in Frameworks */,
+				2674B6792ACAC2CE002235FA /* FirebaseCore.framework in Frameworks */,
+				2674B6712ACAC2BA002235FA /* PinLayout in Frameworks */,
+				2674B67D2ACAC4DB002235FA /* FlexLayout in Frameworks */,
+				2674B67B2ACAC2CE002235FA /* FirebaseRemoteConfig.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +399,7 @@
 			isa = PBXGroup;
 			children = (
 				26703D172A6160E5007E5717 /* WeatherAppTests.swift */,
+				2674B6602ACAC0FC002235FA /* LocationRepositoryTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -550,6 +590,8 @@
 		9A5555F83C00A9661FC07A43 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2674B6782ACAC2CE002235FA /* FirebaseCore.framework */,
+				2674B67A2ACAC2CE002235FA /* FirebaseRemoteConfig.framework */,
 				269995E22AB31A9700B653BD /* GoogleMobileAds.xcframework */,
 				8AE44A44454BA6A93EA3BC03 /* Pods_WeatherApp.framework */,
 				C9EB12BB9A04BCC3BB4854F4 /* Pods_WeatherAppTests.framework */,
@@ -599,6 +641,7 @@
 				26703D0F2A6160E5007E5717 /* Sources */,
 				26703D102A6160E5007E5717 /* Frameworks */,
 				26703D112A6160E5007E5717 /* Resources */,
+				2674B66C2ACAC2BA002235FA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -606,6 +649,17 @@
 				26703D152A6160E5007E5717 /* PBXTargetDependency */,
 			);
 			name = WeatherAppTests;
+			packageProductDependencies = (
+				2674B6622ACAC2BA002235FA /* Realm */,
+				2674B6642ACAC2BA002235FA /* RealmSwift */,
+				2674B6662ACAC2BA002235FA /* Alamofire */,
+				2674B66A2ACAC2BA002235FA /* SnapKit-Dynamic */,
+				2674B66E2ACAC2BA002235FA /* Lottie */,
+				2674B6702ACAC2BA002235FA /* PinLayout */,
+				2674B6742ACAC2BA002235FA /* FlexLayoutYoga */,
+				2674B67C2ACAC4DB002235FA /* FlexLayout */,
+				2674B67E2ACAC4DB002235FA /* FlexLayoutYogaKit */,
+			);
 			productName = WeatherAppTests;
 			productReference = 26703D132A6160E5007E5717 /* WeatherAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -864,6 +918,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2674B6612ACAC0FC002235FA /* LocationRepositoryTests.swift in Sources */,
 				26703D182A6160E5007E5717 /* WeatherAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1115,6 +1170,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RZRY2TK85;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -1136,6 +1192,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RZRY2TK85;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
@@ -1156,6 +1213,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RZRY2TK85;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sandy.WeatherAppUITests;
@@ -1175,6 +1233,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RZRY2TK85;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sandy.WeatherAppUITests;
@@ -1318,6 +1377,51 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 267391C42A65094900F1DC2D /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		2674B6622ACAC2BA002235FA /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 267391C42A65094900F1DC2D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		2674B6642ACAC2BA002235FA /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 267391C42A65094900F1DC2D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		2674B6662ACAC2BA002235FA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2680B6282A6BCC8A009031AE /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		2674B66A2ACAC2BA002235FA /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 265C2DBA2A71ED9200028A01 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		2674B66E2ACAC2BA002235FA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2671F8DC2A7CA12300171F52 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		2674B6702ACAC2BA002235FA /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677C52A84C0A20038DE5D /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
+		};
+		2674B6742ACAC2BA002235FA /* FlexLayoutYoga */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677D52A84C4D00038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYoga;
+		};
+		2674B67C2ACAC4DB002235FA /* FlexLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677D52A84C4D00038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayout;
+		};
+		2674B67E2ACAC4DB002235FA /* FlexLayoutYogaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261677D52A84C4D00038DE5D /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYogaKit;
 		};
 		2680B6292A6BCC8A009031AE /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
