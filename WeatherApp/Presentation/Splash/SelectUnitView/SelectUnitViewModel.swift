@@ -51,11 +51,13 @@ class DefaultSelectUnitViewModel: BaseViewModel, SelectUnitViewModel {
     
     
     func onClickSave() {
-        Defaults.weatherUnit = self.unit.value.rawValue
-        C.weatherUnit = self.unit.value
-
+        changeUnit()
         self.coordinator.dismissSelectUnitView(onDismiss)
     }
     
+    func changeUnit() {
+        Defaults.weatherUnit = self.unit.value.rawValue
+        C.weatherUnit = self.unit.value
+    }
 }
 

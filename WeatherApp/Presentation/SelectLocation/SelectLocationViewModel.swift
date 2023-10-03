@@ -47,10 +47,8 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
     private let locationRepository: LocationRepository
     private let geocodingService: GeocodingService
     
-    //    var results: [Geocoding] = []
     var name: Observable<String> = Observable("")
     var isLoading: Observable<Bool> = Observable(false)
-    //    var selectedItem: Observable<GeocodingItem?> = Observable(nil)
     var existItems: [Location] = []
     var status: Observable<AddLocationStatus> = Observable(.ready)
     
@@ -174,6 +172,5 @@ class DefaultSelectLocationViewModel: BaseViewModel, SelectLocationViewModel {
             }
             return
         }
-        
     }
 }

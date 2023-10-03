@@ -60,6 +60,16 @@ struct GeocodingResponse: Codable, Equatable {
         state = try values.decodeIfPresent(String.self, forKey: .state)
         localName = localNames[Utils.languageCode()] ?? name
     }
+    
+    public init(name: String, lat: Double, lon: Double, country: String, state: String?, localName: String) {
+        self.name = name
+        self.lat = lat
+        self.lon = lon
+        self.country = country
+        self.localNames = [:]
+        self.state = state
+        self.localName = localName
+    }
 }
 
 
