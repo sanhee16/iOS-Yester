@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class LocationRepository: AnyRepository<Location> {
     func updateCurrentLocation(lat: Double, lon: Double, name: String, address: String) {
         if self.getAll(where: NSPredicate(format: "isCurrent == true")).count > 0 {
@@ -21,6 +20,5 @@ class LocationRepository: AnyRepository<Location> {
             let location = Location(lat: lat, lon: lon, isStar: false, isCurrent: true, name: name, address: address)
             try? self.insert(item: location)
         }
-
     }
 }
