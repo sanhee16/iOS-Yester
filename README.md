@@ -55,11 +55,11 @@ FlexLayout의 사용법을 익힌다.
 ### 페이지 정보
 
 1. 스플래시<br/>
-2. 날씨 페이지
+2. 날씨 페이지<br/>
    <img src="/ReadmeResources/ko4.png" width="300"> <img src="/ReadmeResources/ko5.png" width="300"><br/><br/>
-3. 설정 페이지
+3. 설정 페이지<br/>
    <img src="/ReadmeResources/ko3.png" width="300"><br/><br/>
-4. 지역 검색 / 선택 / 편집 페이지
+4. 지역 검색 / 선택 / 편집 페이지<br/>
    <img src="/ReadmeResources/ko1.png" width="300"> <img src="/ReadmeResources/ko2.png" width="300"><br/><br/>
 
 ### 스플래시
