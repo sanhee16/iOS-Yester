@@ -343,6 +343,25 @@
 			path = SettingItems;
 			sourceTree = "<group>";
 		};
+		2665E8CE2ACC37A500412172 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				267391CF2A650E3E00F1DC2D /* Location.swift */,
+				269216662A67A38E0018D586 /* Geocoding.swift */,
+				265DB82D2A7BA12E007671B7 /* Weather.swift */,
+				265DB82F2A7BA332007671B7 /* WeatherData.swift */,
+				2638F7A62A932FD60017EED8 /* WeatherDataV2.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2665E8CF2ACC3C0400412172 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
 		266710A52AA894AE00B64DC5 /* EditLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -489,9 +508,9 @@
 		26703D402A6161DE007E5717 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				2665E8CE2ACC37A500412172 /* Models */,
 				2680B62B2A6BCC9A009031AE /* Network */,
 				267391CA2A650AE500F1DC2D /* Persistence */,
-				267391C92A650AD800F1DC2D /* Model */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -499,6 +518,7 @@
 		26703D412A6161DE007E5717 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				2665E8CF2ACC3C0400412172 /* UseCases */,
 				269216652A67A3860018D586 /* Entities */,
 			);
 			path = Domain;
@@ -513,22 +533,11 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
-		267391C92A650AD800F1DC2D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				267391CF2A650E3E00F1DC2D /* Location.swift */,
-				265DB8312A7BC1BF007671B7 /* WeatherItem.swift */,
-				2638F7A22A932F500017EED8 /* WeatherItemV2.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		267391CA2A650AE500F1DC2D /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
 				267391CB2A650AFD00F1DC2D /* AnyRepository.swift */,
 				267391CD2A650B3400F1DC2D /* Repository.swift */,
-				267391D12A650E9400F1DC2D /* LocationStorage.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -563,10 +572,9 @@
 		269216652A67A3860018D586 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				269216662A67A38E0018D586 /* Geocoding.swift */,
-				265DB82D2A7BA12E007671B7 /* Weather.swift */,
-				265DB82F2A7BA332007671B7 /* WeatherData.swift */,
-				2638F7A62A932FD60017EED8 /* WeatherDataV2.swift */,
+				265DB8312A7BC1BF007671B7 /* WeatherItem.swift */,
+				2638F7A22A932F500017EED8 /* WeatherItemV2.swift */,
+				267391D12A650E9400F1DC2D /* LocationStorage.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
